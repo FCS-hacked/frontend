@@ -5,6 +5,8 @@ import Login from './Pages/Login';
 import SignUp from './Pages/SignUp';
 import logo from './logo.svg';
 import Information from './Pages/Information';
+import Profile from './Pages/Profile';
+import Documents from './Pages/Documents';
 import './App.css';
 
 function App() {
@@ -31,6 +33,8 @@ function App() {
         <Route path='/login' element={< Login />}></Route>
         <Route path='/signUp' element={< SignUp />}></Route>
         <Route path='/information' element={< Information />}></Route>
+        <Route path='/profile' element={< Profile />}></Route>
+        <Route path='/documents' element={< Documents />}></Route>
         {/* <Route path='/about' element={< About />}></Route>
         <Route path='/contact' element={< Contact />}></Route> */}
       </Routes>
