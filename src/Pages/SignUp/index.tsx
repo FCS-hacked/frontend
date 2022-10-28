@@ -1,10 +1,11 @@
 import React from 'react'
 import NavBar from '../../Components/Generic_Navbar'
-
+import SignedIn_NavBar from '../../Components/SignedIn_NavBar'
 export default function SignUp() {
   return (
     <div>
         <div>
+            <SignedIn_NavBar/>
             <NavBar/>
             <div className='flex flex-col items-center justify-center h-[85vh] w-full'>
                 <div className='font-nunitoExtraBold text-2xl'>

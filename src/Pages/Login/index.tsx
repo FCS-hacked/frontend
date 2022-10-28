@@ -7,6 +7,7 @@ export default function Login() {
     <div>
         <div>
             <NavBar/>
+            <NavBar/>
             <div className='flex flex-col items-center justify-center h-[70vh] w-full'>
                 <div className='font-nunitoExtraBold text-2xl'>
                     Login
