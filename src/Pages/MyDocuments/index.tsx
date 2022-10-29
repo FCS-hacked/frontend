@@ -11,9 +11,9 @@ export default function MyDocuments() {
 
   function uploadFile() {
     if (selectedFile) {
-      axios.post("http://localhost:5000/upload", {file:selectedFile, test: "x"}, {
+      axios.post("http://localhost:8000/upload", {file:selectedFile, test: "x"}, {
         headers: {
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "Application/json",
         },
       });
     }
