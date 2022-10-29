@@ -1,13 +1,13 @@
 import React from 'react'
 import SignedIn_NavBar from '../../Components/SignedIn_NavBar';
-import TableComponent from '../../Components/TableComponent';
-
-export default function Documents() {
+import BasicTable from '../../Components/BasicTable';
+import axios from 'axios';
+export default function SharedDocuments() {
   return (
     <div>
       <div>
         <SignedIn_NavBar/>
-        <TableComponent/>
+        <BasicTable/>
       </div>
     </div>
   );

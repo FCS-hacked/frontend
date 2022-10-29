@@ -54,7 +54,7 @@ export default function SignedIn_NavBar() {
               </Link>
             </div>
           </div>
-          <div className="z-50  bg-white absolute bg-[white] w-full">
+          <div className="z-50 absolute bg-[white] w-full">
             <div
               className={`flex-1 justify-self-center pb-3 mt-[2vmax] md:block md:pb-0 md:mt-0 ${
                 navbar ? "block" : "hidden"
@@ -62,7 +62,7 @@ export default function SignedIn_NavBar() {
             >
               <ul className="flex flex-col w-full items-center opacity-100 z-[100] text-textSecondary bg-white justify-center space-y-5">
                 <a
-                  href="#"
+                  href="/"
                   className=" inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-googleBlue bg-opacity-25 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-googleBlue hover:bg-opacity-20"
                 >
                   Logout
@@ -87,16 +87,24 @@ export default function SignedIn_NavBar() {
         <ul className="flex justify-end small:hidden mr-[2.5vmax] text-[1.3vmax] font-google font-semibold">
             <div>
                 <a
-                href="#"
+                href="/myDocuments"
                 className=" inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-googleBlue px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-googleBlue  mr-5"
                 >
-                    Documents
+                    My Documents
+                </a>
+          </div>
+          <div>
+                <a
+                href="/sharedDocuments"
+                className=" inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-googleBlue px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-googleBlue  mr-5"
+                >
+                    Shared Documents
                 </a>
           </div>
           <div className="flex items-center w-full justify-end md:flex lg:w-0">
             {/* //profile button here */}
 
-            <Dropdown className="flex" label="Dropdown button">
+            <Dropdown className="flex" label="Profile">
               <div className="flex flex-wrap pl-4">
                 {/* <Avatar /> */}
                 <Avatar rounded={true} />

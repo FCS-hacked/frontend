@@ -6,7 +6,8 @@ import SignUp from './Pages/SignUp';
 import logo from './logo.svg';
 import Information from './Pages/Information';
 import Profile from './Pages/Profile';
-import Documents from './Pages/Documents';
+import MyDocuments from './Pages/MyDocuments';
+import SharedDocuments from './Pages/SharedDocuments';
 import Orders from './Pages/Orders';
 import BasicTable from './Components/BasicTable';
 import './App.css';
@@ -36,7 +37,8 @@ function App() {
         <Route path='/signup' element={< SignUp />}></Route>
         <Route path='/information' element={< Information />}></Route>
         <Route path='/profile' element={< Profile />}></Route>
-        <Route path='/documents' element={< Documents />}></Route>
+        <Route path='/myDocuments' element={< MyDocuments />}></Route>
+        <Route path='/sharedDocuments' element={< SharedDocuments />}></Route>
         <Route path='/orders' element={<Orders />}></Route>
         <Route path='/table' element={<BasicTable />}></Route>
         {/* <Route path='/about' element={< About />}></Route>
