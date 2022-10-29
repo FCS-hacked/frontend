@@ -10,13 +10,18 @@ import axios from "axios";
 
 class UploadFilesService {
   upload(file, onUploadProgress) {
-    let formData = new FormData();
+    console.log(file);
+    var formData = {
+      "document": file,
+      "custom_user": 0,
+      "shared_with":[],
+    };
 
-    formData.append("file", file);
-
-    return axios.post("http://localhost:8000/upload", formData, {
+    // formData.append("file", file);
+    return axios.post("http://localhost:8000/documents/self/documents/", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
+        
       },
       onUploadProgress,
     });
