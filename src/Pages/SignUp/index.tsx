@@ -7,13 +7,11 @@ export default function SignUp() {
     //make an object to store the data
     const [data, setData] = React.useState({
       email:
-      "anismishra2001@gmail.com",
+      "anismishra200@gmail.com",
       password1:
       "inshallahboysplayedwell",
       password2:
       "inshallahboysplayedwell",
-      username:
-      "waahbe"
     //   username: "",
     //   password1: "",
     //   password2: "",
@@ -22,7 +20,7 @@ export default function SignUp() {
 
     function OnSubmit(){
         axios.post('http://localhost:8000/dj-rest-auth/registration/', {
-            username: data.username,
+            username: data.email,
             password1: data.password1,
             password2: data.password2,
             email: data.email,
@@ -53,9 +51,6 @@ export default function SignUp() {
                     {/* <input type='text' placeholder='First Name' className='border-2 border-gray-300 rounded-md p-2 my-2 w-full'/>
                     <input type='text' placeholder='Last Name' className='border-2 border-gray-300 rounded-md p-2 my-2 w-full'/>
                     <input type='text' placeholder='Aadhar Number' className='border-2 border-gray-300 rounded-md p-2 my-2 w-full'/> */}
-                    <input type='text' placeholder='Username' value={data.username} className='border-2 border-gray-300 rounded-md p-2 my-2 w-full'
-                    onChange={(e) => setData({...data, username: e.target.value})}
-                    />
                     <input type='email' placeholder='Email' value={data.email} className='border-2 border-gray-300 rounded-md p-2 my-2 w-full'
                     onChange={(e) => setData({...data, email: e.target.value})}
                     />
