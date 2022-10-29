@@ -1,12 +1,18 @@
 import React, {useState} from 'react'
 import NavBar from '../../Components/Generic_Navbar'
 import SignedIn_NavBar from '../../Components/SignedIn_NavBar'
-import axios, { Axios } from 'axios';
+import axios from 'axios';
 export default function SignUp() {
 
   const [selectedFile, setSelectedFile] = useState();
   const changeHandler = (event) => {
     	setSelectedFile(event.target.files[0]);
+    };
+
+
+  const [selectedFile2, setSelectedFile2] = useState();
+  const changeHandler2 = (event) => {
+    	setSelectedFile2(event.target.files[0]);
     };
     
     //make an object to store the data
@@ -19,8 +25,8 @@ export default function SignUp() {
       address: "sdsdfd",
       date_of_birth: "21/07/2001",
       category: "1",
-      proof_of_identity: undefined,
-      proof_of_address: undefined,
+      // proof_of_identity: undefined,
+      // proof_of_address: undefined,
     //   username: "",
     //   password1: "",
     //   password2: "",
@@ -51,8 +57,8 @@ export default function SignUp() {
             date_of_birth: data.date_of_birth,
             category: data.category,
             proof_of_identity: selectedFile,
-            proof_of_address: data.proof_of_address,
-          }, { headers: { 'Content-Type': 'application/json' } })
+            proof_of_address: selectedFile2,
+          }, { headers: { 'Content-Type': "multipart/form-data"} })
           .then(function (response) {
             console.log(response);
           })
@@ -104,7 +110,8 @@ export default function SignUp() {
                     onChange={(e) => setData((prevState) => ({ ...prevState, category: e.target.value}))}
                     />
                     {/* //Upload a document as a proof of Identity  */}
-                    <input type="file" name="file" onChange={changeHandler} />
+                    <input type="file" name="file1" onChange={(e) => {changeHandler(e);}} />
+                    <input type="file" name="file2" onChange={(e) => { changeHandler2(e);}} />
                     {/* <input type='file' placeholder='Proof of Identity' value={data.proof_of_identity} className='border-2 border-gray-300 rounded-md p-2 my-2 w-full'
                     onChange={(e) => setData({...data, proof_of_identity: e.target.value})}
                     /> */}
