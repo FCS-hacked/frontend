@@ -28,6 +28,7 @@ export default function SignUp() {
                     {/* <input type='text' placeholder='First Name' className='border-2 border-gray-300 rounded-md p-2 my-2 w-full'/>
                     <input type='text' placeholder='Last Name' className='border-2 border-gray-300 rounded-md p-2 my-2 w-full'/>
                     <input type='text' placeholder='Aadhar Number' className='border-2 border-gray-300 rounded-md p-2 my-2 w-full'/> */}
+                    <input type='text' placeholder='Username' className='border-2 border-gray-300 rounded-md p-2 my-2 w-full'/>
                     <input type='text' placeholder='Email' className='border-2 border-gray-300 rounded-md p-2 my-2 w-full'/>
                     <input type='password' placeholder='Password' className='border-2 border-gray-300 rounded-md p-2 my-2 w-full'/>
                     <input type='password' placeholder='Confirm Password' className='border-2 border-gray-300 rounded-md p-2 my-2 w-full'/>
