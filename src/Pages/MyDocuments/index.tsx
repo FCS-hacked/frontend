@@ -8,14 +8,26 @@ export default function MyDocuments() {
   const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
 
   console.log(selectedFile, " is the selected file");
-
+  var formData = {
+    "document": selectedFile,
+    "custom_user": 0,
+    "shared_with":[],
+  };
   function uploadFile() {
     if (selectedFile) {
-      axios.post("http://localhost:8000/upload", {file:selectedFile, test: "x"}, {
+      console.log("uploading file", selectedFile);
+      axios.post("http://localhost:8000/upload", formData, {
         headers: {
-          "Content-Type": "Application/json",
+          "Content-Type": "multipart/form-data",
         },
-      });
+      }).then((res) => {
+        console.log(res);
+      }
+      ).catch((err) => {
+        console.log(err);
+      }
+      );
+      
     }
   }
 
