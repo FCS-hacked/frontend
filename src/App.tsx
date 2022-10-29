@@ -8,6 +8,7 @@ import Information from './Pages/Information';
 import Profile from './Pages/Profile';
 import Documents from './Pages/Documents';
 import Orders from './Pages/Orders';
+import BasicTable from './Components/BasicTable';
 import './App.css';
 
 function App() {
@@ -37,7 +38,7 @@ function App() {
         <Route path='/profile' element={< Profile />}></Route>
         <Route path='/documents' element={< Documents />}></Route>
         <Route path='/orders' element={<Orders />}></Route>
-
+        <Route path='/table' element={<BasicTable />}></Route>
         {/* <Route path='/about' element={< About />}></Route>
         <Route path='/contact' element={< Contact />}></Route> */}
       </Routes>
