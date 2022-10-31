@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-
 export default class UploadFiles extends Component {
 //  initialize sselectedFile={selectedFile} setSelectedFile={setSelectedFile}  form props
 
@@ -37,7 +36,7 @@ export default class UploadFiles extends Component {
     } = this.state;
 
     return (
-      <div>
+      <div className="ml-10 pt-10">
         {currentFile && (
           <div className="progress">
             <div
@@ -63,9 +62,9 @@ export default class UploadFiles extends Component {
           {message}
         </div>
 
-        <div className="card">
-          <div className="card-header">List of Files</div>
-          <ul className="list-group list-group-flush">
+        <div className="">
+          <div className="my-3">List of Files</div>
+          <ul className="">
             {fileInfos &&
               fileInfos.map((file, index) => (
                 <li className="list-group-item" key={index}>

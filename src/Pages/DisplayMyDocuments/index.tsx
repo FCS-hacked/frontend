@@ -2,12 +2,16 @@ import React from 'react'
 import SignedIn_NavBar from '../../Components/SignedIn_NavBar';
 import BasicTable from '../../Components/BasicTable';
 import axios from 'axios';
-export default function SharedDocuments() {
+import UploadFiles from '../../Components/UploadFile';
+
+export default function MyDocuments() {
   return (
     <div>
       <div>
         <SignedIn_NavBar/>
-        <BasicTable/>
+        <BasicTable 
+          url="http://localhost:8000/documents/self/documents/"
+        />
       </div>
     </div>
   );

@@ -1,14 +1,23 @@
  // @ts-nocheck 
 import React, {useMemo} from 'react'
 import {useTable, useSortBy, useGlobalFilter, useFilters} from 'react-table'
-import MOCK_DATA from './MOCK_DATA.json'
+// import MOCK_DATA from './MOCK_DATA.json'
 import {COLUMNS} from './columns'
 import sortingLogos from '../../common/sortingLogos.svg'
 import { GlobalFilter } from '../GlobalFilter'
-export default function BasicTable() {
+import axios from 'axios'
+export default function BasicTable( {url} ) {
     const columns = useMemo(() => COLUMNS, [])
-    const data = useMemo(() => MOCK_DATA, [])
-    
+
+    const data = useMemo(async () => {
+        // console.log("url is", url);
+        const result = await axios.get(url, {headers:{"Authorization": localStorage.getItem("token")}});
+        console.log(result.data);
+
+        // console.log(result, " is the response");
+        const data = await result.data.json
+        return data
+    }, [])
     const tableInstance = useTable({
         columns,
         data

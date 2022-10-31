@@ -55,7 +55,7 @@ function NavBar() {
             
           </div>
         </div>
-          <div  className='z-50  bg-white absolute bg-[white] w-full'>
+          <div  className='z-50 absolute bg-[white] w-full'>
               <div
                   className={`flex-1 justify-self-center pb-3 mt-[2vmax] md:block md:pb-0 md:mt-0 ${
                       navbar ? "block" : "hidden"
@@ -90,7 +90,7 @@ function NavBar() {
           </a>
           <a
             href="#"
-            className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-googleBlue bg-opacity-25 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-googleBlue hover:bg-opacity-20"
+            className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-googleBlue bg-opacity-100 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-googleBlue hover:bg-opacity-80 focus:bg-opacity-70"
           >
             Sign up
           </a>
