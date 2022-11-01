@@ -65,7 +65,7 @@
 
   return (
     <div className="w-full">
-      <Table columns={columns} data={data} />
+      <Table sha={result.sha_256} columns={columns} data={data} />
     </div>
   );
  }

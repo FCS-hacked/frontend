@@ -9,13 +9,18 @@ export default function Dashboard() {
     const [user, setUser] = useState(undefined);
     const [userType, setUserType] = useState('');
     const [data, setData] = useState([]);
+    const [data2, setData2] = useState([]);
     const [url, setUrl] = useState('');
-  useEffect(() => {
+  useEffect(() => 
+  {
+    console.log(url, " is defind");
     (async () => {
       const result = await axios(url, {headers:{"Authorization": localStorage.getItem("token")}});
+      console.log(result.data[0].custom_user_detailed, " is defind");
       setData(result.data);
+      setData2(result.data[0].custom_user_detailed);
     })();
-  }, []); 
+  }, [url]); 
   const columns_prof = useMemo(
     () => [
       {

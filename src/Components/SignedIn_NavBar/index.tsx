@@ -130,7 +130,7 @@ export default function SignedIn_NavBar() {
         <ul className="flex justify-end small:hidden mr-[2.5vmax] text-[1.3vmax] font-google font-semibold">
             <div>
                 <a
-                href="/myDocuments"
+                href="/displayMyDocuments"
                 className=" inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-googleBlue px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-googleBlue  mr-5"
                 >
                     My Documents
@@ -138,7 +138,7 @@ export default function SignedIn_NavBar() {
           </div>
           <div>
                 <a
-                href="/sharedDocuments"
+                href="/displaySharedDocuments"
                 className=" inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-googleBlue px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-googleBlue  mr-5"
                 >
                     Shared Documents

@@ -6,7 +6,7 @@ import { useTable } from "react-table";
 import {useSortBy, useGlobalFilter, useFilters} from 'react-table'
 import { GlobalFilter } from '../GlobalFilter'
 
-export default function Table({ columns, data }) {
+export default function Table({ sha_256, columns, data }) {
   // Use the useTable Hook to send the columns and data to build the table
   const {
     getTableProps,
