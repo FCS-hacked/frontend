@@ -51,7 +51,9 @@ export default function Table({ columns, data }) {
                           : " 🔼"
                         : ""}
                     </div>
+                    
                   </th>
+                  
                 ))}
               </tr>
             ))}
@@ -65,15 +67,25 @@ export default function Table({ columns, data }) {
                   {...row.getRowProps()}
                 >
                   {row.cells.map((cell) => {
-                    return (
-                      <td
-                        className="px-6 py-4 text-sm text-center text-gray-800 whitespace-nowrap"
-                        {...cell.getCellProps()}
-                      >
-                        {cell.render("Cell")}
-                      </td>
-                    );
+                    console.log(cell.column.Header);
+                    if(cell.column.Header!=="Verify"){
+                      return (
+                        <td
+                          className="px-6 py-4 text-sm text-center text-gray-800 whitespace-nowrap"
+                          {...cell.getCellProps()}
+                        >
+                          {cell.render("Cell")}
+                        </td>
+                      );
+                    }else{
+                      return(
+                        <td class="py-4 px-6">
+                          <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                        </td>
+                      )
+                    }
                   })}
+                  
                 </tr>
               );
             })}

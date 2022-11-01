@@ -62,7 +62,7 @@ function NavBar() {
                   }`}
               >
                   <ul className="flex flex-col w-full items-center opacity-100 z-[100] text-textSecondary bg-white justify-center space-y-5">
-                    <a href="#" className="whitespace-nowrap text-base font-nunitoSemiBold">
+                    <a href="/Login" className="whitespace-nowrap text-base font-nunitoSemiBold">
                       Sign in
                     </a>
                     <a
@@ -85,7 +85,7 @@ function NavBar() {
       <Link to={'/'} className='font-nunitoBold w-1/3 ml-[2vmax] small:w-10/12 small:ml-[4vmax] small:hidden'>Project Name</Link>
       <div className="flex w-2/6 justify-end small:hidden mr-[2.5vmax] text-[1.3vmax] font-google font-semibold">
         <div className="items-center justify-end md:flex md:flex-1 lg:w-0">
-          <a href="#" className="whitespace-nowrap text-base font-nunitoSemiBold">
+          <a href="/Login" className="whitespace-nowrap text-base font-nunitoSemiBold">
             Sign in
           </a>
           <a

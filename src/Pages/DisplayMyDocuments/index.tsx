@@ -1,6 +1,6 @@
 import React from 'react'
 import SignedIn_NavBar from '../../Components/SignedIn_NavBar';
-import BasicTable from '../../Components/BasicTable';
+import BasicTable1 from '../../Components/BasicTable1';
 import axios from 'axios';
 import UploadFiles from '../../Components/UploadFile';
 
@@ -9,7 +9,7 @@ export default function MyDocuments() {
     <div>
       <div>
         <SignedIn_NavBar/>
-        <BasicTable 
+        <BasicTable1 
           url="http://localhost:8000/documents/self/documents/"
         />
       </div>

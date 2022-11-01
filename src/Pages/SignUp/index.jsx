@@ -12,7 +12,9 @@ export default function SignUp() {
       console.log(event.target.value);
       setUserType(event.target.value);
     };
-
+    function PromptUser(){
+      alert("Your account has been created succesfully! You will receive HOTP secret on email. You can login after admin approves your account.");
+    }
   function Form(props){
     const formType = props.formType;
     if(formType==="Individual"){
@@ -42,9 +44,6 @@ export default function SignUp() {
           <input type='date' placeholder='Date of Birth' value={individualData.date_of_birth} className='border-2 border-gray-300 rounded-md p-2 my-2 w-full'
           onChange={(e) => setIndividualData((prevState) => ({ ...prevState, date_of_birth: e.target.value}))}
           />
-          <input type='text' placeholder='Category' value={individualData.category} className='border-2 border-gray-300 rounded-md p-2 my-2 w-full'
-          onChange={(e) => setIndividualData((prevState) => ({ ...prevState, category: e.target.value}))}
-          />
           {/* //Upload a document as a proof of Identity  */}
           <div className=' text-left flex justify-start font-nunitoSemiBold pt-4'>Proof of Identity</div>
           <input type="file" name="identityProof" placeholder='Proof of Identity' onChange={(e) => {changeHandler(e);}} className='p-2 ml-[0.5vw] w-full'/>
@@ -54,7 +53,7 @@ export default function SignUp() {
           <button className='bg-googleBlue bg-opacity-100 hover:bg-opacity-95 focus:opacity-75 text-white rounded-md p-2 mt-2 mb- w-1/2 font-nunitoSemiBold' type="submit">Submit</button>
         </form>
       )
-    }else if(formType==="Organization") {
+    }else if(formType==="Organisation") {
       return(
         <form className='flex flex-col items-center justify-center w-[300px]' onSubmit={(e) => {
           e.preventDefault();
@@ -82,6 +81,12 @@ export default function SignUp() {
           />
           <input type='password' placeholder='Confirm Password' value={organisationData.password2} className='border-2 border-gray-300 rounded-md p-2 my-2 w-full'
           onChange={(e) => setOrganisationData((prevState) => ({ ...prevState, password2: e.target.value}))}
+          />
+          <input type='text' placeholder='Images' value={organisationData.images} className='border-2 border-gray-300 rounded-md p-2 my-2 w-full'
+          onChange={(e) => setOrganisationData((prevState) => ({ ...prevState, images: e.target.value}))}
+          />
+          <input type='text' placeholder='Location' value={organisationData.location} className='border-2 border-gray-300 rounded-md p-2 my-2 w-full'
+          onChange={(e) => setOrganisationData((prevState) => ({ ...prevState, location: e.target.value}))}
           />
           {/* //Upload a document as a proof of Identity  */}
           <div className=' text-left flex justify-start font-nunitoSemiBold pt-4'>License</div>
@@ -118,15 +123,18 @@ export default function SignUp() {
     });
     
     const [organisationData, setOrganisationData] = React.useState({
-      email: "",
-      password1: "",
-      password2: "",
-      first_name: "",
-      last_name: "",
-      category: "",
+      email: "anis20026@iiitd.ac.in",
+      password1: "inshallahboysplayedwell",
+      password2: "inshallahboysplayedwell",
+      first_name: "Fcs",
+      address:"address of the organisation",
+      last_name: "group",
+      category: "2",
       licenses: "",
       permits: "",
-      description: "",
+      images:"sjkdcbskjvbfj",
+      location:"sejfjchdiubv",
+      description: "lorem ipsium jscdnjs",
     });
 
     // function selectFile(event:any) {
@@ -167,7 +175,7 @@ export default function SignUp() {
 
 
     function OnSubmitOrganisation(){
-        axios.post('http://localhost:8000/unauth/register-as-organisation/', {
+        axios.post('http://localhost:8000/unauth/register-as-organization/', {
             username: organisationData.email,
             password1: organisationData.password1,
             password2: organisationData.password2,
@@ -177,9 +185,14 @@ export default function SignUp() {
             category: organisationData.category,
             licenses: organisationData.licenses,
             permits: organisationData.permits,
+            images: organisationData.images,
             description: organisationData.description,
-          })
+            location: organisationData.location,
+          }, { headers: { 'Content-Type': "multipart/form-data"} })
           .then(function (response) {
+            if(response.status === 201){
+              PromptUser();
+            }
             console.log(response);
           })
           .catch(function (error) {

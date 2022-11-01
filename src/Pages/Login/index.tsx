@@ -1,14 +1,16 @@
 import React from 'react'
 import NavBar from '../../Components/Generic_Navbar'
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 export default function Login() {
+  let navigate = useNavigate();
     const [data, setData] = React.useState({
         // username: "",
         // email:"",
         // password: "",
-        email:"jhvbfhdf@gmail.com",
-        password:"scdksjndcfkjdf",
-        username:"huibuhvbgh",
+        email:"anismishra2001@gmail.com",
+        password:"inshallahboysplayedwell",
+        username:"anismishra2001@gmail.com",
         otp:""
     });
     function OnSubmit(){
@@ -19,13 +21,13 @@ export default function Login() {
           {
             email: data.email,
             password: data.password,
-            otp: data.otp,
           },
           { headers: { "Content-Type": "application/json", "hotp":data.otp } }
         )
         .then(function (response) {
           console.log(response);
           localStorage.setItem("token", response.data.token);
+          navigate("/profile");
           console.log(localStorage.getItem("token"));
         })
         .catch(function (error) {
@@ -41,7 +43,6 @@ export default function Login() {
         <div className="flex flex-col items-center justify-center h-[70vh] w-full">
           <div className="font-nunitoExtraBold text-2xl">Login</div>
           {/* //create a form */}
-
           <form
             className="flex flex-col items-center justify-center w-[300px]"
             onSubmit={(e) => {
