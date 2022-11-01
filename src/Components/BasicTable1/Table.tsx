@@ -1,6 +1,7 @@
  // @ts-nocheck 
 // Table.js
 
+import axios from "axios";
 import React from "react";
 import { useTable } from "react-table";
 import {useSortBy, useGlobalFilter, useFilters} from 'react-table'
@@ -23,14 +24,24 @@ export default function Table({  columns, data }) {
 },
     useFilters, useGlobalFilter, useSortBy);
     const {globalFilter} = state
+  function shareDocument(cellValue){
+    console.log(cellValue)
+    // const url = "
+    axios.patch(`http://localhost:8000/documents/self/documents/${cellValue}/`,{"shared_with": [shareEmail]} ,{headers:{"Authorization": localStorage.getItem("token"), "hotp":otp}})
 
-
-    console.log(data,rows, " is the rows")
-
+  }
+  const [shareEmail, setShareEmail] = React.useState("");
+  const [otp, setOtp] = React.useState("");
   return (
     <div className="flex w-full flex-col items-center">
       <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
       <div className="w-full relative shadow-md sm:rounded-lg">
+      <input type='text' placeholder='Share Email' className='border-2 border-gray-300 rounded-md p-2 my-2 w-full'
+          onChange={(e) => setShareEmail(e.target.value)}
+      />
+      <input type='text' placeholder='OTP' className='border-2 border-gray-300 rounded-md p-2 my-2 w-full'
+          onChange={(e) => setOtp(e.target.value)}
+      />
         <table
           className="divide-y w-full  divide-gray-200 text-gray-500 dark:text-gray-400"
           {...getTableProps()}
@@ -71,7 +82,8 @@ export default function Table({  columns, data }) {
                 >
                   {row.cells.map((cell) => {
                     console.log(cell.column.Header);
-                    if(cell.column.Header!=="Verify"){
+                    console.log((row), " is the row");
+                    if(cell.column.Header!=="Verify" && cell.column.Header!=="Shared with"){
                       return (
                         <td
                           className="px-6 py-4 text-sm text-center text-gray-800 whitespace-nowrap"
@@ -80,7 +92,19 @@ export default function Table({  columns, data }) {
                           {cell.render("Cell")}
                         </td>
                       );
-                    }else{
+                    }else if(cell.column.Header==="Shared with"){
+                      return(
+                        <td
+                          className="px-6 py-4 text-sm text-center text-gray-800 whitespace-nowrap"
+                          {...cell.getCellProps()}
+                        >
+                          {cell.render("Cell")}
+                          <a onClick={()=>shareDocument(row.values.id)} 
+                          
+                          className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Share</a>
+                        </td>
+                      )
+                    }else if(cell.column.Header==="Verify"){
                       return(
                         <td class="py-4 px-6">
                           <a href={`/validityCheck?sha=${data[i].sha_256}`} class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
