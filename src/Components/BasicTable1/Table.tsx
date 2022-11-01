@@ -30,6 +30,11 @@ export default function Table({  columns, data }) {
     axios.patch(`http://localhost:8000/documents/self/documents/${cellValue}/`,{"shared_with": [shareEmail]} ,{headers:{"Authorization": localStorage.getItem("token"), "hotp":otp}})
 
   }
+  function deleteDocument(cellValue){
+    console.log(cellValue)
+    // const url = "
+    axios.delete(`http://localhost:8000/documents/self/documents/${cellValue}/`,{headers:{"Authorization": localStorage.getItem("token"), "hotp":otp}})
+  }
   const [shareEmail, setShareEmail] = React.useState("");
   const [otp, setOtp] = React.useState("");
   return (
@@ -83,7 +88,7 @@ export default function Table({  columns, data }) {
                   {row.cells.map((cell) => {
                     console.log(cell.column.Header);
                     console.log((row), " is the row");
-                    if(cell.column.Header!=="Verify" && cell.column.Header!=="Shared with"){
+                    if(cell.column.Header!=="Verify" && cell.column.Header!=="Shared with" && cell.column.Header!=="Delete"){
                       return (
                         <td
                           className="px-6 py-4 text-sm text-center text-gray-800 whitespace-nowrap"
@@ -108,6 +113,12 @@ export default function Table({  columns, data }) {
                       return(
                         <td class="py-4 px-6">
                           <a href={`/validityCheck?sha=${data[i].sha_256}`} class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                        </td>
+                      )
+                    }else if(cell.column.Header==="Delete"){
+                      return(
+                        <td class="py-4 px-6">
+                          <a onClick={()=>deleteDocument(row.values.id)} class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Delete</a>
                         </td>
                       )
                     }

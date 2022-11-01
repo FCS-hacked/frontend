@@ -56,6 +56,9 @@
           },
           {
             Header: "Verify",
+          },
+          {
+            Header: "Delete",
           }
         ]
       }
