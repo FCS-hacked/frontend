@@ -9,6 +9,7 @@ import Profile from './Pages/Profile';
 import DisplayMyDocuments from './Pages/DisplayMyDocuments';
 import DisplaySharedDocuments from './Pages/DisplaySharedDocuments';
 import ShareDocuments from './Pages/ShareDocuments';
+import ValidityCheck from './Pages/ValidityCheck';
 import Orders from './Pages/Orders';
 import BasicTable from './Components/BasicTable1';
 import Dashboard from './Pages/Dashboard';
@@ -43,7 +44,9 @@ function App() {
         <Route path='/displaySharedDocuments' element={< DisplaySharedDocuments />}></Route>
         <Route path='/shareDocuments' element={< ShareDocuments />}></Route>
         <Route path='/orders' element={<Orders />}></Route>
+        <Route path='/validityCheck' element={<ValidityCheck />}></Route>
         <Route path='/dashboard' element={<Dashboard />}></Route>
+
         {/* <Route path='/table' element={<BasicTable />}></Route> */}
         {/* <Route path='/about' element={< About />}></Route>
         <Route path='/contact' element={< Contact />}></Route> */}
