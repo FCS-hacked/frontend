@@ -6,7 +6,7 @@ import { useTable } from "react-table";
 import {useSortBy, useGlobalFilter, useFilters} from 'react-table'
 import { GlobalFilter } from '../GlobalFilter'
 
-export default function Table({ sha_256, columns, data }) {
+export default function Table({  columns, data }) {
   // Use the useTable Hook to send the columns and data to build the table
   const {
     getTableProps,
@@ -23,6 +23,9 @@ export default function Table({ sha_256, columns, data }) {
 },
     useFilters, useGlobalFilter, useSortBy);
     const {globalFilter} = state
+
+
+    console.log(data,rows, " is the rows")
 
   return (
     <div className="flex w-full flex-col items-center">
@@ -80,7 +83,7 @@ export default function Table({ sha_256, columns, data }) {
                     }else{
                       return(
                         <td class="py-4 px-6">
-                          <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                          <a href={`/validityCheck?sha=${data[i].sha_256}`} class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
                         </td>
                       )
                     }

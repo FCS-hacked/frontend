@@ -1,7 +1,7 @@
 // @ts-nocheck
 
 import { useState, useEffect } from 'react';
-import { ethers } from 'ethers';
+import { BigNumber, ethers } from 'ethers';
 
 const contractAddress = "0xC00F0eEc3b65f3050EAB65d3bc6017626aE8252a";
 const abi = [
@@ -156,14 +156,27 @@ function App() {
 
   const [neededArray, setNeededArray] = useState([]);
 
-  const [fileNumber, setFileNumber] = useState(0);
 
+	const [ sha, setSha ] = useState('');
   const { ethereum } = window;
   const provider = new ethers.providers.Web3Provider(window.ethereum);
 
+	// useEffect to check if the router query has sha variable and if it does, then set the sha variable to the state
+	useEffect(() => {
+		console.log('window.location.search',window.location.search);
+		if (window.location.search) {
+			const urlParams = new URLSearchParams(window.location.search);
+			const file = urlParams.get('sha');
 
-  const button1handler = async (fileSignature) => {
-    console.log("button1handler", fileSignature);
+			var q =  BigInt('0x' + file); 
+			console.log(q.toString(), " is here");
+			setSha(q.toString());
+
+		}
+	}, []);
+
+
+  const button1handler = async () => {
     try {
       if (ethereum) {
         const provider = new ethers.providers.Web3Provider(ethereum);
@@ -171,7 +184,7 @@ function App() {
         const nftContract = new ethers.Contract(contractAddress, abi, signer);
 
         console.log("Initialize payment");
-        let nftTxn = await nftContract.sign(fileSignature);
+        let nftTxn = await nftContract.sign(sha);
 
         console.log("Mining... please wait");
         await nftTxn.wait();
@@ -195,7 +208,7 @@ function App() {
         const nftContract = new ethers.Contract(contractAddress, abi, signer);
 
         console.log("Initialize payment");
-        let nftTxn = await nftContract.get_file_signers(fileNumber);
+        let nftTxn = await nftContract.get_file_signers(sha);
         console.log(nftTxn," is here");
         setNeededArray(nftTxn);
 
@@ -207,6 +220,8 @@ function App() {
       console.log(err);
     }
   }
+
+	console.log(neededArray," is her validie");
   
   useEffect(() => {
     const { ethereum } = window;
@@ -268,17 +283,14 @@ function App() {
             )}
 
             {isConnected ? (
-              <div>
-                <input type="text" className='text-black' onChange={(e) => setFileNumber(e.target.value)} value={fileNumber} />
-              <button onClick={()=>{button1handler(fileNumber)}} className='cta-button mint-nft-button'>
+              <button onClick={()=>{button1handler()}} className='cta-button mint-nft-button'>
               Sign File
             </button>
-            </div>
             ) : null}
 
             {isConnected ? (
              <button onClick={button2Handler} className='cta-button mint-nft-button'>
-            Button2
+            See signers
            </button>
             ) : null}   
           
