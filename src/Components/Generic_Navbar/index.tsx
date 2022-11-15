@@ -89,7 +89,7 @@ function NavBar() {
             Sign in
           </a>
           <a
-            href="#"
+            href="/signup"
             className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-googleBlue bg-opacity-100 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-googleBlue hover:bg-opacity-80 focus:bg-opacity-70"
           >
             Sign up

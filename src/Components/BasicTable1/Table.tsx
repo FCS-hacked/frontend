@@ -121,6 +121,12 @@ export default function Table({  columns, data }) {
                           <a onClick={()=>deleteDocument(row.values.id)} class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Delete</a>
                         </td>
                       )
+                    }else if(cell.column.Header==="Delete"){
+                      return(
+                        <td class="py-4 px-6">
+                          <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Delete</a>
+                        </td>
+                      )
                     }
                   })}
                   

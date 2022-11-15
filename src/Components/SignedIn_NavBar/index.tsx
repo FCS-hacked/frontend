@@ -1,14 +1,17 @@
  // @ts-nocheck 
 import React from "react";
 import { useState, useEffect} from "react";
-import { useLocation } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { Dropdown } from "flowbite-react";
 import * as jose from 'jose'
 import axios from 'axios';
 import { Avatar } from "flowbite-react/lib/esm/components";
+import { useNavigate } from 'react-router-dom';
+
 export default function SignedIn_NavBar() {
   const [navbar, setNavbar] = useState(false);
+  let navigate = useNavigate();
   const [user, setUser] = useState(undefined);
     useEffect(() => {
         (async () => {
@@ -158,10 +161,24 @@ export default function SignedIn_NavBar() {
                   {user.email}
                 </span>
               </Dropdown.Header>
-              <Dropdown.Item >{((user.type==="1")&&(user.category==='1')) ? "Dashboard" : ""}</Dropdown.Item>
+              <Dropdown.Item onClick={
+                (e) => {  
+                  // e.preventDefault();
+                navigate("/dashboard")
+                }
+              }>{((user.type==="1")&&(user.category==='1')) ? "Dashboard" : ""}</Dropdown.Item>
               {/* <Dropdown.Item>Settings</Dropdown.Item> */}
               <Dropdown.Divider />
-              <Dropdown.Item>Sign out</Dropdown.Item>
+              <Dropdown.Item 
+                onClick={
+                  (e) => {
+                    // e.preventDefault();
+                    localStorage.clear();
+                    window.location.reload();
+                    navigate("/")
+                  }
+                }
+              >Sign out</Dropdown.Item>
             </Dropdown>
           </div>
           
