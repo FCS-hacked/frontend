@@ -13,7 +13,7 @@ jobs:
           node-version: 16
       - run: npm install --global yarn
       - run: yarn install
-      - run: DISABLE_ESLINT_PLUGIN=true REACT_APP_BACKEND_URL=http://192.168.2.234:8000 yarn build
+      - run: DISABLE_ESLINT_PLUGIN=true REACT_APP_BACKEND_URL=https://192.168.2.234:8000 yarn build
       - name: Archive production artifacts
         uses: actions/upload-artifact@v3
         with:
