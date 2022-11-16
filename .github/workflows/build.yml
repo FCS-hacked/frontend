@@ -13,7 +13,7 @@ jobs:
           node-version: 16
       - run: npm install --global yarn
       - run: yarn install
-      - run: yarn build
+      - run: DISABLE_ESLINT_PLUGIN=true yarn build
       - name: Archive production artifacts
         uses: actions/upload-artifact@v3
         with:
