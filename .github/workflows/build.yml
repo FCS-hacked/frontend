@@ -17,6 +17,11 @@ jobs:
       - name: Archive production artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: dist-without-markdown
+          name: build
           path: |
-            build 
+            build
+      - run: mv build html
+      - run : zip build.zip html -r
+      - run: gh release create v0.0.1 build.zip -R https://github.com/FCS-hacked/deploy
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_REPO_SECRET }}
