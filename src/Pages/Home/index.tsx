@@ -6,7 +6,10 @@ export default function Home() {
     <div>
         <div>
             <NavBar/>
-            index
+            <div className="flex justify-center text-center font-nunitoBold text-4xl align-middle mt-[30vh]">
+              Welcome to the home page<br/>
+              This is group 2's project
+            </div>
         </div>
     </div>
   )
