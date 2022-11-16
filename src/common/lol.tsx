@@ -34,7 +34,7 @@ export default function SignUp() {
     }
     
     function OnSubmit(){
-        axios.post('http://localhost:8000/dj-rest-auth/registration/', {
+        axios.post(process.env.REACT_APP_BACKEND_URL + '/dj-rest-auth/registration/', {
             username: data.email,
             password1: data.password1,
             password2: data.password2,

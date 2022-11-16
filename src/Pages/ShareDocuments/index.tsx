@@ -18,7 +18,7 @@ export default function MyDocuments() {
   function uploadFile() {
     if (selectedFile) {
       console.log("uploading file", selectedFile);
-      axios.post("http://localhost:8000/documents/self/documents/", formData, {
+      axios.post(process.env.REACT_APP_BACKEND_URL + "/documents/self/documents/", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           "hotp": otp,

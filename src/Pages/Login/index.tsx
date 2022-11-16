@@ -17,7 +17,7 @@ export default function Login() {
       console.log(data);
       axios
         .post(
-          "http://localhost:8000/unauth/login/",
+          process.env.REACT_APP_BACKEND_URL + "/unauth/login/",
           {
             email: data.email,
             password: data.password,

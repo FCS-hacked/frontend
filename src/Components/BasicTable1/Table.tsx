@@ -27,13 +27,13 @@ export default function Table({  columns, data }) {
   function shareDocument(cellValue){
     console.log(cellValue)
     // const url = "
-    axios.patch(`http://localhost:8000/documents/self/documents/${cellValue}/`,{"shared_with": [shareEmail]} ,{headers:{"Authorization": localStorage.getItem("token"), "hotp":otp}})
+    axios.patch(`${process.env.REACT_APP_BACKEND_URL}/documents/self/documents/${cellValue}/`,{"shared_with": [shareEmail]} ,{headers:{"Authorization": localStorage.getItem("token"), "hotp":otp}})
 
   }
   function deleteDocument(cellValue){
     console.log(cellValue)
     // const url = "
-    axios.delete(`http://localhost:8000/documents/self/documents/${cellValue}/`,{headers:{"Authorization": localStorage.getItem("token"), "hotp":otp}})
+    axios.delete(`${process.env.REACT_APP_BACKEND_URL}/documents/self/documents/${cellValue}/`,{headers:{"Authorization": localStorage.getItem("token"), "hotp":otp}})
   }
   const [shareEmail, setShareEmail] = React.useState("");
   const [otp, setOtp] = React.useState("");

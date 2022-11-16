@@ -41,12 +41,12 @@ export default function Profile() {
                 console.log(user.type)
             if(user!==undefined && user.type === "1"){
             console.log(user.type)
-            const response = await axios.get("http://localhost:8000/authentication/self/personal-user/", {headers:{"Authorization": localStorage.getItem("token")}})
+            const response = await axios.get(process.env.REACT_APP_BACKEND_URL + "/authentication/self/personal-user/", {headers:{"Authorization": localStorage.getItem("token")}})
                 console.log(response)
                 setUserDetails(response)
             }else if(user!==undefined && user.type === "2"){
             console.log(user.type)
-            const response = await axios.get("http://localhost:8000/authentication/self/organization/", {headers:{"Authorization": localStorage.getItem("token")}})
+            const response = await axios.get(process.env.REACT_APP_BACKEND_URL + "/authentication/self/organization/", {headers:{"Authorization": localStorage.getItem("token")}})
                 console.log(response)
                 setUserDetails(response)
             }

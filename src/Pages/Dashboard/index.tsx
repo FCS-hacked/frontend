@@ -152,10 +152,10 @@ export default function Dashboard() {
     const handleChange = event => {
         console.log(event.target.value);
         if(event.target.value === 'Professional'){
-            setUrl('http://localhost:8000/authentication/professionals/');
+            setUrl(process.env.REACT_APP_BACKEND_URL + '/authentication/professionals/');
         }
         else if(event.target.value === 'Organization'){
-            setUrl('http://localhost:8000/authentication/organizations/');
+            setUrl(process.env.REACT_APP_BACKEND_URL + '/authentication/organizations/');
         }
         setUserType(event.target.value);
     };
