@@ -10,10 +10,12 @@ import DisplayMyDocuments from './Pages/DisplayMyDocuments';
 import DisplaySharedDocuments from './Pages/DisplaySharedDocuments';
 import ShareDocuments from './Pages/ShareDocuments';
 import ValidityCheck from './Pages/ValidityCheck';
-import Orders from './Pages/Orders';
+// import Orders from './Pages/Orders';
+
 import BasicTable from './Components/BasicTable1';
 import Dashboard from './Pages/Dashboard';
 import './App.css';
+import Cart from './Pages/Cart';
 
 function App() {
   return (
@@ -43,7 +45,7 @@ function App() {
         <Route path='/displayMyDocuments' element={< DisplayMyDocuments />}></Route>
         <Route path='/displaySharedDocuments' element={< DisplaySharedDocuments />}></Route>
         <Route path='/shareDocuments' element={< ShareDocuments />}></Route>
-        <Route path='/orders' element={<Orders />}></Route>
+        <Route path='/cart' element={<Cart cartItems={[]} />}></Route>
         <Route path='/validityCheck' element={<ValidityCheck />}></Route>
         <Route path='/dashboard' element={<Dashboard />}></Route>
 

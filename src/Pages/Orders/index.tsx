@@ -2,7 +2,7 @@
 import React from "react";
  import axios from "axios";
 
-function App() {
+function App(props: {amount:number, orderId:string, prefills:any}) {
     function loadScript(src) {
         return new Promise((resolve) => {
             const script = document.createElement("script");
@@ -36,8 +36,8 @@ function App() {
 
         // const { amount, id: order_id, currency } = result.data;
         const { amount, id, currency } =  {
-            amount: 50000,
-            id: "order_DBJOWzybf0sJbb",
+            amount: props.amount,
+            id: props.orderId,
             currency: "INR",
         };
 
