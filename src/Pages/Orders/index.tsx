@@ -35,12 +35,11 @@ function App(props: {amount:number, orderId:string, prefills:any}) {
         // }
 
         // const { amount, id: order_id, currency } = result.data;
-        const { amount, id, currency } =  {
+        const { amount, currency } =  {
             amount: props.amount,
-            id: props.orderId,
+            // id: props.orderId,
             currency: "INR",
         };
-
 
 
         const options = {
@@ -52,7 +51,7 @@ function App(props: {amount:number, orderId:string, prefills:any}) {
             // order_id: id,
             handler: async function (response : any) {
                 const data = {
-                    orderCreationId: order_id,
+                    // orderCreationId: order_id,
                     razorpayPaymentId: response.razorpay_payment_id,
                     razorpayOrderId: response.razorpay_order_id,
                     razorpaySignature: response.razorpay_signature,
