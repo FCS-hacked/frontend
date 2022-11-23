@@ -1,12 +1,7 @@
- // @ts-nocheck 
-import React from 'react'
 import {Link} from 'react-router-dom'
-import logo from '../../Images/logo.png'
 import {useState} from 'react';
-import { useLocation } from "react-router-dom";
 function NavBar() {
   const [navbar, setNavbar] = useState(false);
-  const location = useLocation();
   return (
     <>
     <nav className="w-full bg-[white] shadow large:hidden z-40 fixed">
@@ -49,7 +44,7 @@ function NavBar() {
                 )}
               </button>
             </div>
-            <Link className=' font-nunitoBold' to={'/'}>
+            <Link className='font-nunitoBold' to={'/'}>
               Project Name
             </Link>
             

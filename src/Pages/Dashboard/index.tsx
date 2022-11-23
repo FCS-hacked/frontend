@@ -1,5 +1,4 @@
- // @ts-nocheck 
- import React, { useState, useEffect, useMemo } from "react";
+ import { useState, useEffect, useMemo } from "react";
 import SignedIn_NavBar from '../../Components/SignedIn_NavBar'
 import Table from '../../Components/BasicTable1/Table'
  import { ColumnFilter } from '../../Components/ColumnFilter'
@@ -149,7 +148,10 @@ export default function Dashboard() {
     []
   );
 
-    const handleChange = event => {
+    const handleChange = (
+      event: React.ChangeEvent<{ value: string }>
+      
+      ) => {
         console.log(event.target.value);
         if(event.target.value === 'Professional'){
             setUrl('http://localhost:8000/authentication/professionals/');
@@ -170,10 +172,12 @@ export default function Dashboard() {
             -----END PUBLIC KEY-----`
             const ecPublicKey = await jose.importSPKI(spki, algorithm)
             // console.log(ecPublicKey)
-            const { payload, protectedHeader } = await jose.compactVerify(jwt, ecPublicKey)
-            // console.log(protectedHeader)
-            // console.log(new TextDecoder().decode(payload))
-            setUser(JSON.parse(new TextDecoder().decode(payload)));
+            if(jwt!=null){
+              const { payload, protectedHeader } = await jose.compactVerify(jwt, ecPublicKey)
+              setUser(JSON.parse(new TextDecoder().decode(payload)));
+          }else{
+              window.location.href = "/login";
+          }
             // if(user.)
             // const decoded = await jose.jwtDecrypt(jwt, ecPublicKey)
             // console.log(protectedHeader)
@@ -182,7 +186,7 @@ export default function Dashboard() {
     }, [setUser]);
 
   return (
-    ((user !== undefined) && (user.type=='1') &&(user.category==='1')) ?
+    ((user !== undefined) && (user['type']=='1') &&(user['category']==='1')) ?
     (
         <div>
             <SignedIn_NavBar/>

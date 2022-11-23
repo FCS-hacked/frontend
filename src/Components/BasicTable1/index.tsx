@@ -59,6 +59,9 @@
           },
           {
             Header: "Delete",
+          },
+          {
+            Header: "Share",
           }
         ]
       }

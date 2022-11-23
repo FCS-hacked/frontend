@@ -1,4 +1,4 @@
- // @ts-nocheck 
+//  @ts-nocheck 
 // Table.js
 
 import axios from "axios";
@@ -13,7 +13,6 @@ export default function Table({  columns, data }) {
     getTableProps,
     getTableBodyProps,
     headerGroups,
-    footerGroups,
     rows,
     prepareRow,
     state,
@@ -55,11 +54,12 @@ export default function Table({  columns, data }) {
             {headerGroups.map((headerGroup) => (
               <tr {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map((column) => (
+                  console.log(column, "is the column"),
                   <th
                     className="bg-green-100 py-3 text-xs font-bold text-center text-gray-800 uppercase "
                     {...column.getHeaderProps(column.getSortByToggleProps())}
                   >
-                    {column.render("Header")}
+                    {(column.Header!=="Verify" && column.Header!=="Delete" && column.Header!=="Share") ? column.render("Header") : ""}
                     <div className=" lowercase flex justify-center ">
                       {column.canFilter ? column.render("Filter") : null}
                     </div>
@@ -88,7 +88,7 @@ export default function Table({  columns, data }) {
                   {row.cells.map((cell) => {
                     console.log(cell.column.Header);
                     console.log((row), " is the row");
-                    if(cell.column.Header!=="Verify" && cell.column.Header!=="Shared with" && cell.column.Header!=="Delete"){
+                    if(cell.column.Header!=="Verify" && cell.column.Header!=="Shared with" && cell.column.Header!=="Delete" && cell.column.Header!=="Share"){
                       return (
                         <td
                           className="px-6 py-4 text-sm text-center text-gray-800 whitespace-nowrap"
@@ -104,9 +104,7 @@ export default function Table({  columns, data }) {
                           {...cell.getCellProps()}
                         >
                           {cell.render("Cell")}
-                          <a onClick={()=>shareDocument(row.values.id)} 
                           
-                          className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Share</a>
                         </td>
                       )
                     }else if(cell.column.Header==="Verify"){
@@ -121,10 +119,11 @@ export default function Table({  columns, data }) {
                           <a onClick={()=>deleteDocument(row.values.id)} class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Delete</a>
                         </td>
                       )
-                    }else if(cell.column.Header==="Delete"){
+                    }else if(cell.column.Header==="Share"){
                       return(
                         <td class="py-4 px-6">
-                          <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Delete</a>
+                          
+                          <a onClick={()=>shareDocument(row.values.id)} class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Share</a>
                         </td>
                       )
                     }

@@ -1,6 +1,5 @@
-import React, { Component } from "react";
+import { Component } from "react";
 export default class UploadFiles extends Component {
-//  initialize sselectedFile={selectedFile} setSelectedFile={setSelectedFile}  form props
 
   constructor(props) {
     super(props);
@@ -15,8 +14,6 @@ export default class UploadFiles extends Component {
       fileInfos: [],
     };
   }
-
-  
 
   selectFile(event) {
     this.setState({
