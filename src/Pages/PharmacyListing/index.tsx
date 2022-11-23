@@ -10,14 +10,13 @@ export default function PharmacyListing() {
     const [userType, setUserType] = useState('');
     const [data, setData] = useState([]);
     const [pharmacyData, setPharmacyData] = useState([]);
-    const [url, setUrl] = useState('http://localhost:8000/authentication/organizations/');
   useEffect(() => 
   {
     (async () => {
-      const result = await axios(url, {headers:{"Authorization": localStorage.getItem("token")}});
+      const result = await axios("http://localhost:8000/authentication/organizations/", {headers:{"Authorization": localStorage.getItem("token")}});
         setData(result.data);
     })();
-  }, [url]); 
+  }, []); 
   console.log(data, " is defined");
   useEffect(() => {
     const tempData:any = [];
@@ -29,6 +28,7 @@ export default function PharmacyListing() {
     })
     setPharmacyData(tempData)
 }, [data]);
+  
 console.log(pharmacyData, " is data2");
   const columns_orgs = useMemo(
     () => [
@@ -72,11 +72,14 @@ console.log(pharmacyData, " is data2");
             accessor: "custom_user_detailed.last_name",
             Filter: ColumnFilter,
           },
+        
         ],
       },
     ],
     []
   );
+
+
 
     useEffect(() => {
         (async () => {
