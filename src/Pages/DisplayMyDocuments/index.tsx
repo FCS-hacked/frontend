@@ -6,8 +6,8 @@ export default function MyDocuments() {
     <div>
       <div>
         <SignedIn_NavBar/>
-        <BasicTable1 
-          url="http://localhost:8000/documents/self/documents/"
+        <BasicTable1
+          url={process.env.REACT_APP_BACKEND_URL + "/documents/self/documents/"}
         />
       </div>
     </div>

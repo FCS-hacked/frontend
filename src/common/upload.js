@@ -18,7 +18,7 @@ class UploadFilesService {
     };
 
     // formData.append("file", file);
-    return axios.post("http://localhost:8000/documents/self/documents/", formData, {
+    return axios.post(process.env.REACT_APP_BACKEND_URL + "/documents/self/documents/", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
         
@@ -28,7 +28,7 @@ class UploadFilesService {
   }
 
   getFiles() {
-    return axios.get("http://localhost:8000files");
+    return axios.get(process.env.REACT_APP_BACKEND_URL + "files");
   }
 }
 

@@ -57,7 +57,7 @@ export default function Form(props) {
         description: "lorem ipsium jscdnjs",
       });
     function OnSubmitIndividual(){
-        axios.post('http://localhost:8000/unauth/register-as-personal-user/', {
+        axios.post(process.env.REACT_APP_BACKEND_URL + '/unauth/register-as-personal-user/', {
             username: individualData.email,
             password1: individualData.password1,
             password2: individualData.password2,
@@ -85,7 +85,7 @@ export default function Form(props) {
 
 
     function OnSubmitOrganisation(){
-        axios.post('http://localhost:8000/unauth/register-as-organization/', {
+        axios.post(process.env.REACT_APP_BACKEND_URL + '/unauth/register-as-organization/', {
             username: organisationData.email,
             password1: organisationData.password1,
             password2: organisationData.password2,
