@@ -78,7 +78,7 @@ export default function Index() {
     const url = window.location.href;
     const pharmacyId = url.split('?')[1].split('=')[1];
     const getOn =  "http://localhost:8000/authentication/organisation/" + pharmacyId;
-    axios.get(getOn).then((res) => {
+    axios.get(getOn, {headers:{"Authorization": localStorage.getItem("token")}}).then((res) => {
       console.log(res);
       setInfo(res.data);
     });
