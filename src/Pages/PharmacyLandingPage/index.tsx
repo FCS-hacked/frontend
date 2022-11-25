@@ -3,7 +3,7 @@ import ProductCard from '../../Components/ProductCard';
 import axios from 'axios';
 
 export default function Index() {
-  const [info, setInfo] = React.useState([]);
+  const [info, setInfo] = React.useState<any>();
   const productList = [
       {
         id: 1,
@@ -77,7 +77,7 @@ export default function Index() {
     console.log('useEffect');
     const url = window.location.href;
     const pharmacyId = url.split('?')[1].split('=')[1];
-    const getOn =  "http://localhost:8000/authentication/organisation/" + pharmacyId;
+    const getOn =  "http://localhost:8000/authentication/organizations/" + pharmacyId + "/";
     axios.get(getOn, {headers:{"Authorization": localStorage.getItem("token")}}).then((res) => {
       console.log(res);
       setInfo(res.data);
@@ -90,20 +90,20 @@ export default function Index() {
 
   return (
     <div>
-      {/* <div id="pharmacy-details-section">
+      <div id="pharmacy-details-section">
         <div className="font-nunitoBold text-4xl pt-64 pl-10">
-          {pharmacy.first_name} {pharmacy.last_name}
+          {info?.custom_user_detailed?.first_name} {info?.custom_user_detailed?.last_name}
         </div>
         <div className="font-nunitoSemiBold text-lg pl-10 text-gray-600">
-          {pharmacy.location}
+          {info?.custom_user_detailed?.location}
         </div>
         <div className="font-nunitoSemiBold text-lg pl-10 text-gray-600">
-          {pharmacy.email}
+          {info?.custom_user_detailed?.email}
         </div>
         <div className="font-nunitoSemiBold text-lg pl-10 pb-10 text-gray-600">
-          {pharmacy.description}
+          {info?.custom_user_detailed?.description}
         </div>
-      </div> */}
+      </div>
       <div className="grid grid-cols-12 bg-[#F8F8F8]">
         <div className="col-span-12 sm:col-span-10 pb-4">
           <div className="grid grid-cols-4 md:grid-cols-8 lg:grid-cols-10 gap-4 px-2">
