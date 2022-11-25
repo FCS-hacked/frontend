@@ -72,6 +72,7 @@ export default function Index() {
         image: "https://i.imgur.com/fNNHymI.png",
       },
   ];
+  const [id, setId] = React.useState<any>();
 
   const [orderDetails, setOrderDetails] = React.useState<any>([]);
 
@@ -79,6 +80,7 @@ export default function Index() {
     console.log('useEffect');
     const url = window.location.href;
     const pharmacyId = url.split('?')[1].split('=')[1];
+    setId(pharmacyId);
     const getOn =  "http://localhost:8000/authentication/organizations/" + pharmacyId + "/";
     axios.get(getOn, {headers:{"Authorization": localStorage.getItem("token")}}).then((res) => {
       console.log(res);
@@ -86,14 +88,25 @@ export default function Index() {
     });
   }, []);
 
-
-  console.log(info, " qwertys");
-
   const detailsHandler = (e: any) => {
     console.log(e);
     // add to  order details array from prev state to new state
     setOrderDetails((prev: any) => [...prev, e]);
   };
+
+  const onOrderHandler = () => {
+    console.log(orderDetails);
+    const postOn = "http://localhost:8000/products/patients/create_order/";
+    axios.post(postOn, {product_quantities : orderDetails, pharmacy_id : id}, {headers:{"Authorization": localStorage.getItem("token")}}).then((res) => {
+      console.log(res, " is the thing");
+      if(res.status === 201){
+        alert("Order Placed Successfully, Let's pay now!");
+      }
+      
+
+    });
+  };
+
 
 
 
@@ -127,6 +140,22 @@ export default function Index() {
           </div>
         </div>
       </div>
+      {/* make order button */}
+      <div className="fixed bottom-0 right-0 mr-4 mb-4">
+        {orderDetails.length > 0 && (
+        <button
+          className="bg-[#FFC700] text-white font-nunitoSemiBold text-lg px-4 py-2 rounded-lg"
+          onClick={(e) => {
+            e.preventDefault();
+            console.log(orderDetails);
+            onOrderHandler();
+            }
+          }
+        >
+          Make Order
+        </button>
+        )}
+        </div>
     </div>
   );
 }

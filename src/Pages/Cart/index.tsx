@@ -1,51 +1,31 @@
-import React from 'react'
+import axios from 'axios';
+import React, { useEffect} from 'react'
 import Orders from '../Orders';
-export default function Cart(props: { cartItems: Array<any> }) {
-  // const { cartItems } = props;
-  const cartItems: any[] 
-   = [{
-    name : "Item34",
-    price: 60000,
-    id: "order_DBJOWzybf0sJbb",
-    currency: "INR",
-    qty: 1,
-  },
-  {
-    name : "Item3",
-    price: 50000,
-    id: "order_DBJOWzybf0sJb3",
-    currency: "INR",
-    qty: 1,
-  }]; 
+export default function Cart() {
 
-  const [totalPrice, setTotalPrice] = React.useState<number>(0);
+  const [orderDetails, setOrderDetails] = React.useState<any>({});
 
-  // def function paymentHandler
-  React.useEffect(() => {
-    let total = 0;
-    cartItems.forEach((item) => {
-      total += item.price * item.qty;
+  useEffect(() => {
+    const url = window.location.href;
+    const orderId = url.split('?')[1].split('=');
+    console.log(orderId, " orderId");
+    if(orderId[1] !== undefined){
+    axios.get("http://localhost:8000/products/self/orders/" + orderId[1], {headers:{"Authorization": localStorage.getItem("token")}}).then((res) => {
+      console.log(res.data);
+      setOrderDetails(res.data);
     });
-    setTotalPrice(total);
-  }, [cartItems]);
-  // if cartItems is not empty, render each item in the cart with basic detail and show total payment amount
-  if (cartItems.length > 0) {
-    // calculate the total price of all items in the cart
-    
+    }
+    else {
+      alert("No Order Found");
+    }
+  }, []);
 
+  if (orderDetails?.items_detailed?.length > 0) {
     return (
       <div>
         <h1>Cart</h1>
-        <ul>
-          {cartItems.map((item: any) => (
-            <li key={item.id}>
-              {item.name} - {item.qty} - {item.price} 
-            </li>
-          ))}
-        </ul>
-        <h3>Total: {totalPrice}</h3>
-        {/* proceed to pay button */}
-       <Orders amount={totalPrice} orderId={'temp'} prefills={"none"} />
+        <h3>Total: {orderDetails.price}</h3>
+       <Orders amount={orderDetails.price} orderId={'temp'} prefills={"none"} />
       </div>
     )
   }

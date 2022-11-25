@@ -8,7 +8,7 @@
 
   const onClickHandler = () => {
     console.log((props.product.id,quantity), " order");
-    props.setDetails({id: props.product.id, quantity: quantity});
+    props.setDetails([props.product.id, quantity]);
     console.log("clicked")
   }     
 

@@ -31,7 +31,7 @@ function App() {
         <Route path='/displayMyDocuments' element={< DisplayMyDocuments />}></Route>
         <Route path='/displaySharedDocuments' element={< DisplaySharedDocuments />}></Route>
         <Route path='/shareDocuments' element={< ShareDocuments />}></Route>
-        <Route path='/cart' element={<Cart cartItems={[]} />}></Route>
+        <Route path='/cart' element={<Cart />}></Route>
         <Route path='/validityCheck' element={<ValidityCheck />}></Route>
         <Route path='/dashboard' element={<Dashboard />}></Route>
         <Route path='/pharmacyListing' element={<PharmacyListing />}></Route>
