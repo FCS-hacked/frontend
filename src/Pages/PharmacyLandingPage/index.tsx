@@ -74,11 +74,15 @@ export default function Index() {
         image: "https://i.imgur.com/fNNHymI.png",
       },
   ];
+  const [id, setId] = React.useState<any>();
+
+  const [orderDetails, setOrderDetails] = React.useState<any>([]);
 
   useEffect(() => {
     console.log('useEffect');
     const url = window.location.href;
     const pharmacyId = url.split('?')[1].split('=')[1];
+    setId(pharmacyId);
     const getOn =  "http://localhost:8000/authentication/organizations/" + pharmacyId + "/";
     const getProductsOn = "http://localhost:8000/products/products/" + pharmacyId;
     axios.get(getOn, {headers:{"Authorization": localStorage.getItem("token")}}).then((res) => {
@@ -95,8 +99,31 @@ export default function Index() {
     });
   }, []);
 
+  const detailsHandler = (e: any) => {
+    console.log(e);
+    // add to  order details array from prev state to new state
+    setOrderDetails((prev: any) => [...prev, e]);
+  };
 
-  console.log(info, " qwertys");
+  const onOrderHandler = () => {
+    console.log(orderDetails);
+    const postOn = "http://localhost:8000/products/patients/create_order/";
+    axios.post(postOn, {product_quantities : orderDetails, pharmacy_id : id}, {headers:{"Authorization": localStorage.getItem("token")}}).then((res) => {
+      console.log(res, " is the thing");
+      if(res.status === 201){
+        alert("Order Placed Successfully, Let's pay now!");
+      }
+      
+
+    });
+  };
+
+
+
+
+  console.log(orderDetails, " orderDetails");
+
+
 
 
   return (
@@ -118,18 +145,28 @@ export default function Index() {
       <div className="grid grid-cols-12 bg-[#F8F8F8]">
         <div className="col-span-12 sm:col-span-10 pb-4">
           <div className="grid grid-cols-4 md:grid-cols-8 lg:grid-cols-10 gap-4 px-2">
-            { products && products.map(
-                (product: any) => (
-                  <ProductCard
-                    key={product.id}
-                    product = {product}
-                  />
-              )
-              )
-            }
+            {productList.map((product) => (
+              <ProductCard key={product.id} product={product} setDetails={detailsHandler} />
+            ))}
           </div>
         </div>
       </div>
+      {/* make order button */}
+      <div className="fixed bottom-0 right-0 mr-4 mb-4">
+        {orderDetails.length > 0 && (
+        <button
+          className="bg-[#FFC700] text-white font-nunitoSemiBold text-lg px-4 py-2 rounded-lg"
+          onClick={(e) => {
+            e.preventDefault();
+            console.log(orderDetails);
+            onOrderHandler();
+            }
+          }
+        >
+          Make Order
+        </button>
+        )}
+        </div>
     </div>
   );
 }

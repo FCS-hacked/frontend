@@ -21,6 +21,10 @@ function App(props: {amount:number, orderId:string, prefills:any}) {
         const res = await loadScript(
             "https://checkout.razorpay.com/v1/checkout.js"
         );
+        if(res){
+            console.log(res, " woahh");
+
+        }
 
         if (!res) {
             alert("Razorpay SDK failed to load. Are you online?");
@@ -43,8 +47,8 @@ function App(props: {amount:number, orderId:string, prefills:any}) {
 
 
         const options = {
-            key: "rzp_test_SM4De8Jvox2SV0", // Enter the Key ID generated from the Dashboard
-            amount: amount.toString(),
+            key: "rzp_test_lIBdvX0gfiR05C", // Enter the Key ID generated from the Dashboard
+            amount: amount.toString() + "00",
             currency: currency,
             name: "FCS_Hacked",
             description: "Test Transaction",
@@ -58,6 +62,22 @@ function App(props: {amount:number, orderId:string, prefills:any}) {
                 };
 
                 console.log(data, "data");
+
+                const params = 
+                    { "payment_id": data.razorpayPaymentId, "order_id": props.orderId  }
+                
+
+                if(data !== undefined && data.razorpayPaymentId !== undefined){
+                    const res = await axios.post("http://localhost:8000/products/patients/update_order_payment_id/", params, {headers:{"Authorization": localStorage.getItem("token")}});
+                    console.log(res.data, "res");
+                    if(res.status === 201){
+                        alert("Payment Successful");
+                    }
+                    else {
+                        alert("Payment Failed");
+                    }
+                }
+
 
                 // const result = await axios.post("http://localhost:3000/", data);
 
