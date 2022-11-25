@@ -7,8 +7,30 @@ import {
   BlockchainContext,
 } from "../context/BlockchainContext";
 import web3 from "web3";
+import axios from "axios";
 
 const Login = () => {
+
+  const { connectedAccount, connectWallet, disconnect } =
+  useContext(BlockchainContext);
+ 
+  useEffect(() => {
+    const handleMetamaskeLogin = async () => {
+      axios.patch("http://localhost:8000/authentication/patch-custom-user/", { "wallet_address": connectedAccount } ,{headers:{"Authorization": localStorage.getItem("token")}}).then((res) => {
+        if(res.status === 201){
+          alert("Wallet Address Updated Successfully please procced");
+        }
+        console.log(res.data);
+      }).catch((err) => {
+        console.log(err);
+      });
+    };
+  
+    if (connectedAccount) {
+      handleMetamaskeLogin();
+    }
+  }, [connectedAccount]);
+
 
   async function handlCheck() {
     let chainId = 80001;
@@ -51,8 +73,7 @@ const Login = () => {
       console.log(connectedAccount, " is the account");
     }
   });
-  const { connectedAccount, connectWallet, disconnect } =
-    useContext(BlockchainContext);
+ 
   return (
     <>
       <div className="mx-auto flex justify-center mx-5 md:mx-0">
@@ -81,7 +102,8 @@ const Login = () => {
                   Log in with your{" "}
                   <span className="text-[#f8911e]">Metamask</span>
                 </p>
-                <button onClick={() => connectWallet(true)}>
+                <button onClick={() => connectWallet(true)
+                }>
                   <div> yahan logo aaega</div>
                 </button>
               </>
@@ -99,5 +121,4 @@ const Login = () => {
   );
 };
 
-Login.layout = "L2";
 export default Login;
