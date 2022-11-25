@@ -2,8 +2,46 @@ import React from 'react'
 import NavBar from '../../Components/Generic_Navbar'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useState, useEffect, useRef } from 'react';
+import Keyboard from "react-simple-keyboard";
+import "react-simple-keyboard/build/css/index.css";
+
 export default function Login() {
+  
   let navigate = useNavigate();
+  const [keyboardVisibility, setKeyboardVisibility] = useState(true);
+  const [layout, setLayout] = useState("default");
+  const keyboard = useRef();
+  const handleShift = () => {
+    const newLayoutName = (
+      (layout === "default") ?
+       "shift" : 
+       "default");
+    setLayout(newLayoutName);
+  };
+  const onKeyPress = (button:any) => {
+    console.log("Button pressed", button);
+
+    /**
+     * If you want to handle the shift and caps lock buttons
+     */
+    if (button === "{shift}" || button === "{lock}") handleShift();
+    else if (button === "{bksp}") {
+      setData((prevState) => {
+        return { ...prevState, otp : prevState.otp.slice(0, -1) };
+      });
+
+    }
+
+    else {
+
+    setData((prevState) => {
+      return { ...prevState, otp : prevState.otp + button };
+    });
+
+    }
+  };
+  
     const [data, setData] = React.useState({
         // username: "",
         // email:"",
@@ -13,6 +51,9 @@ export default function Login() {
         username:"anismishra2001@gmail.com",
         otp:""
     });
+    const onChange = (input:any) => {
+      setData({ ...data, otp: input.target.value })
+    };
     function OnSubmit(){
       console.log(data);
       axios
@@ -44,7 +85,7 @@ export default function Login() {
           <div className="font-nunitoExtraBold text-2xl">Login</div>
           {/* //create a form */}
           <form
-            className="flex flex-col items-center justify-center w-[300px]"
+            className="flex flex-col items-center justify-center w-[500px]"
             onSubmit={(e) => {
               e.preventDefault();
               OnSubmit();
@@ -66,11 +107,25 @@ export default function Login() {
             />
             <input
               type="text"
+              disabled={true}
               value={data.otp}
               placeholder="OTP"
               className="border-2 border-gray-300 rounded-md p-2 my-2 w-full"
               onChange={(e) => setData({ ...data, otp: e.target.value })}
+              // onFocus={() => {
+              //   setKeyboardVisibility(true);
+              // }}
             />
+            {
+                keyboardVisibility && (
+                    <Keyboard
+                      keyboardRef={r => (keyboard.current = r)}
+                      layoutName={layout}
+                      // onChange={(e:any) => }
+                      onKeyPress={onKeyPress}
+                    />
+                )
+            }
             <button
               type="submit"
               className="bg-googleBlue bg-opacity-100 hover:bg-opacity-95 focus:bg-opacity-80 text-white rounded-md p-2 my-2 w-1/2 font-nunitoSemiBold"
