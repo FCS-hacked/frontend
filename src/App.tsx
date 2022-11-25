@@ -37,7 +37,8 @@ function App() {
         <Route path='/validityCheck' element={<ValidityCheck />}></Route>
         <Route path='/dashboard' element={<Dashboard />}></Route>
         <Route path='/pharmacyListing' element={<PharmacyListing />}></Route>
-        <Route path="/pharmacy" element = {<PharmacyLandingPage/>}></Route>
+        <Route path="/pharmacy" element = {<PharmacyLandingPage/>}></Route> 
+        {/* /pharmacy?id=1 */}
 
       </Routes>
     </Router>

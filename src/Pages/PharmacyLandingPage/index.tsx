@@ -75,7 +75,7 @@ export default function Index() {
         image: "https://i.imgur.com/fNNHymI.png",
       },
   ];
-  const [id, setId] = React.useState<any>();
+  const [id, setId] = React.useState<any>('0');
 
   const [orderDetails, setOrderDetails] = React.useState<any>([]);
 
@@ -100,6 +100,7 @@ export default function Index() {
     });
   }, []);
 
+
   const detailsHandler = (e: any) => {
     console.log(e);
     // add to  order details array from prev state to new state
@@ -109,10 +110,11 @@ export default function Index() {
   const onOrderHandler = () => {
     console.log(orderDetails);
     const postOn = "http://localhost:8000/products/patients/create_order/";
-    axios.post(postOn, {product_quantities : orderDetails, pharmacy_id : id}, {headers:{"Authorization": localStorage.getItem("token")}}).then((res) => {
+    axios.post(postOn, {product_quantities : orderDetails, pharmacy_id : id, prescription_id: precptionId}, {headers:{"Authorization": localStorage.getItem("token")}}).then((res) => {
       console.log(res, " is the thing");
       if(res.status === 201){
         alert("Order Placed Successfully, Let's pay now!");
+        window.location.href = "/cart?orderId=" + res.data.id;
       }
     });
   };
@@ -123,7 +125,7 @@ export default function Index() {
     const postOn = "http://localhost:8000/documents/self/documents/" + precptionId + "/";
     axios.get(postOn, {headers:{"Authorization": localStorage.getItem("token")}}).then((res) => {
       console.log(res, " is the thing");
-      if(res.status === 201){
+      if(res.status === 200){
         if(res.data.signed_by_professional === true || res.data.signed_by_professional === "true"){
           setState(true);
         }
@@ -134,7 +136,7 @@ export default function Index() {
 
 
 
-  const[precptionId, setPrecptionId] = React.useState<any>();
+  const[precptionId, setPrecptionId] = React.useState<any>(0);
 
   console.log(orderDetails, " orderDetails");
 
@@ -181,7 +183,7 @@ export default function Index() {
               }
             }
           >
-            Submit
+            Validate Precptions
           </button>
         </>
         )}

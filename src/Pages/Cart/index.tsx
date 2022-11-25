@@ -21,7 +21,7 @@ export default function Cart() {
     }
   }, []);
 
-  if (orderDetails?.items_detailed?.length > 0) {
+  if ( orderDetails.status < "2"  && orderDetails?.items_detailed?.length > 0) {
     return (
       <div>
         <h1>Cart</h1>
@@ -34,7 +34,7 @@ export default function Cart() {
     return (
       <div>
         <h1>Cart</h1>
-        <p>Cart is empty or invalid order id</p>
+        <p>Cart is empty or invalid order id or already paid</p>
       </div>
     )
   }
