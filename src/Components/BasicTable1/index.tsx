@@ -7,7 +7,7 @@
  import axios from 'axios'
  import Table from "./Table";
  export default function BasicTable1( {url} ) {
-  const [data, setData] = useState([]);  
+  const [data, setData] = useState([]);
   useEffect(() => {
     (async () => {
       const result = await axios(url, {headers:{"Authorization": localStorage.getItem("token")}});

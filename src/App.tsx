@@ -18,6 +18,7 @@ import './App.css';
 import PharmacyListing from './Pages/PharmacyListing';
 import PharmacyLandingPage from './Pages/PharmacyLandingPage';
 import Cart from './Pages/Cart';
+import Settings from './Pages/Settings';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
         <Route path='/dashboard' element={<Dashboard />}></Route>
         <Route path='/pharmacyListing' element={<PharmacyListing />}></Route>
         <Route path="/pharmacy" element = {<PharmacyLandingPage/>}></Route>
+        <Route path="/settings" element = {<Settings/>}></Route>
       </Routes>
     </Router>
   );

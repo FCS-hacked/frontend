@@ -27,6 +27,7 @@ export default function SignedIn_NavBar() {
           ecPublicKey
         );
         setUser(JSON.parse(new TextDecoder().decode(payload)));
+        console.log(new TextDecoder().decode(payload), " payload");
       }else{
         navigate("/login")
       }

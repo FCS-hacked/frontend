@@ -6,6 +6,9 @@ import React from "react";
 import { useTable } from "react-table";
 import {useSortBy, useGlobalFilter, useFilters} from 'react-table'
 import { GlobalFilter } from '../GlobalFilter'
+import Keyboard from "react-simple-keyboard";
+import "react-simple-keyboard/build/css/index.css";
+import {useRef, useState} from "react";
 
 export default function Table({  columns, data, linking }) {
   // Use the useTable Hook to send the columns and data to build the table
@@ -34,8 +37,27 @@ export default function Table({  columns, data, linking }) {
     // const url = "
     axios.delete(`${process.env.REACT_APP_BACKEND_URL}/documents/self/documents/${cellValue}/`,{headers:{"Authorization": localStorage.getItem("token"), "hotp":otp}})
   }
+  const handleShift = () => {
+    const newLayoutName = (
+      (layout === "default") ?
+       "shift" : 
+       "default");
+    setLayout(newLayoutName);
+  };
+  const onKeyPress = (button:any) => {
+    console.log("Button pressed", button);
+    if (button === "{shift}" || button === "{lock}") handleShift();
+    else if (button === "{bksp}") {
+      setOtp((prevOtp) => (prevOtp.slice(0, -1)));
+    }
+    else {
+      setOtp((prevOtp) => (prevOtp + button));
+    }
+  };
+  const [layout, setLayout] = useState("default");
   const [shareEmail, setShareEmail] = React.useState("");
   const [otp, setOtp] = React.useState("");
+  const keyboard = useRef();
   return (
     <div className="flex w-full flex-col items-center">
       <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
@@ -43,9 +65,25 @@ export default function Table({  columns, data, linking }) {
       <input type='text' placeholder='Share Email' className='border-2 border-gray-300 rounded-md p-2 my-2 w-full'
           onChange={(e) => setShareEmail(e.target.value)}
       />
-      <input type='text' placeholder='OTP' className='border-2 border-gray-300 rounded-md p-2 my-2 w-full'
-          onChange={(e) => setOtp(e.target.value)}
-      />
+      <input
+              type="text"
+              disabled={true}
+              value={otp}
+              placeholder="OTP"
+              className="border-2 border-gray-300 rounded-md p-2 my-2 w-full"
+              onChange={(e) => setOtp((prevOtp) => (prevOtp + e.target.value))}
+            />
+            {
+                (
+                    <Keyboard
+                      keyboardRef={r => (keyboard.current = r)}
+                      layoutName={layout}
+                      // onChange={(e:any) => }
+                      onKeyPress={onKeyPress}
+                    />
+                )
+            }
+          
         <table
           className="divide-y w-full  divide-gray-200 text-gray-500 dark:text-gray-400"
           {...getTableProps()}
