@@ -73,6 +73,8 @@ export default function Index() {
       },
   ];
 
+  const [orderDetails, setOrderDetails] = React.useState<any>([]);
+
   useEffect(() => {
     console.log('useEffect');
     const url = window.location.href;
@@ -86,6 +88,18 @@ export default function Index() {
 
 
   console.log(info, " qwertys");
+
+  const detailsHandler = (e: any) => {
+    console.log(e);
+    // add to  order details array from prev state to new state
+    setOrderDetails((prev: any) => [...prev, e]);
+  };
+
+
+
+  console.log(orderDetails, " orderDetails");
+
+
 
 
   return (
@@ -108,7 +122,7 @@ export default function Index() {
         <div className="col-span-12 sm:col-span-10 pb-4">
           <div className="grid grid-cols-4 md:grid-cols-8 lg:grid-cols-10 gap-4 px-2">
             {productList.map((product) => (
-              <ProductCard key={product.id} product={product} />
+              <ProductCard key={product.id} product={product} setDetails={detailsHandler} />
             ))}
           </div>
         </div>
