@@ -84,10 +84,14 @@ export default function Index() {
     axios.get(getOn, {headers:{"Authorization": localStorage.getItem("token")}}).then((res) => {
       console.log(res);
       setInfo(res.data);
+    }).catch((err) => {
+      console.log(err);
     });
     axios.get(getProductsOn, {headers:{"Authorization": localStorage.getItem("token")}}).then((res) => {
       console.log(res.data, " products");
       setProducts(res.data);
+    }).catch((err) => {
+      console.log(err);
     });
   }, []);
 

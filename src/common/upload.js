@@ -28,7 +28,9 @@ class UploadFilesService {
   }
 
   getFiles() {
-    return axios.get(process.env.REACT_APP_BACKEND_URL + "files");
+    return axios.get(process.env.REACT_APP_BACKEND_URL + "files").catch((error) => {
+      console.log(error);
+    });
   }
 }
 

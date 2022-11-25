@@ -61,14 +61,20 @@ export default function Profile() {
                 console.log(user['type'])
             if(user!==undefined && user['type'] === "1"){
             console.log(user['type'])
-            const response = await axios.get("http://localhost:8000/authentication/self/personal-user/", {headers:{"Authorization": localStorage.getItem("token")}})
-                console.log(response.data , "response")
-                setUserDetails(response.data)
-            }else if(user!==undefined && user['type'] === "2"){
+            axios.get("http://localhost:8000/authentication/self/personal-user/", {headers:{"Authorization": localStorage.getItem("token")}}).then((res) => {
+                console.log(res.data , "response")
+                setUserDetails(res.data)
+            }).catch((err) => {
+                console.log(err)
+            })}
+            else if(user!==undefined && user['type'] === "2"){
             console.log(user['type'])
-            const response = await axios.get("http://localhost:8000/authentication/self/organization/", {headers:{"Authorization": localStorage.getItem("token")}})
-                console.log(response.data)
-                setUserDetails(response.data)
+            axios.get("http://localhost:8000/authentication/self/organization/", {headers:{"Authorization": localStorage.getItem("token")}}).then((res) => {
+                console.log(res.data , "response")
+                setUserDetails(res.data)
+            }).catch((err) => {
+                console.log(err)
+            })
             }
         })();
     }, [user])
