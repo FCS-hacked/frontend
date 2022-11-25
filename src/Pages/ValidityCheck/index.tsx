@@ -8,7 +8,7 @@ import { BlockchainContext } from "../../Components/context/BlockchainContext";
 function App() {
 
   const [neededArray, setNeededArray] = useState([]);
-	const [ sha, setSha ] = useState('');
+	const [ sha, setSha ] = useState<any>();
 	const { getProvider, connectedAccount } = useContext(BlockchainContext);
 	// useEffect to check if the router query has sha variable and if it does, then set the sha variable to the state
 	useEffect(() => {
@@ -24,17 +24,26 @@ function App() {
 		}
 	}, []);
   const button1handler = async () => {
-		SignFile(getProvider,sha);
+		console.log('sha here', sha);
+		const x = await GetFileSigners(getProvider,sha);
+		console.log('x', x);
+		if(!x.includes(connectedAccount)){
+			SignFile(getProvider,sha);
+		}
+		else{
+			alert("You have already signed this file");
+		}
+
   }
 
   const button2Handler = async () => {
-    GetFileSigners(getProvider,sha);
+    await GetFileSigners(getProvider,sha);
+		console.log('sha here', sha);
   }
 	console.log(neededArray, sha," is her validie");
   
 	return (
     <div>
-			
             {connectedAccount ? (
               <button onClick={()=>{button1handler()}} className='cta-button mint-nft-button'>
               Sign File

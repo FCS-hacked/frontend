@@ -7,7 +7,7 @@ import { ethers } from "ethers";
 import { BlockchainContext } from "./BlockchainContext";
 
 
-const contractAddress = "0xC00F0eEc3b65f3050EAB65d3bc6017626aE8252a";
+const contractAddress = "0x3f787a674d0ae25eef49f66bd88b4e736e90d4c9";
 const abi = [
 	{
 		"inputs": [
@@ -288,23 +288,21 @@ async function useGetNecessities(getProvider) {
 
 async function SignFile(getProvider, sha) {
   const [provider, signer, nftContract] =
-    await useGetNecessities(getProvider);
-
-    console.log("Initialize payment");
-    let nftTxn = await nftContract.sign(sha);
-
-    console.log("Mining... please wait");
-    await nftTxn.wait();
-    return nftTxn;
+  await useGetNecessities(getProvider);
+  console.log(sha, "sha256");
+  let nftTxn = await nftContract.sign(sha);
+  await nftTxn.wait();
+  return nftTxn;
 }
 
-async function GetFileSigners(getProvider,sha){
+async function GetFileSigners(getProvider, sha){
   const [provider, signer, nftContract] =
   await useGetNecessities(getProvider);
-  console.log("Initialize payment");
+  console.log(nftContract, sha, "nftContract");
+
   let nftTxn = await nftContract.get_file_signers(sha);
-  console.log(nftTxn," is here");
-  await nftTxn.wait();
+  console.log(nftTxn);
+  await nftTxn;
   return nftTxn;
 }
 
