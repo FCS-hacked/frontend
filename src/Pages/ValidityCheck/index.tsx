@@ -1,6 +1,4 @@
-// @ts-nocheck
-
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { BigNumber, ethers } from 'ethers';
 
 import {SignFile,
@@ -11,7 +9,6 @@ function App() {
 
   const [neededArray, setNeededArray] = useState([]);
 	const [ sha, setSha ] = useState('');
-
 	const { getProvider, connectedAccount } = useContext(BlockchainContext);
 	// useEffect to check if the router query has sha variable and if it does, then set the sha variable to the state
 	useEffect(() => {
@@ -19,11 +16,11 @@ function App() {
 		if (window.location.search) {
 			const urlParams = new URLSearchParams(window.location.search);
 			const file = urlParams.get('sha');
-
+			console.log('file',file);
 			var q =  BigInt('0x' + file); 
+			console.log('q',q);
 			console.log(q.toString(), " is here");
 			setSha(q.toString());
-
 		}
 	}, []);
   const button1handler = async () => {
@@ -33,15 +30,17 @@ function App() {
   const button2Handler = async () => {
     GetFileSigners(getProvider,sha);
   }
-	console.log(neededArray," is her validie");
+	console.log(neededArray, sha," is her validie");
   
 	return (
-    <div className="App">
+    <div>
+			
             {connectedAccount ? (
               <button onClick={()=>{button1handler()}} className='cta-button mint-nft-button'>
               Sign File
             </button>
             ) : null}
+						<br/>
 
             {connectedAccount ? (
              <button onClick={()=>{button2Handler()}} className='cta-button mint-nft-button'>

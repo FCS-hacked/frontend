@@ -287,9 +287,8 @@ async function useGetNecessities(getProvider) {
 
 
 async function SignFile(getProvider, sha) {
-  const [provider, signer, contractAddress] =
+  const [provider, signer, nftContract] =
     await useGetNecessities(getProvider);
-    const nftContract = new ethers.Contract(contractAddress, abi, signer);
 
     console.log("Initialize payment");
     let nftTxn = await nftContract.sign(sha);
@@ -300,9 +299,8 @@ async function SignFile(getProvider, sha) {
 }
 
 async function GetFileSigners(getProvider,sha){
-  const [provider, signer, contractAddress] =
+  const [provider, signer, nftContract] =
   await useGetNecessities(getProvider);
-  const nftContract = new ethers.Contract(contractAddress, abi, signer); 
   console.log("Initialize payment");
   let nftTxn = await nftContract.get_file_signers(sha);
   console.log(nftTxn," is here");
@@ -312,13 +310,6 @@ async function GetFileSigners(getProvider,sha){
 
 
 export {
-  // BuyNFT,
-  // GetComposableCount,
-  // CheckLevel,
-  // CheckOwnership,
-  // useGetNecessities,
-  // UpgradeNFT,
-  // OwnerOfNFT,
   SignFile,
   GetFileSigners
 };
