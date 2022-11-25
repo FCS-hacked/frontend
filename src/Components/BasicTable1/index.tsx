@@ -71,7 +71,7 @@
 
   return (
     <div className="w-full">
-      <Table columns={columns} data={data} />
+      <Table columns={columns} data={data} linking={false} />
     </div>
   );
  }

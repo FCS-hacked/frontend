@@ -7,7 +7,7 @@ import { useTable } from "react-table";
 import {useSortBy, useGlobalFilter, useFilters} from 'react-table'
 import { GlobalFilter } from '../GlobalFilter'
 
-export default function Table({  columns, data }) {
+export default function Table({  columns, data, linking }) {
   // Use the useTable Hook to send the columns and data to build the table
   const {
     getTableProps,
@@ -83,6 +83,12 @@ export default function Table({  columns, data }) {
               return (
                 <tr
                   className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 even:bg-gray-100"
+                  onClick={() =>{
+                    if(linking){
+                      window.location.href = `/pharmacy?id=${row.values.id}`
+
+                    }
+                  }}
                   {...row.getRowProps()}
                 >
                   {row.cells.map((cell) => {

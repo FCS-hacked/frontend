@@ -1,3 +1,4 @@
+//  @ts-nocheck 
 import { useState, useEffect, useMemo } from "react";
 import SignedIn_NavBar from '../../Components/SignedIn_NavBar'
 import Table from '../../Components/BasicTable1/Table'
@@ -35,7 +36,7 @@ console.log(pharmacyData, " is data2");
       {
         // first group - TV Show
         // First group columns
-        Header: "Organization",
+        Header: "Pharmacies",
         columns: [
           {
             Header: "id",
@@ -108,7 +109,7 @@ console.log(pharmacyData, " is data2");
             <SignedIn_NavBar/>
             
             <div className="w-full">
-                <Table columns={columns_orgs} data={pharmacyData} />
+                <Table columns={columns_orgs} data={pharmacyData} linking={true} />
             </div>
         </div>
   ) : null)

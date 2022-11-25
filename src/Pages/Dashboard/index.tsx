@@ -209,7 +209,7 @@ export default function Dashboard() {
                 </div>
             </div>
             <div className="w-full">
-                <Table columns={(userType==='Professional') ? columns_prof : columns_orgs} data={data} />
+                <Table columns={(userType==='Professional') ? columns_prof : columns_orgs} data={data} linking={false} />
             </div>
         </div>
   ) : null)

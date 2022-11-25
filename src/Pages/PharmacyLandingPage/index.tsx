@@ -1,9 +1,11 @@
+//  @ts-nocheck 
 import React, { useEffect } from 'react';
 import ProductCard from '../../Components/ProductCard';
 import axios from 'axios';
 
 export default function Index() {
   const [info, setInfo] = React.useState<any>();
+  const [products, setProducts] = React.useState<any>();
   const productList = [
       {
         id: 1,
@@ -78,9 +80,14 @@ export default function Index() {
     const url = window.location.href;
     const pharmacyId = url.split('?')[1].split('=')[1];
     const getOn =  "http://localhost:8000/authentication/organizations/" + pharmacyId + "/";
+    const getProductsOn = "http://localhost:8000/products/products/" + pharmacyId;
     axios.get(getOn, {headers:{"Authorization": localStorage.getItem("token")}}).then((res) => {
       console.log(res);
       setInfo(res.data);
+    });
+    axios.get(getProductsOn, {headers:{"Authorization": localStorage.getItem("token")}}).then((res) => {
+      console.log(res.data, " products");
+      setProducts(res.data);
     });
   }, []);
 
@@ -107,9 +114,15 @@ export default function Index() {
       <div className="grid grid-cols-12 bg-[#F8F8F8]">
         <div className="col-span-12 sm:col-span-10 pb-4">
           <div className="grid grid-cols-4 md:grid-cols-8 lg:grid-cols-10 gap-4 px-2">
-            {productList.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
+            { products && products.map(
+                (product: any) => (
+                  <ProductCard
+                    key={product.id}
+                    product = {product}
+                  />
+              )
+              )
+            }
           </div>
         </div>
       </div>
