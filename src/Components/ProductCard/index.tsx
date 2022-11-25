@@ -10,7 +10,9 @@
     console.log((props.product.id,quantity), " order");
     props.setDetails([props.product.id, quantity]);
     console.log("clicked")
-  }     
+  }
+  
+
 
   console.log(props.product, "product")
    return (

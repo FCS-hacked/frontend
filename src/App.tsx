@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router,Routes, Route, Link } from 'react-router-dom';
 import Home from './Pages/Home';
 import Login from './Pages/Login';
+import Web3Login from './Components/Web3Login';
 import SignUp from './Pages/SignUp';
 import logo from './logo.svg';
 import Information from './Pages/Information';
@@ -25,6 +26,8 @@ function App() {
       <Routes>
         <Route path='/' element={< Home />}></Route>
         <Route path='/login' element={< Login />}></Route>
+        <Route path='/web3login' element={<Web3Login />}></Route>
+        
         <Route path='/signup' element={< SignUp />}></Route>
         <Route path='/information' element={< Information />}></Route>
         <Route path='/profile' element={< Profile />}></Route>
@@ -36,6 +39,7 @@ function App() {
         <Route path='/dashboard' element={<Dashboard />}></Route>
         <Route path='/pharmacyListing' element={<PharmacyListing />}></Route>
         <Route path="/pharmacy" element = {<PharmacyLandingPage/>}></Route>
+
       </Routes>
     </Router>
   );
