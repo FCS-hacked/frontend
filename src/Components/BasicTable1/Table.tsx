@@ -154,7 +154,7 @@ export default function Table({  columns, data, linking }) {
                     }else if(cell.column.Header==="Verify"){
                       return(
                         <td class="py-4 px-6">
-                          <a href={`/validityCheck?sha=${data[i].sha_256}`} class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                          <a href={`/validityCheck?sha=${data[i].sha_256}`} class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Verify</a>
                         </td>
                       )
                     }else if(cell.column.Header==="Delete"){

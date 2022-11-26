@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { useEffect, useState, createContext, FC } from "react";
 import { ethers } from "ethers";
 import Web3Modal from "web3modal";

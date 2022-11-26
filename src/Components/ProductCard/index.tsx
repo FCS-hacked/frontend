@@ -28,21 +28,6 @@
             <span className="font-bold">Stock:</span> {props.product.stock}
           </div>
         </div>
-        <div className="col-span-6">
-          <span className="font-bold">Fits:</span> {props.product.fits}
-        </div>
-        <div className="col-span-6">
-          <span className="font-bold">Gauge:</span> {props.product.gauge}
-        </div>
-        <div className="col-span-6">
-          <span className="font-bold">Catheter:</span> {props.product.catheter}
-        </div>
-        <div className="col-span-6">
-          <span className="font-bold">Length:</span> {props.product.length}
-        </div>
-        <div className="col-span-6">
-          <span className="font-bold">Sterile:</span> {props.product.sterile}
-        </div>  
       </div>
       <button className="block text-center btn-outline w-full my-4" onClick={(e)=> {
         e.preventDefault();

@@ -14,6 +14,7 @@ export default function SharedDocuments() {
         >Upload</button> */}
         <BasicTable1
           url={process.env.REACT_APP_BACKEND_URL + "/documents/documents-shared/"}
+          shared={true}
         />
       </div>
     </div>
