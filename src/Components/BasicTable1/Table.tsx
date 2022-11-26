@@ -71,12 +71,15 @@ export default function Table({  columns, data, linking }) {
     { headers: { "Authorization": localStorage.getItem("token") } })
     .then(function (response) {
       console.log(response, " response")
+      // take email from object of arrays and put it in an array
+      let emailArray = []
+      for (let i = 0; i < response.data.length; i++) {
+        emailArray.push(response.data[i].email)
+      }
+      setNeededArray(emailArray);
+      alert(JSON.stringify(emailArray))
     })
-
-    setNeededArray(x);
-    alert(x);
   }
-  console.log("neededArray", neededArray)
 
 
   const handleShift = () => {
