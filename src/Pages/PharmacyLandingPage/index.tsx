@@ -5,6 +5,7 @@ import axios from 'axios';
 
 export default function Index() {
   const [info, setInfo] = React.useState<any>();
+  const [ state, setState ] = React.useState<boolean>(false);
   const [products, setProducts] = React.useState<any>();
   const productList = [
       {
@@ -74,7 +75,7 @@ export default function Index() {
         image: "https://i.imgur.com/fNNHymI.png",
       },
   ];
-  const [id, setId] = React.useState<any>();
+  const [id, setId] = React.useState<any>('0');
 
   const [orderDetails, setOrderDetails] = React.useState<any>([]);
 
@@ -99,6 +100,7 @@ export default function Index() {
     });
   }, []);
 
+
   const detailsHandler = (e: any) => {
     console.log(e);
     // add to  order details array from prev state to new state
@@ -108,18 +110,33 @@ export default function Index() {
   const onOrderHandler = () => {
     console.log(orderDetails);
     const postOn = "http://localhost:8000/products/patients/create_order/";
-    axios.post(postOn, {product_quantities : orderDetails, pharmacy_id : id}, {headers:{"Authorization": localStorage.getItem("token")}}).then((res) => {
+    axios.post(postOn, {product_quantities : orderDetails, pharmacy_id : id, prescription_id: precptionId}, {headers:{"Authorization": localStorage.getItem("token")}}).then((res) => {
       console.log(res, " is the thing");
       if(res.status === 201){
         alert("Order Placed Successfully, Let's pay now!");
+        window.location.href = "/cart?orderId=" + res.data.id;
       }
-      
+    });
+  };
+
+  const onSubmitHandler = (e: any) => {
+    e.preventDefault();
+    console.log("onSubmitHandler");
+    const postOn = "http://localhost:8000/documents/self/documents/" + precptionId + "/";
+    axios.get(postOn, {headers:{"Authorization": localStorage.getItem("token")}}).then((res) => {
+      console.log(res, " is the thing");
+      if(res.status === 200){
+        if(res.data.signed_by_professional === true || res.data.signed_by_professional === "true"){
+          setState(true);
+        }
+      }
 
     });
   };
 
 
 
+  const[precptionId, setPrecptionId] = React.useState<any>(0);
 
   console.log(orderDetails, " orderDetails");
 
@@ -154,6 +171,24 @@ export default function Index() {
       {/* make order button */}
       <div className="fixed bottom-0 right-0 mr-4 mb-4">
         {orderDetails.length > 0 && (
+          <>
+          <input type="text" placeholder="Enter Precption Id" value={precptionId} onChange={(e)=>{setPrecptionId(e.target.value)}} />
+
+          <button
+            className="bg-[#FFC700] text-white font-nunitoSemiBold text-lg px-4 py-2 rounded-lg"
+            onClick={(e) => {
+              e.preventDefault();
+              console.log(orderDetails);
+              onSubmitHandler(e);
+              }
+            }
+          >
+            Validate Precptions
+          </button>
+        </>
+        )}
+
+      {state === true && (
         <button
           className="bg-[#FFC700] text-white font-nunitoSemiBold text-lg px-4 py-2 rounded-lg"
           onClick={(e) => {
@@ -166,7 +201,7 @@ export default function Index() {
           Make Order
         </button>
         )}
-        </div>
+      </div>
     </div>
   );
 }

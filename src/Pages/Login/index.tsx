@@ -137,7 +137,7 @@ export default function Login() {
             {
                 (
                     <Keyboard
-                      keyboardRef={r => (keyboard.current = r)}
+                      keyboardRef={(r : any) => (keyboard.current = r)}
                       layoutName={layout}
                       // onChange={(e:any) => }
                       onKeyPress={onKeyPress}
