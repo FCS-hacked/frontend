@@ -64,7 +64,7 @@ export default function Login() {
         .then(function (response) {
           console.log(response);
           localStorage.setItem("token", response.data.token);
-          navigate("/profile");
+          navigate("/Web3Login");
           console.log(localStorage.getItem("token"));
         })
         .catch(function (error) {

@@ -1,5 +1,6 @@
 //@ts-nocheck
 import LoginSvg from "../public/images/login.svg";
+import { useNavigate } from 'react-router-dom';
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import Profile from "../public/svg/Profile.svg";
 import {
@@ -11,6 +12,8 @@ import axios from "axios";
 
 const Login = () => {
 
+  let navigate = useNavigate();
+
   const { connectedAccount, connectWallet, disconnect } =
   useContext(BlockchainContext);
  
@@ -20,6 +23,7 @@ const Login = () => {
         if(res.status === 201){
           alert("Wallet Address Updated Successfully please procced");
         }
+        navigate("/Profile");
         console.log(res.data);
       }).catch((err) => {
         console.log(err);
