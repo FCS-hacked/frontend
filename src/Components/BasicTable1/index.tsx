@@ -115,6 +115,9 @@
           },
           {
             Header:"Signed By",
+          },
+          {
+            Header:"Transfer Ownership",
           }
         ]
       }
