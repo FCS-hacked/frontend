@@ -10,7 +10,7 @@ import Profile from './Pages/Profile';
 import DisplayMyDocuments from './Pages/DisplayMyDocuments';
 import DisplaySharedDocuments from './Pages/DisplaySharedDocuments';
 import ShareDocuments from './Pages/ShareDocuments';
-import ValidityCheck from './Pages/ValidityCheck';
+import ValidityCheck from './Components/ValidityCheck';
 // import Orders from './Pages/Orders';
 
 import BasicTable from './Components/BasicTable1';
@@ -38,7 +38,7 @@ function App() {
         <Route path='/displaySharedDocuments' element={< DisplaySharedDocuments />}></Route>
         <Route path='/shareDocuments' element={< ShareDocuments />}></Route>
         <Route path='/cart' element={<Cart />}></Route>
-        <Route path='/validityCheck' element={<ValidityCheck />}></Route>
+        {/* <Route path='/validityCheck' element={<ValidityCheck />}></Route> */}
         <Route path='/dashboard' element={<Dashboard />}></Route>
         <Route path='/pharmacyListing' element={<PharmacyListing />}></Route>
         <Route path="/pharmacy" element = {<PharmacyLandingPage/>}></Route>

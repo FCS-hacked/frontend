@@ -33,7 +33,7 @@ const Login = () => {
     if (connectedAccount) {
       handleMetamaskeLogin();
     }
-  }, [connectedAccount]);
+  }, [connectedAccount, navigate]);
 
 
   async function handlCheck() {
@@ -54,15 +54,15 @@ const Login = () => {
             method: "wallet_addEthereumChain",
             params: [
               {
-                chainName: "Mumbai Testnet",
-                chainId: web3.utils.toHex(chainId),
+                chainName: "Sepolia test network",
+                chainId: web3.utils.toHex(11155111),
                 nativeCurrency: {
                   name: "MATIC",
                   decimals: 18,
                   symbol: "MATIC",
                 },
-                rpcUrls: ["https://rpc-mumbai.maticvigil.com/"],
-                blockExplorerUrls: ["https://polygonscan.com/"],
+                rpcUrls: ["https://sepolia.infura.io/v3/"],
+                blockExplorerUrls: ["https://sepolia.etherscan.io"],
               },
             ],
           });

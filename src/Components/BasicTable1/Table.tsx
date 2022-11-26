@@ -10,8 +10,18 @@ import Keyboard from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
 import { useRef, useState } from "react";
 
+import {useContext } from "react";
+
+import { SignFile, GetFileSigners } from "../context/blockchain";
+
+import { BlockchainContext } from "../context/BlockchainContext";
+
 export default function Table({ columns, data, linking }) {
   // Use the useTable Hook to send the columns and data to build the table
+
+  const [neededArray, setNeededArray] = useState([]);
+  const { getProvider, connectedAccount } = useContext(BlockchainContext);
+
   const {
     getTableProps,
     getTableBodyProps,
@@ -29,6 +39,70 @@ export default function Table({ columns, data, linking }) {
     useGlobalFilter,
     useSortBy
   );
+  // const {globalFilter} = state
+  function shareDocument(cellValue) {
+    console.log(cellValue);
+    // const url = "
+    axios.patch(
+      `${process.env.REACT_APP_BACKEND_URL}/documents/self/documents/${cellValue}/`,
+      { shared_with: [shareEmail] },
+      { headers: { Authorization: localStorage.getItem("token"), hotp: otp } }
+    );
+  }
+  function deleteDocument(cellValue) {
+    console.log(cellValue);
+    // const url = "
+    axios.delete(
+      `${process.env.REACT_APP_BACKEND_URL}/documents/self/documents/${cellValue}/`,
+      { headers: { Authorization: localStorage.getItem("token"), hotp: otp } }
+    );
+  }
+
+  const button1handler = async (mySha) => {
+    let m = BigInt("0x" + mySha).toString();
+
+    const x = await GetFileSigners(getProvider, m);
+    console.log("x", x);
+    if (!x.includes(connectedAccount)) {
+      SignFile(getProvider, mySha);
+    } else {
+      alert("You have already signed this file");
+    }
+  };
+  const button2Handler = async (mySha) => {
+    let m = BigInt("0x" + mySha).toString();
+    const x = await GetFileSigners(getProvider, m);
+    axios
+      .post(
+        `${process.env.REACT_APP_BACKEND_URL}/authentication/get-details-from-metamask/`,
+        { metamask_ids: x },
+        { headers: { Authorization: localStorage.getItem("token") } }
+      )
+      .then(function (response) {
+        console.log(response, " response");
+        // take email from object of arrays and put it in an array
+        let emailArray = [];
+        for (let i = 0; i < response.data.length; i++) {
+          emailArray.push(response.data[i].email);
+        }
+        setNeededArray(emailArray);
+        alert(JSON.stringify(emailArray));
+      });
+  };
+
+  const handleShift = () => {
+    const newLayoutName = layout === "default" ? "shift" : "default";
+    setLayout(newLayoutName);
+  };
+  const onKeyPress = (button: any) => {
+    console.log("Button pressed", button);
+    if (button === "{shift}" || button === "{lock}") handleShift();
+    else if (button === "{bksp}") {
+      setOtp((prevOtp) => prevOtp.slice(0, -1));
+    } else {
+      setOtp((prevOtp) => prevOtp + button);
+    }
+  };
   const [layout, setLayout] = useState("default");
   const [shareEmail, setShareEmail] = React.useState("");
   const [otp, setOtp] = React.useState("");
@@ -57,23 +131,10 @@ export default function Table({ columns, data, linking }) {
     // const url = "
     axios.patch(
       `${process.env.REACT_APP_BACKEND_URL}/documents/self/transfer-ownership/${cellValue}/`,
-      { document_id: cellValue, custom_user: transferEmail},
-      { headers: { Authorization: localStorage.getItem("token")} }
+      { document_id: cellValue, custom_user: transferEmail },
+      { headers: { Authorization: localStorage.getItem("token") } }
     );
   }
-  const handleShift = () => {
-    const newLayoutName = layout === "default" ? "shift" : "default";
-    setLayout(newLayoutName);
-  };
-  const onKeyPress = (button: any) => {
-    console.log("Button pressed", button);
-    if (button === "{shift}" || button === "{lock}") handleShift();
-    else if (button === "{bksp}") {
-      setOtp((prevOtp) => prevOtp.slice(0, -1));
-    } else {
-      setOtp((prevOtp) => prevOtp + button);
-    }
-  };
 
   return (
     <div className="flex w-full flex-col items-center">
@@ -186,13 +247,18 @@ export default function Table({ columns, data, linking }) {
                       );
                     } else if (cell.column.Header === "Verify") {
                       return (
-                        <td className="py-4 px-6">
-                          <a
-                            href={`/validityCheck?sha=${data[i].sha_256}`}
-                            className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                          >
-                            Verify
-                          </a>
+                        <td class="py-4 px-6">
+                          {/* <a href={`/validityCheck?sha=${data[i].sha_256}`} class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Verify</a> */}
+                          {connectedAccount ? (
+                            <button
+                              onClick={() => {
+                                button1handler(data[i].sha_256);
+                              }}
+                              className="cta-button mint-nft-button"
+                            >
+                              Sign File
+                            </button>
+                          ) : null}
                         </td>
                       );
                     } else if (cell.column.Header === "Delete") {
@@ -219,13 +285,16 @@ export default function Table({ columns, data, linking }) {
                       );
                     } else if (cell.column.Header === "Signed By") {
                       return (
-                        <td className="py-4 px-6">
-                          <a
-                            href={`/`}
-                            className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                        <td class="py-4 px-6">
+                          <button
+                            onClick={() => {
+                              button2Handler(data[i].sha_256);
+                            }}
+                            class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                           >
-                            c-signers
-                          </a>
+                            {" "}
+                            See Signers
+                          </button>
                         </td>
                       );
                     } else if (cell.column.Header === "Transfer Ownership") {
