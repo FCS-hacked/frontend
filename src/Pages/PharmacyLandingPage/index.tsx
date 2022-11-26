@@ -131,7 +131,11 @@ export default function Index() {
         }
       }
 
-    });
+    }).catch((err) => {
+      console.log(err);
+      alert(err);
+    }
+    );
   };
 
 
