@@ -97,7 +97,7 @@ export default function Table({  columns, data, linking }) {
                     className="bg-green-100 py-3 text-xs font-bold text-center text-gray-800 uppercase "
                     {...column.getHeaderProps(column.getSortByToggleProps())}
                   >
-                    {(column.Header!=="Verify" && column.Header!=="Delete" && column.Header!=="Share") ? column.render("Header") : ""}
+                    {(column.Header!=="Verify" && column.Header!=="Delete" && column.Header!=="Share" && column.Header!=="Signed By" ) ? column.render("Header") : ""}
                     <div className=" lowercase flex justify-center ">
                       {column.canFilter ? column.render("Filter") : null}
                     </div>
@@ -132,7 +132,7 @@ export default function Table({  columns, data, linking }) {
                   {row.cells.map((cell) => {
                     console.log(cell.column.Header);
                     console.log((row), " is the row");
-                    if(cell.column.Header!=="Verify" && cell.column.Header!=="Shared with" && cell.column.Header!=="Delete" && cell.column.Header!=="Share"){
+                    if(cell.column.Header!=="Verify" && cell.column.Header!=="Shared with" && cell.column.Header!=="Delete" && cell.column.Header!=="Share" && cell.column.Header!=="Signed By"){
                       return (
                         <td
                           className="px-6 py-4 text-sm text-center text-gray-800 whitespace-nowrap"
@@ -168,6 +168,12 @@ export default function Table({  columns, data, linking }) {
                         <td class="py-4 px-6">
                           
                           <a onClick={()=>shareDocument(row.values.id)} class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Share</a>
+                        </td>
+                      )
+                    }else if(cell.column.Header==="Signed By"){
+                      return(
+                        <td class="py-4 px-6">
+                          <a href={`/`} class="font-medium text-blue-600 dark:text-blue-500 hover:underline">c-signers</a>
                         </td>
                       )
                     }

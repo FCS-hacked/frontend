@@ -65,7 +65,7 @@ export default function SignedIn_NavBar() {
   //   })();
   // }, [user]);
   const location = useLocation();
-  return user !== undefined ? (
+  return (user !== undefined) ? (
     <>
       <nav className="w-full bg-[white] shadow large:hidden z-40 fixed">
         <div className="justify-between px-4 mx-auto lg:max-w-7xl md:items-center md:flex md:px-8 z-50">

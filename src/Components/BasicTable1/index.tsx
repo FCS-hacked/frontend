@@ -54,7 +54,10 @@
           },
           {
             Header: "Verify",
-          },
+          },          
+          {
+            Header:"Signed By",
+          }
         ]
       }
     ],
@@ -109,6 +112,9 @@
           },
           {
             Header: "Share",
+          },
+          {
+            Header:"Signed By",
           }
         ]
       }
