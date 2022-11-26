@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import * as jose from "jose";
 import axios from "axios";
-export default function index() {
+export default function AddProduct() {
   let navigate = useNavigate();
   const [user, setUser] = useState(undefined);
   useEffect(() => {

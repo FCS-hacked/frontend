@@ -1,3 +1,4 @@
+//@ts-nocheck
 import axios from 'axios'
 import {useEffect, useState} from 'react'
 import * as jose from 'jose'
@@ -5,6 +6,8 @@ import * as jose from 'jose'
 export default function UserOrders() {
     const [orders, setOrders] = useState([]);
     const [user, setUser] = useState(undefined);
+    const [ins_email, setIns_email] = useState('');
+
     useEffect(() => {
       axios(process.env.REACT_APP_BACKEND_URL + "/products/self/orders/", {headers:{"Authorization": localStorage.getItem("token")}}).then((response) => {
         console.log(response.data);
@@ -82,6 +85,25 @@ export default function UserOrders() {
                             <td className='pr-10'>{
                                 (order.status==='2')?"Paid":((order.status==='1')?"Pending":"Fulfilled")
                             }</td>
+                            <td className='pr-10'>{
+                                <a className="font-medium text-blue-600 dark:text-blue-500 hover:underline" onClick={() => {
+                                    const email = window.prompt("Enter provider's email");
+                                    setIns_email(email);
+                                    axios.post(process.env.REACT_APP_BACKEND_URL + "/products/patients/create-insurance-claim/", {
+                                        provider_email: ins_email,
+                                        order_id: order.id,
+                                    }, {headers:{"Authorization": localStorage.getItem("token")}}).then((response) => {
+                                            console.log(response.data);
+                                        }
+                                    ).catch((error) => {
+                                        console.log(error);
+                                    }
+                                    );
+
+                                }}>Claim Insurance </a>
+                            }
+                            
+                            </td>
                         </tr>
                     ))}
                 </tbody>

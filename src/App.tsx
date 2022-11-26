@@ -22,6 +22,7 @@ import Cart from './Pages/Cart';
 import Settings from './Pages/Settings';
 import UserOrders from './Pages/UserOrders';
 import PharmacyOrders from './Pages/PharmacyOrders';
+import AddProduct from './Pages/AddProduct';
 function App() {
   return (
     <Router>
@@ -43,6 +44,7 @@ function App() {
         <Route path="/settings" element = {<Settings/>}></Route>
         <Route path="/userOrders" element = {<UserOrders/>}></Route>
         <Route path="/pharmacyOrders" element = {<PharmacyOrders/>}></Route>
+        <Route path="/addProduct" element = {<AddProduct/>}></Route>
       </Routes>
     </Router>
   );

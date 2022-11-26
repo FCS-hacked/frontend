@@ -153,27 +153,27 @@ export default function Table({  columns, data, linking }) {
                       )
                     }else if(cell.column.Header==="Verify"){
                       return(
-                        <td class="py-4 px-6">
-                          <a href={`/validityCheck?sha=${data[i].sha_256}`} class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Verify</a>
+                        <td className="py-4 px-6">
+                          <a href={`/validityCheck?sha=${data[i].sha_256}`} className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Verify</a>
                         </td>
                       )
                     }else if(cell.column.Header==="Delete"){
                       return(
-                        <td class="py-4 px-6">
-                          <a onClick={()=>deleteDocument(row.values.id)} class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Delete</a>
+                        <td className="py-4 px-6">
+                          <a onClick={()=>deleteDocument(row.values.id)} className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Delete</a>
                         </td>
                       )
                     }else if(cell.column.Header==="Share"){
                       return(
-                        <td class="py-4 px-6">
+                        <td className="py-4 px-6">
                           
-                          <a onClick={()=>shareDocument(row.values.id)} class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Share</a>
+                          <a onClick={()=>shareDocument(row.values.id)} className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Share</a>
                         </td>
                       )
                     }else if(cell.column.Header==="Signed By"){
                       return(
-                        <td class="py-4 px-6">
-                          <a href={`/`} class="font-medium text-blue-600 dark:text-blue-500 hover:underline">c-signers</a>
+                        <td className="py-4 px-6">
+                          <a href={`/`} className="font-medium text-blue-600 dark:text-blue-500 hover:underline">c-signers</a>
                         </td>
                       )
                     }
