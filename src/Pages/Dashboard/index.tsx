@@ -14,10 +14,13 @@ export default function Dashboard() {
   {
     console.log(url, " is defind");
     (async () => {
-      const result = await axios(url, {headers:{"Authorization": localStorage.getItem("token")}});
-      console.log(result.data[0].custom_user_detailed, " is defind");
-      setData(result.data);
-      setData2(result.data[0].custom_user_detailed);
+       axios(url, {headers:{"Authorization": localStorage.getItem("token")}}).then((response) => {
+        console.log(response);
+        setData(response.data);
+        setData2(response.data[0].custom_user_detailed);
+      }).catch((error) => {
+        console.log(error);
+      });
     })();
   }, [url]); 
   const columns_prof = useMemo(
@@ -186,7 +189,7 @@ export default function Dashboard() {
     }, [setUser]);
 
   return (
-    ((user !== undefined) && (user['type']=='1') &&(user['category']==='1')) ?
+    (user !== undefined) ?
     (
         <div>
             <SignedIn_NavBar/>

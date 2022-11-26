@@ -19,7 +19,8 @@ import PharmacyListing from './Pages/PharmacyListing';
 import PharmacyLandingPage from './Pages/PharmacyLandingPage';
 import Cart from './Pages/Cart';
 import Settings from './Pages/Settings';
-
+import UserOrders from './Pages/UserOrders';
+import PharmacyOrders from './Pages/PharmacyOrders';
 function App() {
   return (
     <Router>
@@ -38,6 +39,8 @@ function App() {
         <Route path='/pharmacyListing' element={<PharmacyListing />}></Route>
         <Route path="/pharmacy" element = {<PharmacyLandingPage/>}></Route>
         <Route path="/settings" element = {<Settings/>}></Route>
+        <Route path="/userOrders" element = {<UserOrders/>}></Route>
+        <Route path="/pharmacyOrders" element = {<PharmacyOrders/>}></Route>
       </Routes>
     </Router>
   );

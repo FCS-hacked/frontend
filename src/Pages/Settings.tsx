@@ -23,7 +23,7 @@ export default function Settings() {
         console.log(event.target.value);
         setUserType(event.target.value);
         if(event.target.value === "true"){
-            axios.patch('http://localhost:8000/authentication/patch-custom-user/', {two_factor_enabled: true}, {headers:{"Authorization": localStorage.getItem("token")}})
+            axios.patch(process.env.REACT_APP_BACKEND_URL + '/authentication/patch-custom-user/', {two_factor_enabled: true}, {headers:{"Authorization": localStorage.getItem("token")}})
             .then((response) => {
                 console.log(response);
                 localStorage.clear();

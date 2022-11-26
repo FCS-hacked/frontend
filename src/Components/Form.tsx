@@ -193,8 +193,9 @@ export default function Form(props) {
           <input type='text' placeholder='Location' value={organisationData.location} className='border-2 border-gray-300 rounded-md p-2 my-2 w-full'
           onChange={(e) => setOrganisationData({ ...organisationData, location: e.target.value})}
           />
+          Type of organization:
           <Dropdown options={organisationOption} onChange={
-            (e) => setIndividualData({ ...organisationData, category: e.value})
+            (e) => setOrganisationData({ ...organisationData, category: e.value})
           } value={organisationData.type} placeholder="Select an option" />
           {/* //Upload a document as a proof of Identity  */}
           <div className=' text-left flex justify-start font-nunitoSemiBold pt-4'>License</div>

@@ -101,7 +101,7 @@ export default function Login() {
     <div>
       <div>
         <NavBar />
-        <div className="flex flex-col items-center justify-center h-[70vh] w-full">
+        <div className="flex flex-col items-center justify-center mt-5 w-full">
           <div className="font-nunitoExtraBold text-2xl">Login</div>
           {/* //create a form */}
           <form

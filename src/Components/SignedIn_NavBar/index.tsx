@@ -180,19 +180,37 @@ export default function SignedIn_NavBar() {
               <Dropdown.Item
                 onClick={() => {
                   // e.preventDefault();
-                  navigate("/dashboard");
+                  if(user!==undefined){
+                    navigate("/dashboard");
+                  }
                 }}
+                
               >
-                {(user!==undefined) ? (user['type'] === "1" && user['category'] === "1" ? "Dashboard" : ""): "User not found"}
+                {(user!==undefined) ?  "Dashboard" : "User not found"}
               </Dropdown.Item>
               <Dropdown.Item
                 onClick={() => {
                   // e.preventDefault();
-                  navigate("/pharmacyListing");
+                  if(user!==undefined && (user['type'] === "1" && user['category'] === "1")){
+                    navigate("/pharmacyListing");
+                  }
                 }}
               >
-                {(user!==undefined) ? (user['type'] === "1" && user['category'] === "1" ? "Pharmacy" : ""): "User not found"}
+                {(user!==undefined) ? ((user['type'] === "1" && user['category'] === "1") ? "Pharmacy" : ""): "User not found"}
               </Dropdown.Item>
+              <Dropdown.Item
+                onClick={() => {
+                  // e.preventDefault();
+                  if(user!==undefined && (user['type'] === "1" && user['category'] === "1")){
+                    navigate("/userOrders");
+                  }else if(user!==undefined && (user['type'] === "2" && user['category'] === "2")){
+                    navigate("/pharmacyOrders");
+                  }
+                }}
+              >
+                {(user!==undefined && ((user['type'] === "2" && user['category'] === "2")||(user!==undefined && (user['type'] === "1" && user['category'] === "1")))) ? "Orders": ""}
+              </Dropdown.Item>
+              
               {/* <Dropdown.Item>Settings</Dropdown.Item> */}
               <Dropdown.Divider />
               <Dropdown.Item
