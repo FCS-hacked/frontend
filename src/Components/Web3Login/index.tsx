@@ -33,7 +33,7 @@ const Login = () => {
     if (connectedAccount) {
       handleMetamaskeLogin();
     }
-  }, [connectedAccount]);
+  }, [connectedAccount, navigate]);
 
 
   async function handlCheck() {
