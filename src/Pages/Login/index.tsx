@@ -68,7 +68,7 @@ export default function Login() {
           console.log(localStorage.getItem("token"));
         })
         .catch(function (error) {
-          console.log(error);
+          console.log(error.message);
         });
     }
     const [user, setUser] = useState(undefined);

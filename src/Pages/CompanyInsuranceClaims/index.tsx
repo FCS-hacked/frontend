@@ -10,8 +10,7 @@ export default function CompanyInsuranceClaims() {
 
   useEffect(() => {
     axios(
-      process.env.REACT_APP_BACKEND_URL +
-        "/products/patients/list-insurance-claims/",
+      process.env.REACT_APP_BACKEND_URL + "/products/patients/list-insurance-claims/",
       { headers: { Authorization: localStorage.getItem("token") } }
     )
       .then((response) => {

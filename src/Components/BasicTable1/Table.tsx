@@ -9,19 +9,13 @@ import { GlobalFilter } from "../GlobalFilter";
 import Keyboard from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
 import { useRef, useState } from "react";
-
-import {useContext } from "react";
-
+import { useContext } from "react";
 import { SignFile, GetFileSigners } from "../context/blockchain";
-
 import { BlockchainContext } from "../context/BlockchainContext";
-
 export default function Table({ columns, data, linking }) {
-  // Use the useTable Hook to send the columns and data to build the table
 
   const [neededArray, setNeededArray] = useState([]);
   const { getProvider, connectedAccount } = useContext(BlockchainContext);
-
   const {
     getTableProps,
     getTableBodyProps,
@@ -39,10 +33,15 @@ export default function Table({ columns, data, linking }) {
     useGlobalFilter,
     useSortBy
   );
-  // const {globalFilter} = state
+  
+  const [layout, setLayout] = useState("default");
+  const [shareEmail, setShareEmail] = React.useState("");
+  const [otp, setOtp] = React.useState("");
+  const [transferEmail, setTransferEmail] = React.useState("");
+  const keyboard = useRef();
+  const { globalFilter } = state;
   function shareDocument(cellValue) {
     console.log(cellValue);
-    // const url = "
     axios.patch(
       `${process.env.REACT_APP_BACKEND_URL}/documents/self/documents/${cellValue}/`,
       { shared_with: [shareEmail] },
@@ -51,7 +50,6 @@ export default function Table({ columns, data, linking }) {
   }
   function deleteDocument(cellValue) {
     console.log(cellValue);
-    // const url = "
     axios.delete(
       `${process.env.REACT_APP_BACKEND_URL}/documents/self/documents/${cellValue}/`,
       { headers: { Authorization: localStorage.getItem("token"), hotp: otp } }
@@ -103,12 +101,6 @@ export default function Table({ columns, data, linking }) {
       setOtp((prevOtp) => prevOtp + button);
     }
   };
-  const [layout, setLayout] = useState("default");
-  const [shareEmail, setShareEmail] = React.useState("");
-  const [otp, setOtp] = React.useState("");
-  const [transferEmail, setTransferEmail] = React.useState("");
-  const keyboard = useRef();
-  const { globalFilter } = state;
   function shareDocument(cellValue) {
     console.log(cellValue);
     // const url = "
