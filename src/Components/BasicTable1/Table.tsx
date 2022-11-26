@@ -10,8 +10,20 @@ import Keyboard from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
 import {useRef, useState} from "react";
 
+import { useEffect, useContext } from 'react';
+import { BigNumber, ethers } from 'ethers';
+
+import {SignFile,
+  GetFileSigners} from "../context/blockchain";
+
+import { BlockchainContext } from "../context/BlockchainContext";
+
 export default function Table({  columns, data, linking }) {
   // Use the useTable Hook to send the columns and data to build the table
+
+  const [neededArray, setNeededArray] = useState([]);
+	const { getProvider, connectedAccount } = useContext(BlockchainContext);
+
   const {
     getTableProps,
     getTableBodyProps,
@@ -37,6 +49,36 @@ export default function Table({  columns, data, linking }) {
     // const url = "
     axios.delete(`${process.env.REACT_APP_BACKEND_URL}/documents/self/documents/${cellValue}/`,{headers:{"Authorization": localStorage.getItem("token"), "hotp":otp}})
   }
+
+  const button1handler = async (mySha) => {
+
+    let m  = BigInt('0x' + mySha).toString();
+
+		const x = await GetFileSigners(getProvider,m);
+		console.log('x', x);
+		if(!x.includes(connectedAccount)){
+			SignFile(getProvider,mySha);
+		}
+		else{
+			alert("You have already signed this file");
+		}
+
+  }
+  const button2Handler = async (mySha) => {
+    let m  = BigInt('0x' + mySha).toString();
+    const x = await GetFileSigners(getProvider,m);
+    axios.post(`${process.env.REACT_APP_BACKEND_URL}/authentication/get-details-from-metamask/`, {'metamask_ids' : x}, 
+    { headers: { "Authorization": localStorage.getItem("token") } })
+    .then(function (response) {
+      console.log(response, " response")
+    })
+
+    setNeededArray(x);
+    alert(x);
+  }
+  console.log("neededArray", neededArray)
+
+
   const handleShift = () => {
     const newLayoutName = (
       (layout === "default") ?
@@ -154,7 +196,12 @@ export default function Table({  columns, data, linking }) {
                     }else if(cell.column.Header==="Verify"){
                       return(
                         <td class="py-4 px-6">
-                          <a href={`/validityCheck?sha=${data[i].sha_256}`} class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Verify</a>
+                          {/* <a href={`/validityCheck?sha=${data[i].sha_256}`} class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Verify</a> */}
+                          {connectedAccount ? (
+                            <button onClick={()=>{button1handler(data[i].sha_256)}} className='cta-button mint-nft-button'>
+                            Sign File
+                          </button>
+                          ) : null}
                         </td>
                       )
                     }else if(cell.column.Header==="Delete"){
@@ -173,7 +220,9 @@ export default function Table({  columns, data, linking }) {
                     }else if(cell.column.Header==="Signed By"){
                       return(
                         <td class="py-4 px-6">
-                          <a href={`/`} class="font-medium text-blue-600 dark:text-blue-500 hover:underline">c-signers</a>
+                          <button onClick={()=> {
+                            button2Handler(data[i].sha_256)
+                          }}  class="font-medium text-blue-600 dark:text-blue-500 hover:underline"> See Signers</button>
                         </td>
                       )
                     }
