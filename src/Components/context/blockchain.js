@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
-import web3 from "web3";
-import { ethers } from "ethers";
+import {ethers} from "ethers";
+import React from "react";
 
 // import ParentContract from "../../artifacts/contracts/ComposableParentERC721.sol/ComposableParentERC721.json";
 // import ChildContract from "../../artifacts/contracts/ComposableChildrenERC1155.sol/ComposableChildrenERC1155.json";
@@ -229,6 +228,12 @@ async function WriteDirectory(getProvider, payload) {
   return txn;
 }
 
+async function ReadDirectory(getProvider, payload) {
+  const [provider, signer, nftContract] =
+  await useGetNecessities(getProvider);
+  return await nftContract.read_directory(payload);
+}
+
 async function GetFileSigners(getProvider, sha){
   const [provider, signer, nftContract] =
   await useGetNecessities(getProvider);
@@ -245,4 +250,5 @@ export {
   SignFile,
   GetFileSigners,
   WriteDirectory,
+  ReadDirectory,
 };
