@@ -57,9 +57,9 @@ const Login = () => {
                 chainName: "Sepolia test network",
                 chainId: web3.utils.toHex(11155111),
                 nativeCurrency: {
-                  name: "MATIC",
+                  name: "SepoliaETH",
                   decimals: 18,
-                  symbol: "MATIC",
+                  symbol: "SepoliaETH",
                 },
                 rpcUrls: ["https://sepolia.infura.io/v3/"],
                 blockExplorerUrls: ["https://sepolia.etherscan.io"],
