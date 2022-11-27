@@ -37,7 +37,6 @@ export default function Table({ columns, data, linking }) {
   const [layout, setLayout] = useState("default");
   const [shareEmail, setShareEmail] = React.useState("");
   const [otp, setOtp] = React.useState("");
-  const [transferEmail, setTransferEmail] = React.useState("");
   const keyboard = useRef();
   const { globalFilter } = state;
   function shareDocument(cellValue) {
@@ -159,14 +158,16 @@ export default function Table({ columns, data, linking }) {
       { headers: { Authorization: localStorage.getItem("token"), hotp: otp } }
     );
   }
-  function transferOwnership(cellValue) {
+  function transferOwnership(cellValue, email) {
     console.log(cellValue);
     // const url = "
     axios.patch(
       `${process.env.REACT_APP_BACKEND_URL}/documents/self/transfer-ownership/${cellValue}/`,
-      { document_id: cellValue, custom_user: transferEmail },
+      { document_id: cellValue, custom_user_email: email },
       { headers: { Authorization: localStorage.getItem("token") } }
-    );
+    ).then(() => {
+        window.location.reload();
+    });
   }
 
   return (
@@ -338,8 +339,7 @@ export default function Table({ columns, data, linking }) {
                               const email = window.prompt(
                                 "Enter transfer user's email"
                               );
-                              setTransferEmail(email);
-                              transferOwnership(row.values.id);
+                              transferOwnership(row.values.id, email);
                             }}
                             className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                           >
