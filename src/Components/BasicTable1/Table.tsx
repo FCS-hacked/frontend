@@ -14,7 +14,6 @@ import { SignFile, GetFileSigners } from "../context/blockchain";
 import { BlockchainContext } from "../context/BlockchainContext";
 export default function Table({ columns, data, linking }) {
 
-  const [neededArray, setNeededArray] = useState([]);
   const { getProvider, connectedAccount } = useContext(BlockchainContext);
   const {
     getTableProps,
@@ -33,28 +32,12 @@ export default function Table({ columns, data, linking }) {
     useGlobalFilter,
     useSortBy
   );
-  
+
   const [layout, setLayout] = useState("default");
   const [shareEmail, setShareEmail] = React.useState("");
   const [otp, setOtp] = React.useState("");
-  const [transferEmail, setTransferEmail] = React.useState("");
   const keyboard = useRef();
   const { globalFilter } = state;
-  function shareDocument(cellValue) {
-    console.log(cellValue);
-    axios.patch(
-      `${process.env.REACT_APP_BACKEND_URL}/documents/self/documents/${cellValue}/`,
-      { shared_with: [shareEmail] },
-      { headers: { Authorization: localStorage.getItem("token"), hotp: otp } }
-    );
-  }
-  function deleteDocument(cellValue) {
-    console.log(cellValue);
-    axios.delete(
-      `${process.env.REACT_APP_BACKEND_URL}/documents/self/documents/${cellValue}/`,
-      { headers: { Authorization: localStorage.getItem("token"), hotp: otp } }
-    );
-  }
 
   const button1handler = async (mySha, docId) => {
     let m = BigInt("0x" + mySha).toString();
@@ -64,40 +47,31 @@ export default function Table({ columns, data, linking }) {
     const x = await GetFileSigners(getProvider, m);
     console.log("xqwe", x);
     if (!x.includes(connectedAccount)) {
+      window.alert("Please wait for ~10 seconds")
       let txn = await SignFile(getProvider, m);
-      
+
       console.log(txn , " txn for sign")
 
 
-      axios.post(process.env.REACT_APP_BACKEND_URL + '/documents/self/check-signature/' +  docId, {
+      axios.post(`${process.env.REACT_APP_BACKEND_URL}/documents/self/check-signature/${docId}/`, {
       }, {headers:{"Authorization": localStorage.getItem("token")}})
       .then(function (response) {
         if(response.status === 201){
             console.log("hello ho gya")
+            window.alert("Document Signed Successfully")
           }
         console.log(response);
       })
       .catch(function (error) {
         console.log(error);
       });
-
-
-
-      
-      
     } else {
-      alert("You have already signed this file");
-      // axios.post(process.env.REACT_APP_BACKEND_URL + '/documents/self/check-signature/' +  docId + '/', {
-      // }, {headers:{"Authorization": localStorage.getItem("token")}})
-      // .then(function (response) {
-      //   if(response.status === 201){
-      //       console.log("hello ho gya")
-      //     }
-      //   console.log(response);
-      // })
-      // .catch(function (error) {
-      //   console.log(error);
-      // });
+      axios.post(`${process.env.REACT_APP_BACKEND_URL}/documents/self/check-signature/${docId}/`, {
+      }, {headers:{"Authorization": localStorage.getItem("token")}})
+      .then(function (response) {
+          alert("You have already signed this file");
+      })
+
     }
   };
   const button2Handler = async (mySha) => {
@@ -116,7 +90,6 @@ export default function Table({ columns, data, linking }) {
         for (let i = 0; i < response.data.length; i++) {
           emailArray.push(response.data[i].email);
         }
-        setNeededArray(emailArray);
         alert(JSON.stringify(emailArray));
       });
   };
@@ -141,7 +114,14 @@ export default function Table({ columns, data, linking }) {
       `${process.env.REACT_APP_BACKEND_URL}/documents/self/documents/${cellValue}/`,
       { shared_with: [shareEmail] },
       { headers: { Authorization: localStorage.getItem("token"), hotp: otp } }
-    );
+    ).then(res => {
+      console.log(res);
+      if(res.status === 200){
+        window.alert("Document Shared Successfully")
+      }
+    }).catch(err => {
+      console.log(err);
+    });
   }
   function deleteDocument(cellValue) {
     console.log(cellValue);
@@ -149,16 +129,20 @@ export default function Table({ columns, data, linking }) {
     axios.delete(
       `${process.env.REACT_APP_BACKEND_URL}/documents/self/documents/${cellValue}/`,
       { headers: { Authorization: localStorage.getItem("token"), hotp: otp } }
-    );
+    ).then(() => {
+        window.location.reload();
+    })
   }
-  function transferOwnership(cellValue) {
+  function transferOwnership(cellValue, email) {
     console.log(cellValue);
     // const url = "
     axios.patch(
       `${process.env.REACT_APP_BACKEND_URL}/documents/self/transfer-ownership/${cellValue}/`,
-      { document_id: cellValue, custom_user: transferEmail },
+      { document_id: cellValue, custom_user_email: email },
       { headers: { Authorization: localStorage.getItem("token") } }
-    );
+    ).then(() => {
+        window.location.reload();
+    });
   }
 
   return (
@@ -277,7 +261,7 @@ export default function Table({ columns, data, linking }) {
                           {connectedAccount ? (
                             <button
                               onClick={() => {
-                                button1handler(data[i].sha_256,row.values.id);
+                                button1handler(row.original.sha_256,row.values.id);
                               }}
                               className="cta-button mint-nft-button"
                             >
@@ -313,7 +297,7 @@ export default function Table({ columns, data, linking }) {
                         <td class="py-4 px-6">
                           <button
                             onClick={() => {
-                              button2Handler(data[i].sha_256);
+                              button2Handler(row.original.sha_256);
                             }}
                             class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                           >
@@ -330,8 +314,7 @@ export default function Table({ columns, data, linking }) {
                               const email = window.prompt(
                                 "Enter transfer user's email"
                               );
-                              setTransferEmail(email);
-                              transferOwnership(row.values.id);
+                              transferOwnership(row.values.id, email);
                             }}
                             className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                           >

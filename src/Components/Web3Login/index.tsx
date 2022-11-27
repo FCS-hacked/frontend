@@ -9,35 +9,38 @@ import {
 } from "../context/BlockchainContext";
 import web3 from "web3";
 import axios from "axios";
+import {WriteDirectory, ReadDirectory} from "../context/blockchain";
 
 const Login = () => {
 
   let navigate = useNavigate();
 
-  const { connectedAccount, connectWallet, disconnect } =
+  const { connectedAccount, connectWallet, disconnect, getProvider } =
   useContext(BlockchainContext);
- 
+
   useEffect(() => {
-    const handleMetamaskeLogin = async () => {
-      axios.patch(process.env.REACT_APP_BACKEND_URL  +"/authentication/patch-custom-user/", { "wallet_address": connectedAccount } ,{headers:{"Authorization": localStorage.getItem("token")}}).then((res) => {
-        if(res.status === 201){
-          alert("Wallet Address Updated Successfully please procced");
-        }
-        navigate("/Profile");
-        console.log(res.data);
-      }).catch((err) => {
-        console.log(err);
-      });
+    const handleMetamaskLogin = async () => {
+      const payload = (await axios.get(
+          `${process.env.REACT_APP_BACKEND_URL}/authentication/get-address-verification-payload/`,
+          {headers:{"Authorization": localStorage.getItem("token")}})).data.payload;
+      if ((await ReadDirectory(getProvider, payload)) !== connectedAccount)
+        await WriteDirectory(getProvider, payload);
+      axios.patch(process.env.REACT_APP_BACKEND_URL + "/authentication/patch-custom-user/",
+          {"fetch_wallet_address": true},
+          {headers: {"Authorization": localStorage.getItem("token")}}).then(() => {
+            navigate("/Profile");
+      })
+      window.alert("Please wait...")
     };
-  
+
     if (connectedAccount) {
-      handleMetamaskeLogin();
+      handleMetamaskLogin();
     }
-  }, [connectedAccount, navigate]);
+  }, [connectedAccount, getProvider, navigate]);
 
 
   async function handlCheck() {
-    let chainId = 80001;
+    let chainId = 11155111;
 
     if (window.ethereum.networkVersion !== chainId) {
       try {
@@ -57,9 +60,9 @@ const Login = () => {
                 chainName: "Sepolia test network",
                 chainId: web3.utils.toHex(11155111),
                 nativeCurrency: {
-                  name: "MATIC",
+                  name: "SepoliaETH",
                   decimals: 18,
-                  symbol: "MATIC",
+                  symbol: "SepoliaETH",
                 },
                 rpcUrls: ["https://sepolia.infura.io/v3/"],
                 blockExplorerUrls: ["https://sepolia.etherscan.io"],
@@ -77,7 +80,7 @@ const Login = () => {
       console.log(connectedAccount, " is the account");
     }
   });
- 
+
   return (
     <>
       <div className="mx-auto flex justify-center mx-5 md:mx-0">
@@ -108,7 +111,7 @@ const Login = () => {
                 </p>
                 <button onClick={() => connectWallet(true)
                 }>
-                  <div> yahan logo aaega</div>
+                  <div> click again please </div>
                 </button>
               </>
             )}
