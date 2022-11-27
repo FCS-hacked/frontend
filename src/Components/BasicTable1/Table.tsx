@@ -33,7 +33,7 @@ export default function Table({ columns, data, linking }) {
     useGlobalFilter,
     useSortBy
   );
-  
+
   const [layout, setLayout] = useState("default");
   const [shareEmail, setShareEmail] = React.useState("");
   const [otp, setOtp] = React.useState("");
@@ -64,16 +64,18 @@ export default function Table({ columns, data, linking }) {
     const x = await GetFileSigners(getProvider, m);
     console.log("xqwe", x);
     if (!x.includes(connectedAccount)) {
+      window.alert("Please wait for ~10 seconds")
       let txn = await SignFile(getProvider, m);
-      
+
       console.log(txn , " txn for sign")
 
 
-      axios.post(process.env.REACT_APP_BACKEND_URL + '/documents/self/check-signature/' +  docId, + "/", {
+      axios.post(`${process.env.REACT_APP_BACKEND_URL}/documents/self/check-signature/${docId}/`, {
       }, {headers:{"Authorization": localStorage.getItem("token")}})
       .then(function (response) {
         if(response.status === 201){
             console.log("hello ho gya")
+            window.alert("Document Signed Successfully")
           }
         console.log(response);
       })
@@ -83,21 +85,15 @@ export default function Table({ columns, data, linking }) {
 
 
 
-      
-      
+
+
     } else {
-      alert("You have already signed this file");
-      // axios.post(process.env.REACT_APP_BACKEND_URL + '/documents/self/check-signature/' +  docId + '/', {
-      // }, {headers:{"Authorization": localStorage.getItem("token")}})
-      // .then(function (response) {
-      //   if(response.status === 201){
-      //       console.log("hello ho gya")
-      //     }
-      //   console.log(response);
-      // })
-      // .catch(function (error) {
-      //   console.log(error);
-      // });
+      axios.post(`${process.env.REACT_APP_BACKEND_URL}/documents/self/check-signature/${docId}/`, {
+      }, {headers:{"Authorization": localStorage.getItem("token")}})
+      .then(function (response) {
+          alert("You have already signed this file");
+      })
+
     }
   };
   const button2Handler = async (mySha) => {
