@@ -150,14 +150,6 @@ export default function Table({ columns, data, linking }) {
       console.log(err);
     });
   }
-  function deleteDocument(cellValue) {
-    console.log(cellValue);
-    // const url = "
-    axios.delete(
-      `${process.env.REACT_APP_BACKEND_URL}/documents/self/documents/${cellValue}/`,
-      { headers: { Authorization: localStorage.getItem("token"), hotp: otp } }
-    );
-  }
   function transferOwnership(cellValue, email) {
     console.log(cellValue);
     // const url = "
