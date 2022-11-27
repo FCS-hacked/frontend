@@ -14,7 +14,7 @@ export default function PharmacyListing() {
   useEffect(() => 
   {
     (async () => {
-      const result = await axios("http://localhost:8000/authentication/organizations/", {headers:{"Authorization": localStorage.getItem("token")}});
+      const result = await axios( process.env.REACT_APP_BACKEND_URL + "/authentication/organizations/", {headers:{"Authorization": localStorage.getItem("token")}});
         setData(result.data);
     })();
   }, []); 

@@ -85,8 +85,8 @@ export default function Index() {
     const url = window.location.href;
     const pharmacyId = url.split('?')[1].split('=')[1];
     setId(pharmacyId);
-    const getOn =  "http://localhost:8000/authentication/organizations/" + pharmacyId + "/";
-    const getProductsOn = "http://localhost:8000/products/products/" + pharmacyId;
+    const getOn =  process.env.REACT_APP_BACKEND_URL+ "/authentication/organizations/" + pharmacyId + "/";
+    const getProductsOn = process.env.REACT_APP_BACKEND_URL +  "/products/products/" + pharmacyId;
     axios.get(getOn, {headers:{"Authorization": localStorage.getItem("token")}}).then((res) => {
       console.log(res);
       setInfo(res.data);
@@ -110,7 +110,7 @@ export default function Index() {
 
   const onOrderHandler = () => {
     console.log(orderDetails);
-    const postOn = "http://localhost:8000/products/patients/create_order/";
+    const postOn =  process.env.REACT_APP_BACKEND_URL + "/products/patients/create_order/";
     axios.post(postOn, {product_quantities : orderDetails, pharmacy_id : id, prescription_id: prescriptionId}, {headers:{"Authorization": localStorage.getItem("token")}}).then((res) => {
       console.log(res, " is the thing");
       if(res.status === 201){
@@ -123,7 +123,7 @@ export default function Index() {
   const onSubmitHandler = (e: any) => {
     e.preventDefault();
     console.log("onSubmitHandler");
-    const postOn = "http://localhost:8000/documents/self/documents/" + prescriptionId + "/";
+    const postOn = process.env.REACT_APP_BACKEND_URL +  "/documents/self/documents/" + prescriptionId + "/";
     axios.get(postOn, {headers:{"Authorization": localStorage.getItem("token")}}).then((res) => {
       console.log(res, " is the thing");
       if(res.status === 200){

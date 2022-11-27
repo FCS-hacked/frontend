@@ -11,7 +11,7 @@ export default function Cart() {
     console.log(orderId, " orderId");
     if(orderId[1] !== undefined){
       setOrderId(orderId[1]);
-      axios.get("http://localhost:8000/products/self/orders/" + orderId[1], {headers:{"Authorization": localStorage.getItem("token")}}).then((res) => {
+      axios.get(process.env.REACT_APP_BACKEND_URL + "/products/self/orders/" + orderId[1], {headers:{"Authorization": localStorage.getItem("token")}}).then((res) => {
         console.log(res.data);
         setOrderDetails(res.data);
       });

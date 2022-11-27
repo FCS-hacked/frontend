@@ -61,7 +61,7 @@ export default function Profile() {
                 console.log(user['type'])
             if(user!==undefined && user['type'] === "1"){
             console.log(user['type'])
-            axios.get("http://localhost:8000/authentication/self/personal-user/", {headers:{"Authorization": localStorage.getItem("token")}}).then((res) => {
+            axios.get( process.env.REACT_APP_BACKEND_URL + "/authentication/self/personal-user/", {headers:{"Authorization": localStorage.getItem("token")}}).then((res) => {
                 console.log(res.data , "response")
                 setUserDetails(res.data)
             }).catch((err) => {
@@ -69,7 +69,7 @@ export default function Profile() {
             })}
             else if(user!==undefined && user['type'] === "2"){
             console.log(user['type'])
-            axios.get("http://localhost:8000/authentication/self/organization/", {headers:{"Authorization": localStorage.getItem("token")}}).then((res) => {
+            axios.get( process.env.REACT_APP_BACKEND_URL + "/authentication/self/organization/", {headers:{"Authorization": localStorage.getItem("token")}}).then((res) => {
                 console.log(res.data , "response")
                 setUserDetails(res.data)
             }).catch((err) => {
