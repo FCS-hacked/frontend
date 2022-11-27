@@ -19,7 +19,7 @@ const Login = () => {
  
   useEffect(() => {
     const handleMetamaskeLogin = async () => {
-      axios.patch("http://localhost:8000/authentication/patch-custom-user/", { "wallet_address": connectedAccount } ,{headers:{"Authorization": localStorage.getItem("token")}}).then((res) => {
+      axios.patch(process.env.REACT_APP_BACKEND_URL  +"/authentication/patch-custom-user/", { "wallet_address": connectedAccount } ,{headers:{"Authorization": localStorage.getItem("token")}}).then((res) => {
         if(res.status === 201){
           alert("Wallet Address Updated Successfully please procced");
         }

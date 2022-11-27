@@ -68,7 +68,7 @@ function App(props: {amount:number, orderId:string, prefills:any}) {
                 
 
                 if(data !== undefined && data.razorpayPaymentId !== undefined){
-                    const res = await axios.patch("http://localhost:8000/products/patients/update_order_payment_id/", params, {headers:{"Authorization": localStorage.getItem("token")}});
+                    const res = await axios.patch(process.env.REACT_APP_BACKEND_URL+"/products/patients/update_order_payment_id/", params, {headers:{"Authorization": localStorage.getItem("token")}});
                     console.log(res.data, "res");
                     if(res.status === 201){
                         alert("Payment Successful");
