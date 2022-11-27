@@ -14,7 +14,6 @@ import { SignFile, GetFileSigners } from "../context/blockchain";
 import { BlockchainContext } from "../context/BlockchainContext";
 export default function Table({ columns, data, linking }) {
 
-  const [neededArray, setNeededArray] = useState([]);
   const { getProvider, connectedAccount } = useContext(BlockchainContext);
   const {
     getTableProps,
@@ -39,26 +38,6 @@ export default function Table({ columns, data, linking }) {
   const [otp, setOtp] = React.useState("");
   const keyboard = useRef();
   const { globalFilter } = state;
-  function shareDocument(cellValue) {
-    console.log(cellValue);
-    axios.patch(
-      `${process.env.REACT_APP_BACKEND_URL}/documents/self/documents/${cellValue}/`,
-      { shared_with: [shareEmail] },
-      { headers: { Authorization: localStorage.getItem("token"), hotp: otp } }
-    );
-  }
-  function deleteDocument(cellValue) {
-    console.log(cellValue);
-    axios.delete(
-      `${process.env.REACT_APP_BACKEND_URL}/documents/self/documents/${cellValue}/`,
-      { headers: { Authorization: localStorage.getItem("token"), hotp: otp } }
-    ).then (res => {
-      console.log(res);
-      window.location.reload();
-    }).catch(err => {
-      console.log(err);
-    });
-  }
 
   const button1handler = async (mySha, docId) => {
     let m = BigInt("0x" + mySha).toString();
@@ -86,11 +65,6 @@ export default function Table({ columns, data, linking }) {
       .catch(function (error) {
         console.log(error);
       });
-
-
-
-
-
     } else {
       axios.post(`${process.env.REACT_APP_BACKEND_URL}/documents/self/check-signature/${docId}/`, {
       }, {headers:{"Authorization": localStorage.getItem("token")}})
@@ -116,7 +90,6 @@ export default function Table({ columns, data, linking }) {
         for (let i = 0; i < response.data.length; i++) {
           emailArray.push(response.data[i].email);
         }
-        setNeededArray(emailArray);
         alert(JSON.stringify(emailArray));
       });
   };
@@ -149,6 +122,16 @@ export default function Table({ columns, data, linking }) {
     }).catch(err => {
       console.log(err);
     });
+  }
+  function deleteDocument(cellValue) {
+    console.log(cellValue);
+    // const url = "
+    axios.delete(
+      `${process.env.REACT_APP_BACKEND_URL}/documents/self/documents/${cellValue}/`,
+      { headers: { Authorization: localStorage.getItem("token"), hotp: otp } }
+    ).then(() => {
+        window.location.reload();
+    })
   }
   function transferOwnership(cellValue, email) {
     console.log(cellValue);
