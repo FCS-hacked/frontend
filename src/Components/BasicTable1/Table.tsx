@@ -277,7 +277,7 @@ export default function Table({ columns, data, linking }) {
                           {connectedAccount ? (
                             <button
                               onClick={() => {
-                                button1handler(data[i].sha_256,row.values.id);
+                                button1handler(data[i].sha_256, row.values.id);
                               }}
                               className="cta-button mint-nft-button"
                             >
