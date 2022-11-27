@@ -69,7 +69,7 @@ export default function Table({ columns, data, linking }) {
       console.log(txn , " txn for sign")
 
 
-      axios.post(process.env.REACT_APP_BACKEND_URL + '/documents/self/check-signature/' +  docId, {
+      axios.post(process.env.REACT_APP_BACKEND_URL + '/documents/self/check-signature/' +  docId, + "/" {
       }, {headers:{"Authorization": localStorage.getItem("token")}})
       .then(function (response) {
         if(response.status === 201){

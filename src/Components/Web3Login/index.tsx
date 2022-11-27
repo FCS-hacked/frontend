@@ -37,7 +37,7 @@ const Login = () => {
 
 
   async function handlCheck() {
-    let chainId = 80001;
+    let chainId = 11155111;
 
     if (window.ethereum.networkVersion !== chainId) {
       try {
