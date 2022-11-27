@@ -4,10 +4,9 @@ import { ethers } from "ethers";
 
 // import ParentContract from "../../artifacts/contracts/ComposableParentERC721.sol/ComposableParentERC721.json";
 // import ChildContract from "../../artifacts/contracts/ComposableChildrenERC1155.sol/ComposableChildrenERC1155.json";
-import { BlockchainContext } from "./BlockchainContext";
 
 
-const contractAddress = "0x3f787a674d0ae25eef49f66bd88b4e736e90d4c9";
+const contractAddress = "0x6b7b35Ef7A7F79db71637245F96A6064c9FA7C51";
 const abi = [
 	{
 		"inputs": [
@@ -45,6 +44,19 @@ const abi = [
 		"inputs": [
 			{
 				"internalType": "uint256",
+				"name": "hash",
+				"type": "uint256"
+			}
+		],
+		"name": "write_directory",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
 				"name": "file",
 				"type": "uint256"
 			},
@@ -60,6 +72,25 @@ const abi = [
 				"internalType": "bool",
 				"name": "result",
 				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "directory",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
 			}
 		],
 		"stateMutability": "view",
@@ -130,6 +161,25 @@ const abi = [
 	{
 		"inputs": [
 			{
+				"internalType": "uint256",
+				"name": "hash",
+				"type": "uint256"
+			}
+		],
+		"name": "read_directory",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "address",
 				"name": "",
 				"type": "address"
@@ -160,131 +210,6 @@ async function useGetNecessities(getProvider) {
   return [provider, signer, nftContract];
 }
 
-// async function BuyNFT(getProvider, connectedAccount) {
-//   const [provider, signer, Parentcontract, Childcontract] =
-//     await useGetNecessities(getProvider);
-//   try {
-//     let mintingTransaction = await Parentcontract.mint({
-//       from: signer.getAddress(),
-//       value: web3.utils.toWei("1"),
-//     });
-//     const mintingconfirmation = await mintingTransaction.wait();
-//     console.log(mintingconfirmation, "mintingconfirmation");
-//     console.log(
-//       parseInt(
-//         BigInt(mintingconfirmation.events[1].args.tokenId._hex).toString(10)
-//       )
-//     );
-//     return true;
-//   } catch (err) {
-//     console.log(err, "error");
-//     alert(err.message);
-//     return false;
-//   }
-//   return false;
-// }
-
-// async function GetEngagementPoints(getProvider, connectedAccount) {
-//   const [provider, signer, Parentcontract, Childcontract] =
-//     await useGetNecessities(getProvider);
-//   try {
-//     let t1 = await Childcontract.mintEngagementPoints(
-//       connectedAccount,
-//       600,
-//       "0x00"
-//     );
-
-//     console.log(t1, "transaction");
-
-//     // need to return true
-//   } catch (err) {
-//     console.log(err, "error");
-//     alert(err.message);
-//     // need to return false
-//   }
-// }
-
-// async function UpgradeNFT(getProvider, connectedAccount, nftId, newlevel) {
-//   const [provider, signer, Parentcontract, Childcontract] =
-//     await useGetNecessities(getProvider);
-//   try {
-//     let t2 = await Childcontract.upgradeSNFT(
-//       nftId,
-//       newlevel,
-//       web3.utils.encodePacked(nftId),
-//       {
-//         from: signer.getAddress(),
-//       }
-//     );
-
-//     const tx2 = await t2.wait();
-//     console.log(tx2, "tx2");
-//   } catch (err) {
-//     console.log(err, "error");
-//     alert(err.message);
-//   }
-//   return false;
-// }
-
-// async function CheckLevel(getProvider, nftId) {
-//   const [provider, signer, Parentcontract, Childcontract] =
-//     await useGetNecessities(getProvider);
-
-//   let level = -1;
-
-//   try {
-//     let count = await Parentcontract.getLevel(nftId, ChildAddress);
-//     level = parseInt(BigInt(count._hex).toString(10));
-//   } catch (err) {
-//     console.log(err, "error");
-//     alert(err.message);
-//   }
-//   return level;
-// }
-
-// async function GetComposableCount(getProvider) {
-//   const [provider, signer, Parentcontract, Childcontract] =
-//     await useGetNecessities(getProvider);
-//   let value = -1;
-//   try {
-//     let count = await Parentcontract.getComposableCount();
-//     value = parseInt(BigInt(count._hex).toString(10));
-//   } catch (err) {
-//     console.log(err, "error");
-//     alert(err.message);
-//   }
-//   return value;
-// }
-
-// async function CheckOwnership(getProvider, connectedAccount) {
-//   const [provider, signer, Parentcontract, Childcontract] =
-//     await useGetNecessities(getProvider);
-
-//   let value = 0;
-//   try {
-//     let t1 = await Parentcontract.getComposableId(connectedAccount);
-//     value = parseInt(BigInt(t1._hex).toString(10));
-//   } catch (err) {
-//     console.log(err, "error");
-//     alert(err.message);
-//   }
-//   return value;
-// }
-
-// async function OwnerOfNFT(getProvider, nftId) {
-//   const [provider, signer, Parentcontract, Childcontract] =
-//     await useGetNecessities(getProvider);
-
-//   try {
-//     let t1 = await Parentcontract.ownerOf(nftId);
-//     console.log(t1, "owner");
-//     return t1;
-//   } catch (err) {
-//     console.log(err, "error");
-//   }
-//   return undefined;
-// }
-
 
 async function SignFile(getProvider, sha) {
   const [provider, signer, nftContract] =
@@ -293,6 +218,15 @@ async function SignFile(getProvider, sha) {
   let nftTxn = await nftContract.sign(sha);
   await nftTxn.wait();
   return nftTxn;
+}
+
+async function WriteDirectory(getProvider, payload) {
+  const [provider, signer, nftContract] =
+  await useGetNecessities(getProvider);
+  const txn = await nftContract.write_directory(payload);
+  window.alert("Transaction pending. Please wait...");
+  await txn.wait();
+  return txn;
 }
 
 async function GetFileSigners(getProvider, sha){
@@ -309,5 +243,6 @@ async function GetFileSigners(getProvider, sha){
 
 export {
   SignFile,
-  GetFileSigners
+  GetFileSigners,
+  WriteDirectory,
 };

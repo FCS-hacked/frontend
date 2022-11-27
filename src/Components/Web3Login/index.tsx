@@ -9,29 +9,34 @@ import {
 } from "../context/BlockchainContext";
 import web3 from "web3";
 import axios from "axios";
+import {WriteDirectory} from "../context/blockchain";
 
 const Login = () => {
 
   let navigate = useNavigate();
 
-  const { connectedAccount, connectWallet, disconnect } =
+  const { connectedAccount, connectWallet, disconnect, getProvider } =
   useContext(BlockchainContext);
 
   useEffect(() => {
-    const handleMetamaskeLogin = async () => {
-      axios.patch(process.env.REACT_APP_BACKEND_URL  +"/authentication/patch-custom-user/", { "wallet_address": connectedAccount } ,{headers:{"Authorization": localStorage.getItem("token")}}).then((res) => {
+    const handleMetamaskLogin = async () => {
+      const payload = (await axios.get(
+          `${process.env.REACT_APP_BACKEND_URL}/authentication/get-address-verification-payload/`,
+          {headers:{"Authorization": localStorage.getItem("token")}})).data.payload;
+      await WriteDirectory(getProvider, payload);
+      axios.patch(process.env.REACT_APP_BACKEND_URL  +"/authentication/patch-custom-user/",
+          { "fetch_wallet_address": true } ,
+          {headers:{"Authorization": localStorage.getItem("token")}}).then((res) => {
         if(res.status === 201){
-          alert("Wallet Address Updated Successfully please procced");
+          alert("Wallet Address Updated Successfully please proceed");
         }
         navigate("/Profile");
         console.log(res.data);
-      }).catch((err) => {
-        console.log(err);
-      });
+      })
     };
 
     if (connectedAccount) {
-      handleMetamaskeLogin();
+      handleMetamaskLogin();
     }
   }, [connectedAccount, navigate]);
 
@@ -108,7 +113,7 @@ const Login = () => {
                 </p>
                 <button onClick={() => connectWallet(true)
                 }>
-                  <div> yahan logo aaega</div>
+                  <div> click again please </div>
                 </button>
               </>
             )}
