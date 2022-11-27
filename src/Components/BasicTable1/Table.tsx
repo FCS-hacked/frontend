@@ -53,7 +53,12 @@ export default function Table({ columns, data, linking }) {
     axios.delete(
       `${process.env.REACT_APP_BACKEND_URL}/documents/self/documents/${cellValue}/`,
       { headers: { Authorization: localStorage.getItem("token"), hotp: otp } }
-    );
+    ).then (res => {
+      console.log(res);
+      window.location.reload();
+    }).catch(err => {
+      console.log(err);
+    });
   }
 
   const button1handler = async (mySha, docId) => {
