@@ -5,6 +5,7 @@ import SignedIn_NavBar from '../../Components/SignedIn_NavBar';
 export default function PharmacyOrders() {
     const [orders, setOrders] = useState([]);
     const [user, setUser] = useState(null);
+    const [fileNumber, setFileNumber] = useState<number>(-1);
     useEffect(() => {
         (async () => {
             const jwt = localStorage.getItem("token")
@@ -36,6 +37,24 @@ export default function PharmacyOrders() {
     }, [])
 
     console.log(user, " is the user")
+
+
+    const updateOrderStatus = (order_id:  number) => {
+        console.log(order_id, fileNumber);
+        axios.patch(process.env.REACT_APP_BACKEND_URL + '/products/pharmacies/mark-order-as-fulfilled/',{ "order_id": order_id, "invoice_id": fileNumber }, {headers:{"Authorization": localStorage.getItem("token")}})
+          .then(function (response) {
+            console.log(response)
+            if(response.status === 201){
+                console.log("yay")
+                alert("updated invoice for order : " + order_id +  " as  " + fileNumber )
+              }
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+
+
+    }
     
   return (
     ((user!==null) && (user['type']==='2')) ? 
@@ -48,11 +67,14 @@ export default function PharmacyOrders() {
                 <thead className='
                 bg-gray-50 border-b border-gray-200 text-left font-nunitoBold text-2xl text-gray-500  tracking-wider'>
                     <tr>
-                        <th className='pr-52'>Order ID</th>
-                        <th className='pr-52'>Product Name</th>
-                        <th className='pr-52'>Quantity</th>
-                        <th className='pr-52'>Price</th>
-                        <th className='pr-52'>Order Status</th>
+                        <th className='pr-22'>Order ID</th>
+                        <th className='pr-22'>Product Name</th>
+                        <th className='pr-22'>Quantity</th>
+                        <th className='pr-22'>Price</th>
+                        <th className='pr-22'>Order Status</th>
+                        <th className='pr-22'>Add Invoice ID</th>
+                        <th className='pr-22'>Document</th>
+                        
                     </tr>
                 </thead>
                 <tbody className='text-xl font-nunitoSemiBold text-center'>
@@ -79,6 +101,34 @@ export default function PharmacyOrders() {
                             <td className='pr-52'>{
                                 (order.status==='2')?"Paid":((order.status==='1')?"Pending":"Fulfilled")
                             }</td>
+                            <td>
+                                {!order.invoice && order.status >=2 ? 
+                                <>
+                                <input 
+                                type="number"
+                                onChange={(e) => {
+                                    if(e.target.value.length !== 0){
+                                        setFileNumber(parseInt(e.target.value))
+                                    }
+                                    else {
+                                        alert("input empty")
+                                    }
+                                }} value={fileNumber}></input>
+                                <button onClick={(e) =>{
+                                    e.preventDefault()
+                                    updateOrderStatus(order.id )
+                                }} > 
+                                    mark fullfilled
+                                </button>  
+                                </>  :  order.invoice ?  <>Already Paid</>:
+                                
+                                <div>order not paid yet </div> 
+                                 } 
+
+                            </td>
+                            <td>
+                                {order.invoice}
+                            </td>
                         </tr>
                     ))}
                 </tbody>

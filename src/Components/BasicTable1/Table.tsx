@@ -56,15 +56,48 @@ export default function Table({ columns, data, linking }) {
     );
   }
 
-  const button1handler = async (mySha) => {
+  const button1handler = async (mySha, docId) => {
     let m = BigInt("0x" + mySha).toString();
 
+    console.log( "xqwe m : ", m)
+
     const x = await GetFileSigners(getProvider, m);
-    console.log("x", x);
+    console.log("xqwe", x);
     if (!x.includes(connectedAccount)) {
-      SignFile(getProvider, mySha);
+      let txn = await SignFile(getProvider, m);
+      
+      console.log(txn , " txn for sign")
+
+
+      axios.post(process.env.REACT_APP_BACKEND_URL + '/documents/self/check-signature/' +  docId, {
+      }, {headers:{"Authorization": localStorage.getItem("token")}})
+      .then(function (response) {
+        if(response.status === 201){
+            console.log("hello ho gya")
+          }
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+
+
+      
+      
     } else {
       alert("You have already signed this file");
+      // axios.post(process.env.REACT_APP_BACKEND_URL + '/documents/self/check-signature/' +  docId + '/', {
+      // }, {headers:{"Authorization": localStorage.getItem("token")}})
+      // .then(function (response) {
+      //   if(response.status === 201){
+      //       console.log("hello ho gya")
+      //     }
+      //   console.log(response);
+      // })
+      // .catch(function (error) {
+      //   console.log(error);
+      // });
     }
   };
   const button2Handler = async (mySha) => {
@@ -244,7 +277,7 @@ export default function Table({ columns, data, linking }) {
                           {connectedAccount ? (
                             <button
                               onClick={() => {
-                                button1handler(data[i].sha_256);
+                                button1handler(data[i].sha_256,row.values.id);
                               }}
                               className="cta-button mint-nft-button"
                             >
