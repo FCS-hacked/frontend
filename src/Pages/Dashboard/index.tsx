@@ -1,5 +1,4 @@
- // @ts-nocheck 
- import React, { useState, useEffect, useMemo } from "react";
+ import { useState, useEffect, useMemo } from "react";
 import SignedIn_NavBar from '../../Components/SignedIn_NavBar'
 import Table from '../../Components/BasicTable1/Table'
  import { ColumnFilter } from '../../Components/ColumnFilter'
@@ -15,10 +14,13 @@ export default function Dashboard() {
   {
     console.log(url, " is defind");
     (async () => {
-      const result = await axios(url, {headers:{"Authorization": localStorage.getItem("token")}});
-      console.log(result.data[0].custom_user_detailed, " is defind");
-      setData(result.data);
-      setData2(result.data[0].custom_user_detailed);
+       axios(url, {headers:{"Authorization": localStorage.getItem("token")}}).then((response) => {
+        console.log(response);
+        setData(response.data);
+        setData2(response.data[0].custom_user_detailed);
+      }).catch((error) => {
+        console.log(error);
+      });
     })();
   }, [url]); 
   const columns_prof = useMemo(
@@ -149,7 +151,10 @@ export default function Dashboard() {
     []
   );
 
-    const handleChange = event => {
+    const handleChange = (
+      event: React.ChangeEvent<{ value: string }>
+      
+      ) => {
         console.log(event.target.value);
         if(event.target.value === 'Professional'){
             setUrl(process.env.REACT_APP_BACKEND_URL + '/authentication/professionals/');
@@ -170,10 +175,12 @@ export default function Dashboard() {
             -----END PUBLIC KEY-----`
             const ecPublicKey = await jose.importSPKI(spki, algorithm)
             // console.log(ecPublicKey)
-            const { payload, protectedHeader } = await jose.compactVerify(jwt, ecPublicKey)
-            // console.log(protectedHeader)
-            // console.log(new TextDecoder().decode(payload))
-            setUser(JSON.parse(new TextDecoder().decode(payload)));
+            if(jwt!=null){
+              const { payload, protectedHeader } = await jose.compactVerify(jwt, ecPublicKey)
+              setUser(JSON.parse(new TextDecoder().decode(payload)));
+          }else{
+              window.location.href = "/login";
+          }
             // if(user.)
             // const decoded = await jose.jwtDecrypt(jwt, ecPublicKey)
             // console.log(protectedHeader)
@@ -182,7 +189,7 @@ export default function Dashboard() {
     }, [setUser]);
 
   return (
-    ((user !== undefined) && (user.type=='1') &&(user.category==='1')) ?
+    (user !== undefined) ?
     (
         <div>
             <SignedIn_NavBar/>
@@ -205,7 +212,7 @@ export default function Dashboard() {
                 </div>
             </div>
             <div className="w-full">
-                <Table columns={(userType==='Professional') ? columns_prof : columns_orgs} data={data} />
+                <Table columns={(userType==='Professional') ? columns_prof : columns_orgs} data={data} linking={false} />
             </div>
         </div>
   ) : null)

@@ -1,8 +1,5 @@
-import React from 'react'
 import SignedIn_NavBar from '../../Components/SignedIn_NavBar';
 import BasicTable1 from '../../Components/BasicTable1';
-import axios from 'axios';
-import UploadFiles from '../../Components/UploadFile';
 
 export default function SharedDocuments() {
   return (
@@ -17,6 +14,7 @@ export default function SharedDocuments() {
         >Upload</button> */}
         <BasicTable1
           url={process.env.REACT_APP_BACKEND_URL + "/documents/documents-shared/"}
+          shared={true}
         />
       </div>
     </div>

@@ -2,7 +2,7 @@
 import React from "react";
  import axios from "axios";
 
-function App() {
+function App(props: {amount:number, orderId:string, prefills:any}) {
     function loadScript(src) {
         return new Promise((resolve) => {
             const script = document.createElement("script");
@@ -21,6 +21,10 @@ function App() {
         const res = await loadScript(
             "https://checkout.razorpay.com/v1/checkout.js"
         );
+        if(res){
+            console.log(res, " woahh");
+
+        }
 
         if (!res) {
             alert("Razorpay SDK failed to load. Are you online?");
@@ -35,30 +39,46 @@ function App() {
         // }
 
         // const { amount, id: order_id, currency } = result.data;
-        const { amount, id, currency } =  {
-            amount: 50000,
-            id: "order_DBJOWzybf0sJbb",
+        const { amount, currency } =  {
+            amount: props.amount,
+            // id: props.orderId,
             currency: "INR",
         };
 
 
-
         const options = {
-            key: "rzp_test_SM4De8Jvox2SV0", // Enter the Key ID generated from the Dashboard
-            amount: amount.toString(),
+            key: "rzp_test_lIBdvX0gfiR05C", // Enter the Key ID generated from the Dashboard
+            amount: amount.toString() + "00",
             currency: currency,
             name: "FCS_Hacked",
             description: "Test Transaction",
             // order_id: id,
             handler: async function (response : any) {
                 const data = {
-                    orderCreationId: order_id,
+                    // orderCreationId: order_id,
                     razorpayPaymentId: response.razorpay_payment_id,
                     razorpayOrderId: response.razorpay_order_id,
                     razorpaySignature: response.razorpay_signature,
                 };
 
                 console.log(data, "data");
+
+                const params = 
+                    { "payment_id": data.razorpayPaymentId, "order_id": props.orderId  }
+                
+
+                if(data !== undefined && data.razorpayPaymentId !== undefined){
+                    const res = await axios.patch("http://localhost:8000/products/patients/update_order_payment_id/", params, {headers:{"Authorization": localStorage.getItem("token")}});
+                    console.log(res.data, "res");
+                    if(res.status === 201){
+                        alert("Payment Successful");
+                        window.location.href = "/";
+                    }
+                    else {
+                        alert("Payment Failed");
+                    }
+                }
+
 
                 // const result = await axios.post("http://localhost:3000/", data);
 

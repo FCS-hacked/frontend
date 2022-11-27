@@ -1,8 +1,6 @@
- // @ts-nocheck 
-import React from 'react'
-
-export const ColumnFilter = ({column}) => {
-    const {filterValue, setFilter} = column
+ export const ColumnFilter = (props : {column:any}) => {
+  console.log(props.column, "is column");
+    const {filterValue, setFilter} = props.column
   return (
     <div className="mb-1 bg-green-100 dark:bg-gray-900">
         <label htmlFor="table-search" className="sr-only">Search</label>
