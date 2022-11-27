@@ -4,16 +4,12 @@ import Home from './Pages/Home';
 import Login from './Pages/Login';
 import Web3Login from './Components/Web3Login';
 import SignUp from './Pages/SignUp';
-import logo from './logo.svg';
 import Information from './Pages/Information';
 import Profile from './Pages/Profile';
 import DisplayMyDocuments from './Pages/DisplayMyDocuments';
 import DisplaySharedDocuments from './Pages/DisplaySharedDocuments';
 import ShareDocuments from './Pages/ShareDocuments';
-import ValidityCheck from './Components/ValidityCheck';
-// import Orders from './Pages/Orders';
 
-import BasicTable from './Components/BasicTable1';
 import Dashboard from './Pages/Dashboard';
 import './App.css';
 import PharmacyListing from './Pages/PharmacyListing';
