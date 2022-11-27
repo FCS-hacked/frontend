@@ -14,7 +14,6 @@ import { SignFile, GetFileSigners } from "../context/blockchain";
 import { BlockchainContext } from "../context/BlockchainContext";
 export default function Table({ columns, data, linking }) {
 
-  const [neededArray, setNeededArray] = useState([]);
   const { getProvider, connectedAccount } = useContext(BlockchainContext);
   const {
     getTableProps,
@@ -91,7 +90,6 @@ export default function Table({ columns, data, linking }) {
         for (let i = 0; i < response.data.length; i++) {
           emailArray.push(response.data[i].email);
         }
-        setNeededArray(emailArray);
         alert(JSON.stringify(emailArray));
       });
   };
