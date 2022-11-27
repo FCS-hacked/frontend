@@ -16,7 +16,7 @@ const Login = () => {
 
   const { connectedAccount, connectWallet, disconnect } =
   useContext(BlockchainContext);
- 
+
   useEffect(() => {
     const handleMetamaskeLogin = async () => {
       axios.patch(process.env.REACT_APP_BACKEND_URL  +"/authentication/patch-custom-user/", { "wallet_address": connectedAccount } ,{headers:{"Authorization": localStorage.getItem("token")}}).then((res) => {
@@ -29,7 +29,7 @@ const Login = () => {
         console.log(err);
       });
     };
-  
+
     if (connectedAccount) {
       handleMetamaskeLogin();
     }
@@ -77,7 +77,7 @@ const Login = () => {
       console.log(connectedAccount, " is the account");
     }
   });
- 
+
   return (
     <>
       <div className="mx-auto flex justify-center mx-5 md:mx-0">
