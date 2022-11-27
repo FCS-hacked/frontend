@@ -142,7 +142,14 @@ export default function Table({ columns, data, linking }) {
       `${process.env.REACT_APP_BACKEND_URL}/documents/self/documents/${cellValue}/`,
       { shared_with: [shareEmail] },
       { headers: { Authorization: localStorage.getItem("token"), hotp: otp } }
-    );
+    ).then(res => {
+      console.log(res);
+      if(res.status === 200){
+        window.alert("Document Shared Successfully")
+      }
+    }).catch(err => {
+      console.log(err);
+    });
   }
   function deleteDocument(cellValue) {
     console.log(cellValue);
