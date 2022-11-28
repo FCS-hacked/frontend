@@ -8,6 +8,7 @@ interface UserTypeProps {
     ft: string;
 }
 interface UserResponseDataProps{
+    id: string;
     date_of_birth: string;
     email: string;
     address: string;
@@ -35,8 +36,10 @@ export default function Profile() {
     const [addressUpdate , setAddressUpdate] = useState<any>('');
 
     const onUserSubmit = (formData : any) => {
-        let id = user !== undefined ? user['id'] : -1
-        let postURL = formData === 1 ? `/authentication/self/personal-user/${id}/` : `/authentication/self/organization/${id}/` ; 
+        console.log(userDetails, " user details");
+        let id = (userDetails !== null) ? userDetails[0].id : -1
+        let postURL = process.env.REACT_APP_BACKEND_URL +((formData === '1') ? `/authentication/self/personal-user/${id}/` : `/authentication/self/organization/${id}/` ); 
+        console.log(formData, " is formData");
         let params = {address : addressUpdate}
         let headers = {headers:{"Authorization": localStorage.getItem("token")}}
         axios.patch(postURL,params,headers).then((res) => {
@@ -80,7 +83,7 @@ export default function Profile() {
             if(user!==undefined && user['type'] === "1"){
             console.log(user['type'])
             axios.get( process.env.REACT_APP_BACKEND_URL + "/authentication/self/personal-user/", {headers:{"Authorization": localStorage.getItem("token")}}).then((res) => {
-                console.log(res.data , "response")
+                console.log(res.data[0].id , "response")
                 setUserDetails(res.data)
             }).catch((err) => {
                 console.log(err)
