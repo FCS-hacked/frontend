@@ -1,12 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { Dropdown } from "flowbite-react";
 import * as jose from "jose";
 import { Avatar } from "flowbite-react/lib/esm/components";
 import { useNavigate } from "react-router-dom";
-
+import { BlockchainContext } from "../../Components/context/BlockchainContext";
 export default function SignedIn_NavBar() {
+
+  const { disconnect } = useContext(BlockchainContext);
   const [navbar, setNavbar] = useState(false);
   let navigate = useNavigate();
   const [user, setUser] = useState(undefined);
@@ -289,6 +291,7 @@ export default function SignedIn_NavBar() {
               <Dropdown.Item
                 onClick={() => {
                   localStorage.clear();
+                  disconnect();
                   window.location.reload();
                   navigate("/");
                 }}

@@ -45,7 +45,7 @@ export default function Form(props) {
     email: "",
     password1: "",
     password2: "",
-    first_name: "Fcs",
+    first_name: "",
     address: "",
     last_name: "",
     category: "",
