@@ -12,10 +12,12 @@ const Login = () => {
 
   let navigate = useNavigate();
 
-  const { connectedAccount, connectWallet, disconnect, getProvider } =
+  const { connectedAccount, connectWallet, getProvider } =
   useContext(BlockchainContext);
 
-  useEffect(() => {
+  console.log('aksudfjasgf', connectedAccount);
+
+  const initiate_connection = async () => {
     const handleMetamaskLogin = async () => {
       const {payload, unix_timestamp} = (await axios.get(
           `${process.env.REACT_APP_BACKEND_URL}/authentication/get-address-verification-payload/`,
@@ -27,16 +29,16 @@ const Login = () => {
           {headers: {"Authorization": localStorage.getItem("token")}}).then(() => {
             navigate("/Profile");
       })
-      window.alert("Please wait...")
+      window.alert("Almost done...")
     };
 
     if (connectedAccount) {
-      handleMetamaskLogin();
+      await handleMetamaskLogin();
     }
-  }, [connectedAccount, getProvider, navigate]);
+  };
 
 
-  async function handlCheck() {
+  async function handleCheck() {
     let chainId = 11155111;
 
     if (window.ethereum.networkVersion !== chainId) {
@@ -72,7 +74,7 @@ const Login = () => {
   }
 
   useEffect(() => {
-    handlCheck();
+    handleCheck();
     if (connectedAccount) {
       console.log(connectedAccount, " is the account");
     }
@@ -90,25 +92,27 @@ const Login = () => {
         </div>
         <div className="flex justify-center">
           <div className="flex flex-col justify-center text-xl space-y-5 md:-mt-24 mb-10 border border-OurBlue rounded-lg p-3 hover:cursor-pointer">
-            {connectedAccount ? (
-              <>
-                <p className="text-OurBlue text-center  hover:cursor-pointer">
-                  Disconnect from &nbsp;
-                  <span className="text-[#f8911e]">{connectedAccount}</span>
-                </p>
-                <button onClick={() => disconnect()}>
-                  <div> click please</div>
-                </button>
-              </>
-            ) : (
+            {!connectedAccount ? (
               <>
                 <p className="text-OurBlue text-center">
                   Log in with your{" "}
                   <span className="text-[#f8911e]">Metamask</span>
                 </p>
-                <button onClick={() => connectWallet(true)
+                <button onClick={() =>connectWallet(true)}>
+                  <div> Click here to initiate connect </div>
+                </button>
+              </>
+            ) : (
+              <>
+                <p className="text-OurBlue text-center  hover:cursor-pointer">
+                  Connecting to &nbsp;
+                  <span className="text-[#f8911e]">{connectedAccount}</span>
+                </p>
+                <button onClick={async () => {
+                  await initiate_connection()
+                }
                 }>
-                  <div> click again please </div>
+                  <div> Click here to finalize connection </div>
                 </button>
               </>
             )}
