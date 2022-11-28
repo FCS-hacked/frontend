@@ -88,7 +88,7 @@ export default function Index() {
     const getOn =  process.env.REACT_APP_BACKEND_URL+ "/authentication/organizations/" + pharmacyId + "/";
     const getProductsOn = process.env.REACT_APP_BACKEND_URL +  "/products/products/" + pharmacyId;
     axios.get(getOn, {headers:{"Authorization": localStorage.getItem("token")}}).then((res) => {
-      console.log(res);
+      console.log(res, "is res");
       setInfo(res.data);
     }).catch((err) => {
       console.log(err);
@@ -152,6 +152,7 @@ export default function Index() {
     <div>
       <SignedIn_NavBar/>
       <div id="pharmacy-details-section">
+        <img src={info?.images}/>
         <div className="font-nunitoBold text-4xl pt-64 pl-10">
           {info?.custom_user_detailed?.first_name} {info?.custom_user_detailed?.last_name}
         </div>

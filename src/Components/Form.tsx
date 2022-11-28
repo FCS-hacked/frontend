@@ -67,6 +67,7 @@ export default function Form(props) {
     secondPassword: individualData.password2,
     requiredLength: 8,
   });
+  console.log(selectedFile, "is selected file");
   const [
     validLength2,
     hasNumber2,
@@ -80,9 +81,11 @@ export default function Form(props) {
     requiredLength: 8,
   });
   const changeHandler = (event) => {
+    console.log(event.target.files[0], "is event target files");
     setSelectedFile(event.target.files[0]);
   };
   const changeHandler2 = (event) => {
+    console.log(event.target.files[0], "is selected file2");
     setSelectedFile2(event.target.files[0]);
   };
 
@@ -150,7 +153,7 @@ export default function Form(props) {
       axios
         .post(
           process.env.REACT_APP_BACKEND_URL +
-            "/unauth/register-as-organisation/",
+            "/unauth/register-as-organization/",
           {
             username: organisationData.email,
             password1: organisationData.password1,
@@ -159,8 +162,8 @@ export default function Form(props) {
             first_name: organisationData.first_name,
             last_name: organisationData.last_name,
             category: organisationData.category,
-            licenses: organisationData.licenses,
-            permits: organisationData.permits,
+            licenses: selectedFile,
+            permits: selectedFile2,
             images: organisationData.images,
             location: organisationData.location,
             description: organisationData.description,
