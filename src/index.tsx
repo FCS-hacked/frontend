@@ -14,7 +14,7 @@ axios.interceptors.request.use(
      return req;
   },
   (err) => {
-    if(err.response.status === 401 || err.response.status === 403) {
+    if(err.response.status === 401) {
       localStorage.clear();
       alert("You have been logged out, Please log back in")
       window.location.href = '/';
@@ -33,7 +33,7 @@ axios.interceptors.response.use(
      return res;
   },
   (err) => {
-    if(err.response.status === 401 || err.response.status === 403) {
+    if(err.response.status === 401) {
       localStorage.clear();
       alert("You have been logged out, Please log back in")
       window.location.href = '/';
@@ -50,7 +50,7 @@ root.render(
       <BlockchainProvider>
       <App />
       </BlockchainProvider>
-  
+
   </React.StrictMode>
 );
 
