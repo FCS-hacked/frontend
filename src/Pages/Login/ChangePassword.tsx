@@ -4,6 +4,7 @@ import * as jose from "jose";
 import { useNavigate } from "react-router-dom";
 import { usePasswordValidation } from "../../Components/usePasswordValidation";
 import axios from "axios";
+import SignedIn_NavBar from "../../Components/SignedIn_NavBar";
 
 export default function ForgotPassword() {
   let navigate = useNavigate();
@@ -49,103 +50,112 @@ export default function ForgotPassword() {
     })();
   }, [setUser]);
   return (
-    <div className="text-xl font-nunitoBold p-10 pt-20">
-      {/* create a basic forgot password page */}
-      <h1>Reset Password</h1>
-      <input
-        type="password"
-        placeholder="New Password"
-        value={data.password1}
-        className="border-2 border-gray-300 rounded-md p-2 my-2 w-full"
-        onChange={(e) => {
-          e.preventDefault();
-          setData({
-            ...data,
-            password1: e.target.value,
-          });
-        }}
-      />
-      <ul>
-        <li>
-          Valid Length: {validLength1 ? <span>True</span> : <span>False</span>}
-        </li>
-        <li>
-          Has a Number: {hasNumber1 ? <span>True</span> : <span>False</span>}
-        </li>
-        <li>
-          upperCase: {upperCase1 ? <span>True</span> : <span>False</span>}
-        </li>
-        <li>
-          lowerCase: {lowerCase1 ? <span>True</span> : <span>False</span>}
-        </li>
-        <li>
-          Special Character:{" "}
-          {specialChar1 ? <span>True</span> : <span>False</span>}
-        </li>
-      </ul>
-      <input
-        type="password"
-        placeholder="Confirm New Password"
-        value={data.password2}
-        className="border-2 border-gray-300 rounded-md p-2 my-2 w-full"
-        onChange={(e) => {
-          e.preventDefault();
-
-          setData({
-            ...data,
-            password2: e.target.value,
-          });
-        }}
-      />
-      <ul>
-        <li>match: {match1 ? <span>True</span> : <span>False</span>}</li>
-      </ul>
-      <input
-        type="password"
-        placeholder="Old Password"
-        value={data.old_password}
-        className="mt-10 border-2 border-gray-300 rounded-md p-2 my-2 w-full"
-        onChange={(e) => {
-          e.preventDefault();
-          setData({
-            ...data,
-            old_password: e.target.value,
-          });
-        }}
-      />
-      <button
-        className="bg-blue-500 text-white rounded-md p-2 my-2 w-40"
-        onClick={(e) => {
-          e.preventDefault();
-          if (
-            validLength1 &&
-            hasNumber1 &&
-            upperCase1 &&
-            lowerCase1 &&
-            specialChar1 &&
-            match1
-          ) {
-            axios.post(
-              process.env.REACT_APP_BACKEND_URL+"/unauth/change-password/",
-              data,
-              {
-                headers:{"Authorization": localStorage.getItem("token")}
-              }
-            ).then((res) => {
-              console.log(res);
-              if (res.status === 200) {
-                alert("Password Changed Successfully");
-                navigate("/login");
-              }
-            }).catch((err) => {
-              console.log(err);
+    <div>
+      <SignedIn_NavBar/>
+      <div className="text-xl font-nunitoBold p-10 pt-20">
+        {/* create a basic forgot password page */}
+        <h1>Reset Password</h1>
+        <input
+          type="password"
+          placeholder="New Password"
+          value={data.password1}
+          className="border-2 border-gray-300 rounded-md p-2 my-2 w-full"
+          onChange={(e) => {
+            e.preventDefault();
+            setData({
+              ...data,
+              password1: e.target.value,
             });
-          } else {
-            alert("Please enter valid password");
-          }
-        }}
-      >Submit</button>
+          }}
+        />
+        <ul>
+          <li>
+            Valid Length:{" "}
+            {validLength1 ? <span>True</span> : <span>False</span>}
+          </li>
+          <li>
+            Has a Number: {hasNumber1 ? <span>True</span> : <span>False</span>}
+          </li>
+          <li>
+            upperCase: {upperCase1 ? <span>True</span> : <span>False</span>}
+          </li>
+          <li>
+            lowerCase: {lowerCase1 ? <span>True</span> : <span>False</span>}
+          </li>
+          <li>
+            Special Character:{" "}
+            {specialChar1 ? <span>True</span> : <span>False</span>}
+          </li>
+        </ul>
+        <input
+          type="password"
+          placeholder="Confirm New Password"
+          value={data.password2}
+          className="border-2 border-gray-300 rounded-md p-2 my-2 w-full"
+          onChange={(e) => {
+            e.preventDefault();
 
+            setData({
+              ...data,
+              password2: e.target.value,
+            });
+          }}
+        />
+        <ul>
+          <li>match: {match1 ? <span>True</span> : <span>False</span>}</li>
+        </ul>
+        <input
+          type="password"
+          placeholder="Old Password"
+          value={data.old_password}
+          className="mt-10 border-2 border-gray-300 rounded-md p-2 my-2 w-full"
+          onChange={(e) => {
+            e.preventDefault();
+            setData({
+              ...data,
+              old_password: e.target.value,
+            });
+          }}
+        />
+        <button
+          className="bg-blue-500 text-white rounded-md p-2 my-2 w-40"
+          onClick={(e) => {
+            e.preventDefault();
+            if (
+              validLength1 &&
+              hasNumber1 &&
+              upperCase1 &&
+              lowerCase1 &&
+              specialChar1 &&
+              match1
+            ) {
+              axios
+                .patch(
+                  process.env.REACT_APP_BACKEND_URL +
+                    "/unauth/change-password/",
+                  data,
+                  {
+                    headers: { Authorization: localStorage.getItem("token") },
+                  }
+                )
+                .then((res) => {
+                  console.log(res);
+                  if (res.status === 201) {
+                    alert("Password Changed Successfully");
+                    navigate("/login");
+                  }
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
+            } else {
+              alert("Please enter valid password");
+            }
+          }}
+        >
+          Submit
+        </button>
+      </div>
     </div>
   );
 }
