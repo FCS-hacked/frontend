@@ -158,7 +158,6 @@ export default function Form(props) {
             email: organisationData.email,
             first_name: organisationData.first_name,
             last_name: organisationData.last_name,
-            address: organisationData.address,
             category: organisationData.category,
             licenses: organisationData.licenses,
             permits: organisationData.permits,
@@ -377,18 +376,6 @@ export default function Form(props) {
             setOrganisationData({
               ...organisationData,
               last_name: e.target.value,
-            })
-          }
-        />
-        <input
-          type="text"
-          placeholder="Address"
-          value={organisationData.address}
-          className="border-2 border-gray-300 rounded-md p-2 my-2 w-full"
-          onChange={(e) =>
-            setOrganisationData({
-              ...organisationData,
-              address: e.target.value,
             })
           }
         />
