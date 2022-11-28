@@ -1,3 +1,4 @@
+//@ts-nocheck
 import React from 'react'
 import NavBar from '../../Components/Generic_Navbar'
 import axios from 'axios';
@@ -6,6 +7,7 @@ import { useState, useEffect, useRef } from 'react';
 import * as jose from "jose";
 import Keyboard from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
+import ForgotPassword from './ChangePassword';
 
 export default function Login() {
   
@@ -151,13 +153,6 @@ export default function Login() {
               Submit
             </button>
           </form>
-          <div className="flex flex-col items-center justify-center w-[300px]">
-            <div className="font-nunitoSemiBold text-sm" onClick={
-              ()=>{
-                navigate("/register")
-              }
-            }>Forgot Password?</div>            
-          </div>
         </div>
       </div>
     </div>
