@@ -5,7 +5,7 @@ import { Dropdown } from "flowbite-react";
 import * as jose from "jose";
 import { Avatar } from "flowbite-react/lib/esm/components";
 import { useNavigate } from "react-router-dom";
-
+import { disconnect } from "../../Components/context/BlockchainContext";
 export default function SignedIn_NavBar() {
   const [navbar, setNavbar] = useState(false);
   let navigate = useNavigate();
@@ -289,6 +289,7 @@ export default function SignedIn_NavBar() {
               <Dropdown.Item
                 onClick={() => {
                   localStorage.clear();
+                  disconnect();
                   window.location.reload();
                   navigate("/");
                 }}
