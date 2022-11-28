@@ -13,7 +13,6 @@ import { useContext } from "react";
 import { SignFile, GetFileSigners } from "../context/blockchain";
 import { BlockchainContext } from "../context/BlockchainContext";
 export default function Table({ columns, data, linking }) {
-
   const { getProvider, connectedAccount } = useContext(BlockchainContext);
   const {
     getTableProps,
@@ -39,42 +38,48 @@ export default function Table({ columns, data, linking }) {
   const keyboard = useRef();
   const { globalFilter } = state;
 
-  const button1handler = async (mySha, docId) => {
+  const signFileButtonHandler = async (mySha, docId) => {
     let m = BigInt("0x" + mySha).toString();
 
-    console.log( "xqwe m : ", m)
+    console.log("xqwe m : ", m);
 
     const x = await GetFileSigners(getProvider, m);
     console.log("xqwe", x);
     if (!x.includes(connectedAccount)) {
-      window.alert("Please wait for ~10 seconds")
+      window.alert("Please wait for ~10 seconds");
       let txn = await SignFile(getProvider, m);
 
-      console.log(txn , " txn for sign")
+      console.log(txn, " txn for sign");
 
-
-      axios.post(`${process.env.REACT_APP_BACKEND_URL}/documents/self/check-signature/${docId}/`, {
-      }, {headers:{"Authorization": localStorage.getItem("token")}})
-      .then(function (response) {
-        if(response.status === 201){
-            console.log("hello ho gya")
-            window.alert("Document Signed Successfully")
+      axios
+        .post(
+          `${process.env.REACT_APP_BACKEND_URL}/documents/self/check-signature/${docId}/`,
+          {},
+          { headers: { Authorization: localStorage.getItem("token") } }
+        )
+        .then(function (response) {
+          if (response.status === 201) {
+            console.log("hello ho gya");
+            window.alert("Document Signed Successfully");
           }
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     } else {
-      axios.post(`${process.env.REACT_APP_BACKEND_URL}/documents/self/check-signature/${docId}/`, {
-      }, {headers:{"Authorization": localStorage.getItem("token")}})
-      .then(function (response) {
+      axios
+        .post(
+          `${process.env.REACT_APP_BACKEND_URL}/documents/self/check-signature/${docId}/`,
+          {},
+          { headers: { Authorization: localStorage.getItem("token") } }
+        )
+        .then(function (response) {
           alert("You have already signed this file");
-      })
-
+        });
     }
   };
-  const button2Handler = async (mySha) => {
+  const seeSignersButtonHandler = async (mySha) => {
     let m = BigInt("0x" + mySha).toString();
     const x = await GetFileSigners(getProvider, m);
     axios
@@ -110,39 +115,46 @@ export default function Table({ columns, data, linking }) {
   function shareDocument(cellValue) {
     console.log(cellValue);
     // const url = "
-    axios.patch(
-      `${process.env.REACT_APP_BACKEND_URL}/documents/self/documents/${cellValue}/`,
-      { shared_with: [shareEmail] },
-      { headers: { Authorization: localStorage.getItem("token"), hotp: otp } }
-    ).then(res => {
-      console.log(res);
-      if(res.status === 200){
-        window.alert("Document Shared Successfully")
-      }
-    }).catch(err => {
-      console.log(err);
-    });
+    axios
+      .patch(
+        `${process.env.REACT_APP_BACKEND_URL}/documents/self/documents/${cellValue}/`,
+        { shared_with: [shareEmail] },
+        { headers: { Authorization: localStorage.getItem("token"), hotp: otp } }
+      )
+      .then((res) => {
+        console.log(res);
+        if (res.status === 200) {
+          window.alert("Document Shared Successfully");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
   function deleteDocument(cellValue) {
     console.log(cellValue);
     // const url = "
-    axios.delete(
-      `${process.env.REACT_APP_BACKEND_URL}/documents/self/documents/${cellValue}/`,
-      { headers: { Authorization: localStorage.getItem("token"), hotp: otp } }
-    ).then(() => {
+    axios
+      .delete(
+        `${process.env.REACT_APP_BACKEND_URL}/documents/self/documents/${cellValue}/`,
+        { headers: { Authorization: localStorage.getItem("token"), hotp: otp } }
+      )
+      .then(() => {
         window.location.reload();
-    })
+      });
   }
   function transferOwnership(cellValue, email) {
     console.log(cellValue);
     // const url = "
-    axios.patch(
-      `${process.env.REACT_APP_BACKEND_URL}/documents/self/transfer-ownership/${cellValue}/`,
-      { document_id: cellValue, custom_user_email: email },
-      { headers: { Authorization: localStorage.getItem("token") } }
-    ).then(() => {
+    axios
+      .patch(
+        `${process.env.REACT_APP_BACKEND_URL}/documents/self/transfer-ownership/${cellValue}/`,
+        { document_id: cellValue, custom_user_email: email },
+        { headers: { Authorization: localStorage.getItem("token") } }
+      )
+      .then(() => {
         window.location.reload();
-    });
+      });
   }
 
   return (
@@ -261,7 +273,10 @@ export default function Table({ columns, data, linking }) {
                           {connectedAccount ? (
                             <button
                               onClick={() => {
-                                button1handler(row.original.sha_256,row.values.id);
+                                signFileButtonHandler(
+                                  row.original.sha_256,
+                                  row.values.id
+                                );
                               }}
                               className="cta-button mint-nft-button"
                             >
@@ -297,7 +312,7 @@ export default function Table({ columns, data, linking }) {
                         <td class="py-4 px-6">
                           <button
                             onClick={() => {
-                              button2Handler(row.original.sha_256);
+                              seeSignersButtonHandler(row.original.sha_256);
                             }}
                             class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                           >
