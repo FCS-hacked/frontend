@@ -21,6 +21,7 @@ import PharmacyOrders from './Pages/PharmacyOrders';
 import AddProduct from './Pages/AddProduct';
 import UserInsuranceClaims from './Pages/UserInsuranceClaims';
 import CompanyInsuranceClaims from './Pages/CompanyInsuranceClaims';
+import ChangePassword from './Pages/Login/ChangePassword';
 function App() {
   return (
     <Router>
@@ -45,6 +46,7 @@ function App() {
         <Route path="/addProduct" element = {<AddProduct/>}></Route>
         <Route path="/userInsuranceClaims" element = {<UserInsuranceClaims/>}></Route>
         <Route path="/companyInsuranceClaims" element = {<CompanyInsuranceClaims/>}></Route>
+        <Route path="/changePassword" element = {<ChangePassword/>}/>
       </Routes>
     </Router>
   );
