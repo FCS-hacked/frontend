@@ -1,10 +1,7 @@
 //@ts-nocheck
-import LoginSvg from "../public/images/login.svg";
 import { useNavigate } from 'react-router-dom';
-import React, { Fragment, useContext, useEffect, useState } from "react";
-import Profile from "../public/svg/Profile.svg";
+import React, { useContext, useEffect, } from "react";
 import {
-  AppContextProps,
   BlockchainContext,
 } from "../context/BlockchainContext";
 import web3 from "web3";
@@ -20,13 +17,13 @@ const Login = () => {
 
   useEffect(() => {
     const handleMetamaskLogin = async () => {
-      const payload = (await axios.get(
+      const {payload, unix_timestamp} = (await axios.get(
           `${process.env.REACT_APP_BACKEND_URL}/authentication/get-address-verification-payload/`,
-          {headers:{"Authorization": localStorage.getItem("token")}})).data.payload;
+          {headers:{"Authorization": localStorage.getItem("token")}})).data;
       if ((await ReadDirectory(getProvider, payload)) !== connectedAccount)
         await WriteDirectory(getProvider, payload);
       axios.patch(process.env.REACT_APP_BACKEND_URL + "/authentication/patch-custom-user/",
-          {"fetch_wallet_address": true},
+          {"fetch_wallet_address": true, "unix_timestamp": unix_timestamp},
           {headers: {"Authorization": localStorage.getItem("token")}}).then(() => {
             navigate("/Profile");
       })
