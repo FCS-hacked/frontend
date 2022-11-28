@@ -9,20 +9,7 @@ export default function Dashboard() {
     const [userType, setUserType] = useState('');
     const [data, setData] = useState([]);
     const [data2, setData2] = useState([]);
-    const [url, setUrl] = useState('');
-  useEffect(() => 
-  {
-    console.log(url, " is defind");
-    (async () => {
-       axios(url, {headers:{"Authorization": localStorage.getItem("token")}}).then((response) => {
-        console.log(response);
-        setData(response.data);
-        setData2(response.data[0].custom_user_detailed);
-      }).catch((error) => {
-        console.log(error);
-      });
-    })();
-  }, [url]); 
+
   const columns_prof = useMemo(
     () => [
       {
@@ -157,10 +144,26 @@ export default function Dashboard() {
       ) => {
         console.log(event.target.value);
         if(event.target.value === 'Professional'){
-            setUrl(process.env.REACT_APP_BACKEND_URL + '/authentication/professionals/');
+            (async () => {
+              axios(process.env.REACT_APP_BACKEND_URL + '/authentication/professionals/', {headers:{"Authorization": localStorage.getItem("token")}}).then((response) => {
+               console.log(response);
+               setData(response.data);
+               setData2(response.data[0].custom_user_detailed);
+             }).catch((error) => {
+               console.log(error);
+             });
+           })();
         }
         else if(event.target.value === 'Organization'){
-            setUrl(process.env.REACT_APP_BACKEND_URL + '/authentication/organizations/');
+            (async () => {
+              axios(process.env.REACT_APP_BACKEND_URL + '/authentication/organizations/', {headers:{"Authorization": localStorage.getItem("token")}}).then((response) => {
+               console.log(response);
+               setData(response.data);
+               setData2(response.data[0].custom_user_detailed);
+             }).catch((error) => {
+               console.log(error);
+             });
+           })();
         }
         setUserType(event.target.value);
     };
