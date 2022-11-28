@@ -19,17 +19,16 @@ const Login = () => {
 
   const initiate_connection = async () => {
     const handleMetamaskLogin = async () => {
-      const {payload, unix_timestamp} = (await axios.get(
+      const {payload, unix_timestamp, wallet_address} = (await axios.get(
           `${process.env.REACT_APP_BACKEND_URL}/authentication/get-address-verification-payload/`,
           {headers:{"Authorization": localStorage.getItem("token")}})).data;
-      if ((await ReadDirectory(getProvider, payload)) !== connectedAccount)
+      if (wallet_address !== connectedAccount) {
         await WriteDirectory(getProvider, payload);
-      axios.patch(process.env.REACT_APP_BACKEND_URL + "/authentication/patch-custom-user/",
-          {"fetch_wallet_address": true, "unix_timestamp": unix_timestamp},
-          {headers: {"Authorization": localStorage.getItem("token")}}).then(() => {
-            navigate("/Profile");
-      })
-      window.alert("Almost done...")
+        await axios.patch(process.env.REACT_APP_BACKEND_URL + "/authentication/patch-custom-user/",
+            {"fetch_wallet_address": true, "unix_timestamp": unix_timestamp},
+            {headers: {"Authorization": localStorage.getItem("token")}})
+      }
+       navigate("/Profile");
     };
 
     if (connectedAccount) {
