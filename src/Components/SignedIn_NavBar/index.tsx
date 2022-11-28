@@ -274,7 +274,7 @@ export default function SignedIn_NavBar() {
               <Dropdown.Divider />
               <Dropdown.Item
                 onClick={() => {
-                  navigate("/forgotPassword");
+                  navigate("/changePassword");
                 }}
               >
                 Change Password

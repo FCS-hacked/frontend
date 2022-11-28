@@ -126,7 +126,7 @@
   );
   return (
     <div className="w-full">
-      <Table columns={(shared===true) ? columns_1 : columns_2}  data={data} linking={false} />
+      <Table columns={(shared===true) ? columns_1 : columns_2}  data={data} linking={false} isOtp={!shared} />
     </div>
   );
  }

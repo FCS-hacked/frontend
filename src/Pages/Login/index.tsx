@@ -44,9 +44,9 @@ export default function Login() {
         // username: "",
         // email:"",
         // password: "",
-        email:"anismishra2001@gmail.com",
-        password:"inshallahboysplayedwell",
-        username:"anismishra2001@gmail.com",
+        email:"",
+        password:"",
+        username:"",
         otp:""
     });
     const onChange = (input:any) => {

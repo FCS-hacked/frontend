@@ -42,12 +42,12 @@ export default function Form(props) {
     //   email: "",
   });
   const [organisationData, setOrganisationData] = React.useState({
-    email: "anis20026@iiitd.ac.in",
+    email: "",
     password1: "",
     password2: "",
     first_name: "Fcs",
-    address: "address of the organisation",
-    last_name: "group",
+    address: "",
+    last_name: "",
     category: "",
     licenses: "",
     permits: "",
@@ -290,6 +290,8 @@ export default function Form(props) {
             setIndividualData({ ...individualData, address: e.target.value })
           }
         />
+        <br/>
+          Date of Birth
         <input
           type="date"
           placeholder="Date of Birth"
@@ -302,6 +304,8 @@ export default function Form(props) {
             })
           }
         />
+        <br/>
+          Type of Individual
         <Dropdown
           options={individualOption}
           onChange={(e) =>

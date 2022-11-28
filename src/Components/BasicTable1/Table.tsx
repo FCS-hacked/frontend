@@ -12,7 +12,7 @@ import { useRef, useState } from "react";
 import { useContext } from "react";
 import { SignFile, GetFileSigners } from "../context/blockchain";
 import { BlockchainContext } from "../context/BlockchainContext";
-export default function Table({ columns, data, linking }) {
+export default function Table({ columns, data, linking, isOtp=true }) {
   const { getProvider, connectedAccount } = useContext(BlockchainContext);
   const {
     getTableProps,
@@ -161,22 +161,22 @@ export default function Table({ columns, data, linking }) {
     <div className="flex w-full flex-col items-center">
       <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
       <div className="w-full relative shadow-md sm:rounded-lg">
-        <input
+        {isOtp && <input
           type="text"
           placeholder="Share Email"
           className="border-2 border-gray-300 rounded-md p-2 my-2 w-full"
           onChange={(e) => setShareEmail(e.target.value)}
-        />
-        <input
+        />}
+        {isOtp && <input
           type="text"
           disabled={true}
           value={otp}
           placeholder="OTP"
           className="border-2 border-gray-300 rounded-md p-2 my-2 w-full"
           onChange={(e) => setOtp((prevOtp) => prevOtp + e.target.value)}
-        />
+        />}
         {
-          <Keyboard
+          isOtp && <Keyboard
             keyboardRef={(r) => (keyboard.current = r)}
             layoutName={layout}
             // onChange={(e:any) => }
