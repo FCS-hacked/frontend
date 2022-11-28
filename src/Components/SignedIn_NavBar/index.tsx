@@ -245,6 +245,32 @@ export default function SignedIn_NavBar() {
                     Add Products
                   </Dropdown.Item>
                 )}
+                {user !== undefined &&
+                user["type"] === "2" &&
+                user["category"] === "3" && (
+                  <Dropdown.Item
+                    onClick={() => {
+                      // e.preventDefault();
+                      navigate("/companyInsuranceClaims");
+                    }}
+                  >
+                    Insurance Claims
+                  </Dropdown.Item>
+                )}
+              {user !== undefined &&
+                user["type"] === "1" &&
+                user["category"] === "1" && (
+                  <Dropdown.Item
+                    onClick={() => {
+                      // e.preventDefault();  
+                      navigate("/userInsuranceClaims");
+                    }}
+                  >
+                    My Insurance Claims
+                  </Dropdown.Item>
+                )}
+                
+
               {/* <Dropdown.Item>Settings</Dropdown.Item> */}
               <Dropdown.Divider />
               <Dropdown.Item

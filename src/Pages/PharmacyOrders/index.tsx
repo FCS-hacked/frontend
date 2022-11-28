@@ -47,6 +47,7 @@ export default function PharmacyOrders() {
             if(response.status === 201){
                 console.log("yay")
                 alert("updated invoice for order : " + order_id +  " as  " + fileNumber )
+                window.location.reload();
               }
           })
           .catch(function (error) {

@@ -20,6 +20,7 @@ import UserOrders from './Pages/UserOrders';
 import PharmacyOrders from './Pages/PharmacyOrders';
 import AddProduct from './Pages/AddProduct';
 import UserInsuranceClaims from './Pages/UserInsuranceClaims';
+import CompanyInsuranceClaims from './Pages/CompanyInsuranceClaims';
 function App() {
   return (
     <Router>
@@ -42,7 +43,8 @@ function App() {
         <Route path="/userOrders" element = {<UserOrders/>}></Route>
         <Route path="/pharmacyOrders" element = {<PharmacyOrders/>}></Route>
         <Route path="/addProduct" element = {<AddProduct/>}></Route>
-        <Route path="/UserInsuranceClaims" element = {<UserInsuranceClaims/>}></Route>
+        <Route path="/userInsuranceClaims" element = {<UserInsuranceClaims/>}></Route>
+        <Route path="/companyInsuranceClaims" element = {<CompanyInsuranceClaims/>}></Route>
       </Routes>
     </Router>
   );
