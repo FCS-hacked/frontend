@@ -150,7 +150,7 @@ export default function Form(props) {
       axios
         .post(
           process.env.REACT_APP_BACKEND_URL +
-            "/unauth/register-as-organisation/",
+            "/unauth/register-as-organization/",
           {
             username: organisationData.email,
             password1: organisationData.password1,
