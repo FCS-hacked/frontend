@@ -67,6 +67,7 @@ export default function Form(props) {
     secondPassword: individualData.password2,
     requiredLength: 8,
   });
+  console.log(selectedFile, "is selected file");
   const [
     validLength2,
     hasNumber2,
@@ -80,9 +81,11 @@ export default function Form(props) {
     requiredLength: 8,
   });
   const changeHandler = (event) => {
+    console.log(event.target.files[0], "is event target files");
     setSelectedFile(event.target.files[0]);
   };
   const changeHandler2 = (event) => {
+    console.log(event.target.files[0], "is selected file2");
     setSelectedFile2(event.target.files[0]);
   };
 
