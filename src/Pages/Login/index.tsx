@@ -152,10 +152,11 @@ export default function Login() {
             </button>
           </form>
           <div className="flex flex-col items-center justify-center w-[300px]">
-            <div className="font-nunitoSemiBold text-sm">Or login with</div>
-            <button className="bg-googleBlue bg-opacity-20 text-white rounded-md p-2 my-2 w-1/2 font-nunitoSemiBold">
-              Google
-            </button>
+            <div className="font-nunitoSemiBold text-sm" onClick={
+              ()=>{
+                navigate("/register")
+              }
+            }>Forgot Password?</div>            
           </div>
         </div>
       </div>
