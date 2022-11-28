@@ -1,10 +1,7 @@
 //@ts-nocheck
-import LoginSvg from "../public/images/login.svg";
 import { useNavigate } from 'react-router-dom';
-import React, { Fragment, useContext, useEffect, useState } from "react";
-import Profile from "../public/svg/Profile.svg";
+import React, { useContext, useEffect, } from "react";
 import {
-  AppContextProps,
   BlockchainContext,
 } from "../context/BlockchainContext";
 import web3 from "web3";
@@ -15,31 +12,32 @@ const Login = () => {
 
   let navigate = useNavigate();
 
-  const { connectedAccount, connectWallet, disconnect, getProvider } =
+  const { connectedAccount, connectWallet, getProvider } =
   useContext(BlockchainContext);
 
-  useEffect(() => {
+  console.log('aksudfjasgf', connectedAccount);
+
+  const initiate_connection = async () => {
     const handleMetamaskLogin = async () => {
-      const payload = (await axios.get(
+      const {payload, unix_timestamp, wallet_address} = (await axios.get(
           `${process.env.REACT_APP_BACKEND_URL}/authentication/get-address-verification-payload/`,
-          {headers:{"Authorization": localStorage.getItem("token")}})).data.payload;
-      if ((await ReadDirectory(getProvider, payload)) !== connectedAccount)
+          {headers:{"Authorization": localStorage.getItem("token")}})).data;
+      if (wallet_address !== connectedAccount) {
         await WriteDirectory(getProvider, payload);
-      axios.patch(process.env.REACT_APP_BACKEND_URL + "/authentication/patch-custom-user/",
-          {"fetch_wallet_address": true},
-          {headers: {"Authorization": localStorage.getItem("token")}}).then(() => {
-            navigate("/Profile");
-      })
-      window.alert("Please wait...")
+        await axios.patch(process.env.REACT_APP_BACKEND_URL + "/authentication/patch-custom-user/",
+            {"fetch_wallet_address": true, "unix_timestamp": unix_timestamp},
+            {headers: {"Authorization": localStorage.getItem("token")}})
+      }
+       navigate("/Profile");
     };
 
     if (connectedAccount) {
-      handleMetamaskLogin();
+      await handleMetamaskLogin();
     }
-  }, [connectedAccount, getProvider, navigate]);
+  };
 
 
-  async function handlCheck() {
+  async function handleCheck() {
     let chainId = 11155111;
 
     if (window.ethereum.networkVersion !== chainId) {
@@ -75,7 +73,7 @@ const Login = () => {
   }
 
   useEffect(() => {
-    handlCheck();
+    handleCheck();
     if (connectedAccount) {
       console.log(connectedAccount, " is the account");
     }
@@ -93,25 +91,27 @@ const Login = () => {
         </div>
         <div className="flex justify-center">
           <div className="flex flex-col justify-center text-xl space-y-5 md:-mt-24 mb-10 border border-OurBlue rounded-lg p-3 hover:cursor-pointer">
-            {connectedAccount ? (
-              <>
-                <p className="text-OurBlue text-center  hover:cursor-pointer">
-                  Disconnect from &nbsp;
-                  <span className="text-[#f8911e]">{connectedAccount}</span>
-                </p>
-                <button onClick={() => disconnect()}>
-                  <div> click please</div>
-                </button>
-              </>
-            ) : (
+            {!connectedAccount ? (
               <>
                 <p className="text-OurBlue text-center">
                   Log in with your{" "}
                   <span className="text-[#f8911e]">Metamask</span>
                 </p>
-                <button onClick={() => connectWallet(true)
+                <button onClick={() =>connectWallet(true)}>
+                  <div> Click here to initiate connect </div>
+                </button>
+              </>
+            ) : (
+              <>
+                <p className="text-OurBlue text-center  hover:cursor-pointer">
+                  Connecting to &nbsp;
+                  <span className="text-[#f8911e]">{connectedAccount}</span>
+                </p>
+                <button onClick={async () => {
+                  await initiate_connection()
+                }
                 }>
-                  <div> click again please </div>
+                  <div> Click here to finalize connection </div>
                 </button>
               </>
             )}

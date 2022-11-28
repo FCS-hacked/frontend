@@ -24,21 +24,17 @@ export const BlockchainProvider = ({ children }: Props) => {
   >();
 
   const connectWallet = async (firstTime: boolean = false) => {
-    try {
-      console.log("Connecting metamask...");
-      const web3Modal = new Web3Modal({ cacheProvider: true });
-      const connection = await web3Modal.connect();
-      const provider = new ethers.providers.Web3Provider(connection);
-      const accounts = await provider.listAccounts();
-      if (accounts) {
-        setConnectedAccount(accounts[0]);
+    console.log("Connecting metamask..g.");
+    const web3Modal = new Web3Modal({ cacheProvider: true });
+    const connection = await web3Modal.connect();
+    const provider = new ethers.providers.Web3Provider(connection);
+    const accounts = await provider.listAccounts();
+    if (accounts) {
+      setConnectedAccount(accounts[0]);
 
-        if (firstTime) {
-          localStorage.setItem("connected", accounts[0]);
-        }
+      if (firstTime) {
+        localStorage.setItem("connected", accounts[0]);
       }
-    } catch (error) {
-      console.log("Error ", error);
     }
   };
 

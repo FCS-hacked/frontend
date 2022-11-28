@@ -28,8 +28,8 @@ export default function SignedIn_NavBar() {
         );
         setUser(JSON.parse(new TextDecoder().decode(payload)));
         console.log(new TextDecoder().decode(payload), " payload");
-      }else{
-        navigate("/login")
+      } else {
+        navigate("/login");
       }
     })();
   }, [setUser]);
@@ -65,7 +65,7 @@ export default function SignedIn_NavBar() {
   //   })();
   // }, [user]);
   const location = useLocation();
-  return (user !== undefined) ? (
+  return user !== undefined ? (
     <>
       <nav className="w-full bg-[white] shadow large:hidden z-40 fixed">
         <div className="justify-between px-4 mx-auto lg:max-w-7xl md:items-center md:flex md:px-8 z-50">
@@ -159,6 +159,14 @@ export default function SignedIn_NavBar() {
               Shared Documents
             </a>
           </div>
+          <div>
+            <a
+              href="/shareDocuments"
+              className=" inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-googleBlue px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-googleBlue  mr-5"
+            >
+              Upload Documents
+            </a>
+          </div>
           <div className="flex items-center w-full justify-end md:flex lg:w-0">
             {/* //profile button here */}
 
@@ -169,50 +177,115 @@ export default function SignedIn_NavBar() {
               </div>
               <Dropdown.Header>
                 <span className="block text-sm">
-                  {user['first_name']}
+                  {user["first_name"]}
                   {` `}
-                  {user['last_name']}
+                  {user["last_name"]}
                 </span>
                 <span className="block text-sm font-medium truncate">
-                  {user['email']}
+                  {user["email"]}
                 </span>
               </Dropdown.Header>
               <Dropdown.Item
                 onClick={() => {
                   // e.preventDefault();
-                  if(user!==undefined){
+                  if (user !== undefined) {
                     navigate("/dashboard");
                   }
                 }}
-                
               >
-                {(user!==undefined) ?  "Dashboard" : "User not found"}
+                {user !== undefined ? "Dashboard" : null}
               </Dropdown.Item>
-              <Dropdown.Item
-                onClick={() => {
-                  // e.preventDefault();
-                  if(user!==undefined && (user['type'] === "1" && user['category'] === "1")){
-                    navigate("/pharmacyListing");
-                  }
-                }}
-              >
-                {(user!==undefined) ? ((user['type'] === "1" && user['category'] === "1") ? "Pharmacy" : ""): "User not found"}
-              </Dropdown.Item>
-              <Dropdown.Item
-                onClick={() => {
-                  // e.preventDefault();
-                  if(user!==undefined && (user['type'] === "1" && user['category'] === "1")){
-                    navigate("/userOrders");
-                  }else if(user!==undefined && (user['type'] === "2" && user['category'] === "2")){
-                    navigate("/pharmacyOrders");
-                  }
-                }}
-              >
-                {(user!==undefined && ((user['type'] === "2" && user['category'] === "2")||(user!==undefined && (user['type'] === "1" && user['category'] === "1")))) ? "Orders": ""}
-              </Dropdown.Item>
-              
+              {user !== undefined &&
+                user["type"] === "1" &&
+                user["category"] === "1" && (
+                  <Dropdown.Item
+                    onClick={() => {
+                      // e.preventDefault();
+                      if (
+                        user !== undefined &&
+                        user["type"] === "1" &&
+                        user["category"] === "1"
+                      ) {
+                        navigate("/pharmacyListing");
+                      }
+                    }}
+                  >
+                    Pharmacy
+                  </Dropdown.Item>
+                )}
+              {user !== undefined &&
+                ((user["type"] === "2" && user["category"] === "2") ||
+                  (user !== undefined &&
+                    user["type"] === "1" &&
+                    user["category"] === "1")) && (
+                  <Dropdown.Item
+                    onClick={() => {
+                      if (user["type"] === "1" && user["category"] === "1") {
+                        navigate("/userOrders");
+                      } else if (
+                        user["type"] === "2" &&
+                        user["category"] === "2"
+                      ) {
+                        navigate("/pharmacyOrders");
+                      }
+                    }}
+                  >
+                    Orders
+                  </Dropdown.Item>
+                )}
+              {user !== undefined &&
+                user["type"] === "2" &&
+                user["category"] === "2" && (
+                  <Dropdown.Item
+                    onClick={() => {
+                      // e.preventDefault();
+                      navigate("/addProduct");
+                    }}
+                  >
+                    Add Products
+                  </Dropdown.Item>
+                )}
+              {user !== undefined &&
+                user["type"] === "2" &&
+                user["category"] === "3" && (
+                  <Dropdown.Item
+                    onClick={() => {
+                      // e.preventDefault();
+                      navigate("/companyInsuranceClaims");
+                    }}
+                  >
+                    Insurance Claims
+                  </Dropdown.Item>
+                )}
+              {user !== undefined &&
+                user["type"] === "1" &&
+                user["category"] === "1" && (
+                  <Dropdown.Item
+                    onClick={() => {
+                      // e.preventDefault();
+                      navigate("/userInsuranceClaims");
+                    }}
+                  >
+                    My Insurance Claims
+                  </Dropdown.Item>
+                )}
+
               {/* <Dropdown.Item>Settings</Dropdown.Item> */}
               <Dropdown.Divider />
+              <Dropdown.Item
+                onClick={() => {
+                  navigate("/forgotPassword");
+                }}
+              >
+                Change Password
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={() => {
+                  navigate("/settings");
+                }}
+              >
+                Settings
+              </Dropdown.Item>
               <Dropdown.Item
                 onClick={() => {
                   localStorage.clear();

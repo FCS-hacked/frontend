@@ -31,6 +31,24 @@ export default function Profile() {
     //get user details
     //display user details
     const [user, setUser] = useState(undefined);
+
+    const [addressUpdate , setAddressUpdate] = useState<any>('');
+
+    const onUserSubmit = (formData : any) => {
+        let id = user !== undefined ? user['id'] : -1
+        let postURL = formData === 1 ? `/authentication/self/personal-user/${id}/` : `/authentication/self/organization/${id}/` ; 
+        let params = {address : addressUpdate}
+        let headers = {headers:{"Authorization": localStorage.getItem("token")}}
+        axios.patch(postURL,params,headers).then((res) => {
+            console.log("done")
+            if (res.status === 201){
+                alert("updates successfully")
+            }
+        }
+        ).catch()
+    }
+
+
     useEffect(() => {
         (async () => {
             const jwt = localStorage.getItem("token")
@@ -72,6 +90,7 @@ export default function Profile() {
             axios.get( process.env.REACT_APP_BACKEND_URL + "/authentication/self/organization/", {headers:{"Authorization": localStorage.getItem("token")}}).then((res) => {
                 console.log(res.data , "response")
                 setUserDetails(res.data)
+                setAddressUpdate(res.data[0].address)
             }).catch((err) => {
                 console.log(err)
             })
@@ -82,9 +101,11 @@ export default function Profile() {
         const formType = props.ft;
         // console.log(typeof formType)
         if(formType==="1"){
-
           return (
-            <form className="flex flex-col gap-1 w-4/12 ml-10 pt-5">
+            <form onSubmit={(e) => {
+                e.preventDefault();
+                onUserSubmit(formType);
+            }} className="flex flex-col gap-1 w-4/12 ml-10 pt-5">
                 <div className="grid gap-6 mb-6 md:grid-cols-2">
                     <div>
                         <label htmlFor="userid" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">User ID</label>
@@ -112,7 +133,9 @@ export default function Profile() {
                     </div> 
                     <div>
                         <label htmlFor="address" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Address</label>
-                        <input type="text" id="address" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder={userDetails!==null ? userDetails[0].address: "Invalid address"} disabled={true} required/>
+                        <input type="text" onChange={(e)=> {
+                            setAddressUpdate(e.target.value);
+                        }}   id="address" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder={userDetails!==null ? userDetails[0].address: "Invalid address"}  value={addressUpdate} required/>
                     </div>
                 </div>
                     <div className="mb-6">

@@ -2,11 +2,11 @@
 import axios from 'axios'
 import {useEffect, useState} from 'react'
 import * as jose from 'jose'
+import SignedIn_NavBar from '../../Components/SignedIn_NavBar';
 
 export default function UserOrders() {
     const [orders, setOrders] = useState([]);
     const [user, setUser] = useState(undefined);
-    const [ins_email, setIns_email] = useState('');
 
     useEffect(() => {
       axios(process.env.REACT_APP_BACKEND_URL + "/products/self/orders/", {headers:{"Authorization": localStorage.getItem("token")}}).then((response) => {
@@ -46,6 +46,7 @@ export default function UserOrders() {
     ((user!==undefined) && (user['type']==='1')) ? 
     (<div>
         {/* create a previous orders page */}
+        <SignedIn_NavBar/>
         <div  className='pl-10'>
             <h1 className='pt-10 pb-5 text-4xl font-nunitoExtraBold'>My Orders</h1>
             <table>
@@ -88,12 +89,14 @@ export default function UserOrders() {
                             <td className='pr-10'>{
                                 <a className="font-medium text-blue-600 dark:text-blue-500 hover:underline" onClick={() => {
                                     const email = window.prompt("Enter provider's email");
-                                    setIns_email(email);
                                     axios.post(process.env.REACT_APP_BACKEND_URL + "/products/patients/create-insurance-claim/", {
-                                        provider_email: ins_email,
+                                        provider_email: email,
                                         order_id: order.id,
                                     }, {headers:{"Authorization": localStorage.getItem("token")}}).then((response) => {
                                             console.log(response.data);
+                                            if(response.data.status === 201){
+                                                alert("Insurance Claim generated successfully");
+                                            }
                                         }
                                     ).catch((error) => {
                                         console.log(error);

@@ -5,7 +5,7 @@ import React from "react";
 // import ChildContract from "../../artifacts/contracts/ComposableChildrenERC1155.sol/ComposableChildrenERC1155.json";
 
 
-const contractAddress = "0x6b7b35Ef7A7F79db71637245F96A6064c9FA7C51";
+const contractAddress = "0xaF43Bbc7DB98b85C29a1628CEDd079425AfaAE9F";
 const abi = [
 	{
 		"inputs": [

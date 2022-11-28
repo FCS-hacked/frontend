@@ -2,7 +2,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import * as jose from "jose";
-
+import SignedIn_NavBar from "../../Components/SignedIn_NavBar";
 export default function UserInsuranceClaims() {
   const [orders, setOrders] = useState([]);
   const [user, setUser] = useState(undefined);
@@ -52,10 +52,13 @@ export default function UserInsuranceClaims() {
   return user !== undefined &&
     user["type"] === "1" &&
     user["category"] === "1" ? (
-    <div>
+      <div>
       {/* create a previous orders page */}
+      <SignedIn_NavBar/>
       <div className="pl-10">
-        <h1 className="pt-10 pb-5 text-4xl font-nunitoExtraBold">My Insurance Claims</h1>
+        <h1 className="pt-10 pb-5 text-4xl font-nunitoExtraBold">
+          My Insurance Claims
+        </h1>
         <table>
           <thead
             className="
@@ -63,11 +66,13 @@ export default function UserInsuranceClaims() {
                 "
           >
             <tr>
-              <th className="pr-10">Order ID</th>
-              <th className="pr-10">Product Name</th>
-              <th className="pr-10">Quantity</th>
+              <th className="pr-10">Claim ID</th>
+              <th className="pr-10">Status</th>
+              <th className="pr-10">Invoice ID</th>
+              <th className="pr-10">Insurance Provider Email</th>
               <th className="pr-10">Price</th>
-              <th className="pr-10">Order Status</th>
+              <th className="pr-10">Prescription ID</th>
+              {/* 1 pending 2 accepted 3 rejected */}
             </tr>
           </thead>
           <tbody className="text-xl font-nunitoSemiBold text-center">
@@ -76,63 +81,17 @@ export default function UserInsuranceClaims() {
                 <tr>
                   <td className="pr-10">{order.id}</td>
                   <td className="pr-10">
-                    {order.items_detailed.map((item: any) => (
-                      <div>
-                        {item.product_detailed.name}
-                        <br />
-                      </div>
-                    ))}
-                  </td>
-                  <td className="pr-10">
-                    {order.items_detailed.map((item: any) => (
-                      <div>
-                        {item.quantity}
-                        <br />
-                      </div>
-                    ))}
-                  </td>
-                  <td className="pr-10">{order.price}</td>
-
-                  <td className="pr-10">
-                    {order.status === "2"
-                      ? "Paid"
-                      : order.status === "1"
+                    {order.status === "1"
                       ? "Pending"
-                      : "Fulfilled"}
+                      : order.status === "2"
+                      ? "Accepted"
+                      : "Rejected"}
                   </td>
-                  <td className="pr-10">
-                    {
-                      <a
-                        className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                        onClick={() => {
-                          const email = window.prompt("Enter provider's email");
-                          setIns_email(email);
-                          axios
-                            .post(
-                              process.env.REACT_APP_BACKEND_URL +
-                                "/products/patients/create-insurance-claim/",
-                              {
-                                provider_email: ins_email,
-                                order_id: order.id,
-                              },
-                              {
-                                headers: {
-                                  Authorization: localStorage.getItem("token"),
-                                },
-                              }
-                            )
-                            .then((response) => {
-                              console.log(response.data);
-                            })
-                            .catch((error) => {
-                              console.log(error);
-                            });
-                        }}
-                      >
-                        Claim Insurance{" "}
-                      </a>
-                    }
-                  </td>
+                  <td className="pr-10">{order.order_detailed.invoice}</td>
+                  <td className="pr-10">{order.provider_detailed.custom_user_detailed.email}</td>
+                  <td className="pr-10">{order.order_detailed.price}</td>
+                  <td className="pr-10">{order.order_detailed.prescription}</td>
+                  
                 </tr>
               ))}
           </tbody>

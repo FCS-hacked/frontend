@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import * as jose from "jose";
 import axios from "axios";
+import SignedIn_NavBar from "../../Components/SignedIn_NavBar";
 export default function AddProduct() {
   let navigate = useNavigate();
   const [user, setUser] = useState(undefined);
@@ -58,6 +59,7 @@ export default function AddProduct() {
 }
   return ((user!==undefined) && (user['type']==='2') && user['category']==='2') ? (
     <div>
+      <SignedIn_NavBar/>
         <form className='flex flex-col items-center justify-center w-[300px]' onSubmit={(e) => {
           e.preventDefault();
           OnSubmitIndividual();}
@@ -75,7 +77,7 @@ export default function AddProduct() {
           <input type='number' placeholder='Stock' value={product.stock} className='border-2 border-gray-300 rounded-md p-2 my-2 w-full'
           onChange={(e) => setProduct({ ...product, stock: e.target.value})}
           />
-          <input type='text' placeholder='' value={product.image_url} className='border-2 border-gray-300 rounded-md p-2 my-2 w-full' 
+          <input type='text' placeholder='Image Url' value={product.image_url} className='border-2 border-gray-300 rounded-md p-2 my-2 w-full' 
           onChange={(e) => setProduct({ ...product, image_url: e.target.value})}
           />          
           <button className='bg-googleBlue bg-opacity-100 hover:bg-opacity-95 focus:opacity-75 text-white rounded-md p-2 mt-2 mb- w-1/2 font-nunitoSemiBold' type="submit">Submit</button>
