@@ -8,6 +8,7 @@ export default function Home() {
             <div className="flex justify-center text-center font-nunitoBold text-4xl align-middle mt-[30vh]">
               Welcome to the home page<br/>
               This is group 2's project
+              <div classname="text-sm text-gray">Please accept the certificate at <a href="https://192.168.2.234:8000">https://192.168.2.234:8000</a> if you face errors</div>
             </div>
         </div>
     </div>
